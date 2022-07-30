@@ -299,3 +299,21 @@ void allBaseVoltage(bool Dir, double v){
     BaseRightRear.spin(reverse, v, volt);
   }
 }
+
+void swinging(double leftPower, double rightPower, double gogoAngle){
+  BaseLeftFront.spin(fwd, 12*leftPower/100, volt);  
+  BaseLeftRear.spin(fwd, 12*leftPower/100, volt); 
+  BaseRightFront.spin(fwd, 12*rightPower/100, volt);  
+  BaseRightRear.spin(fwd, 12*rightPower/100, volt); 
+  if(get_rotation() > gogoAngle){
+    while(get_rotation() > (gogoAngle+4)){
+      wait(5,msec); 
+    }
+  }
+  else{
+    while((gogoAngle-10) > get_rotation()){
+      wait(5,msec);
+    }
+  }
+  brake_unchecked(); 
+}

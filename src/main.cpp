@@ -33,32 +33,28 @@
 #include "control.h"
 #include "chasis.h"
 #include "buttonSelector.h"
+#include "odometry.h"
+#include "odom-chassis.h"
+#include "drawField.h"
 
 using namespace vex;
-void swinging(double leftPower, double rightPower, double gogoAngle){
-  BaseLeftFront.spin(fwd, 12*leftPower/100, volt);  
-  BaseLeftRear.spin(fwd, 12*leftPower/100, volt); 
-  BaseRightFront.spin(fwd, 12*rightPower/100, volt);  
-  BaseRightRear.spin(fwd, 12*rightPower/100, volt); 
-  if(get_rotation() > gogoAngle){
-    while(get_rotation() > (gogoAngle+4)){
-      wait(5,msec); 
-    }
-  }
-  else{
-    while((gogoAngle-10) > get_rotation()){
-      wait(5,msec);
-    }
-  }
-  brake_unchecked(); 
-}
+
+task odometryTask;
+task drawFieldTask;
+task chassisControlTask;
+
 void auton() {
 
-    //bool colord = buttons[0].state;
-    bool auto1 = buttons[1].state;
-    bool auto2 = buttons[2].state;
-    bool auto3 = buttons[3].state;
-    bool auto4 = buttons[3].state;
+  task odometryTask(positionTracking);
+  task chassisControlTask(chassisControl);
+  task drawFieldTask(drawField);
+
+
+  //bool colord = buttons[0].state;
+  bool auto1 = buttons[1].state;
+  bool auto2 = buttons[2].state;
+  bool auto3 = buttons[3].state;
+  bool auto4 = buttons[3].state;
 
   if(is_skills()){
     
@@ -72,7 +68,12 @@ void auton() {
     
   }
   else{
+    turn_absolute_inertial(90);
+    inertial_drive(12, 50);
+    inertial_drive(12, 30, true);
 
+    driveTo(30, 30, 2.78, 600, 1.0);
+    waitUntil(runChassisControl == false);
   }
 } 
 
@@ -80,9 +81,6 @@ bool locked= false;
 
 void usercontrol() {
   
-  // Whether or not the left/right side of the base needs to be stopped
-  bool stop_left = true;
-  bool stop_right = true;
   // The number of loops we've run
   long ticks = 0;
 
@@ -192,6 +190,16 @@ int main() {
   Inertial.calibrate();
   while(Inertial.isCalibrating()) {
     wait(100, msec);
+  }
+
+    if(is_skills()){
+    THETA_START = M_PI/2; 
+    X_START = 56.5; //19.1
+    Y_START = 8.5; //8.5
+  } else{
+    THETA_START = M_PI; 
+    X_START = 0; //19.1
+    Y_START = 0; //8.5
   }
 
   // Print to the screen when we're done calibrating
