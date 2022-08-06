@@ -2,8 +2,8 @@
 
 //For PID turns
 #define TURN_KP 0.035
-#define TURN_KI 0.0025  //0.0018
-#define TURN_KD 0.001 //0.001
+#define TURN_KI 0.00//25  //0.0018
+#define TURN_KD 0.00//1 //0.001
 #define TURN_MAX_A (BASE_MAX_V / 0.1)
 #define TURN_MAX_V (BASE_MAX_V * 0.7)
 #define TURN_MIN_V 3
@@ -216,12 +216,12 @@ void inertial_drive(double target, double speed, bool side) {
   while (true) {
     // Calculate the error
     double error_c = angle - get_rotation();
-    double error1 = target - LTrack.position(turns) * 3.3 * M_PI;
-    double error2 = target - RTrack.position(turns) * 3.3 * M_PI;
+    double error1 = target - LTrack.position(turns) * 2.8 * M_PI;
+    double error2 = target - RTrack.position(turns) * 2.8 * M_PI;
     double error;
     
     if(side){
-      error = target - RTrack.position(turns) * 3.3 * M_PI;
+      error = target - STrack.position(turns) * 2.8 * M_PI;
     }
     else{
     //error = target - Distance2.value()/25.4;

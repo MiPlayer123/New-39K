@@ -10,21 +10,22 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// BaseLeftRear         motor         14              
-// BaseLeftFront        motor         13              
-// BaseRightRear        motor         20              
-// BaseRightFront       motor         2               
-// Flywheel1            motor         1               
-// Intake               motor         18              
+// BaseLeftRear         motor         1               
+// BaseLeftFront        motor         6               
+// BaseRightRear        motor         8               
+// BaseRightFront       motor         7               
+// Flywheel1            motor         11              
+// Intake               motor         4               
 // Skills               limit         H               
 // Index                digital_out   A               
-// STrack               rotation      7               
+// STrack               rotation      16              
 // Controller1          controller                    
 // Inertial             inertial      19              
-// LTrack               rotation      9               
-// RTrack               rotation      16              
-// Flywheel2            motor         12              
+// LTrack               rotation      18              
+// RTrack               rotation      17              
+// Flywheel2            motor         15              
 // Turret               motor         10              
+// Expansion            digital_out   B               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -70,10 +71,10 @@ void auton() {
   else{
     turn_absolute_inertial(90);
     inertial_drive(12, 50);
-    inertial_drive(12, 30, true);
+    //inertial_drive(12, 30, true);
 
-    driveTo(30, 30, 2.78, 600, 1.0);
-    waitUntil(runChassisControl == false);
+    //driveTo(30, 30, 2.78, 600, 1.0);
+    //waitUntil(runChassisControl == false);
   }
 } 
 
@@ -83,7 +84,7 @@ void usercontrol() {
   
   // The number of loops we've run
   long ticks = 0;
-
+  //bool indexStat = 0;
   //Intake stat
   //bool intakeStat = false;
 
@@ -91,7 +92,26 @@ void usercontrol() {
     // Get the left and right base speeds from the controller
     //double left_speed = Controller1.Axis3.position();
     //double right_speed = Controller1.Axis2.position();
+    int deadzone = 8;
 
+    BaseLeftRear.spin(fwd, 
+    + (abs(Controller1.Axis3.position()) > deadzone ? Controller1.Axis3.position() : 0)
+    + (abs(Controller1.Axis1.position()) > deadzone ? Controller1.Axis1.position() * 0.5 : 0)
+    - (abs(Controller1.Axis4.position()) > deadzone ? Controller1.Axis4.position() : 0), pct);
+  BaseLeftFront.spin(fwd, 
+    + (abs(Controller1.Axis3.position()) > deadzone ? Controller1.Axis3.position() : 0)
+    + (abs(Controller1.Axis1.position()) > deadzone ? Controller1.Axis1.position() * 0.5 : 0)
+    + (abs(Controller1.Axis4.position()) > deadzone ? Controller1.Axis4.position() : 0), pct);
+  BaseRightRear.spin(fwd, 
+    + (abs(Controller1.Axis3.position()) > deadzone ? Controller1.Axis3.position() : 0)
+    - (abs(Controller1.Axis1.position()) > deadzone ? Controller1.Axis1.position() * 0.5 : 0)
+    + (abs(Controller1.Axis4.position()) > deadzone ? Controller1.Axis4.position() : 0), pct);
+  BaseRightFront.spin(fwd, 
+    + (abs(Controller1.Axis3.position()) > deadzone ? Controller1.Axis3.position() : 0)
+    - (abs(Controller1.Axis1.position()) > deadzone ? Controller1.Axis1.position() * 0.5 : 0)
+    - (abs(Controller1.Axis4.position()) > deadzone ? Controller1.Axis4.position() : 0), pct);
+
+    /*
     double forwardBackward = Controller1.Axis2.position();
     double strafe_dir = Controller1.Axis1.position();
     double turn_dir = Controller1.Axis4.position();
@@ -110,6 +130,7 @@ void usercontrol() {
       BaseRightRear.spin(reverse, -forwardBackward - strafe_dir + turn_dir, pct);
       BaseLeftRear.spin(reverse,forwardBackward - strafe_dir + turn_dir, pct);
     }
+    */
 
     // Get the values for the right front buttons
     bool r1_pressing = Controller1.ButtonR1.pressing();
@@ -121,27 +142,33 @@ void usercontrol() {
 
     // If L1 is pressed, 
     if (l1_pressing) {
-       
-      }
+       spinFlywheel();
+    }
     // If L2 is pressed, 
     else if (l2_pressing) {
-      
+      //stopFlywheel();
     }
-    else{}
+    else{
+      stopFlywheel();
+    }
+
+    if (l2_pressing ){
+      Index.set(true);
+    }
 
     if (r1_pressing) {
-      
+      spinIntake();
     }
     else if (r2_pressing) { 
-      
+      Intake.spin(reverse, 100, pct);
     }
 
     else {
-     
+      stopIntake();
     }
 
     if (Controller1.ButtonUp.pressing()) {
-      
+      Index.set(false);
     }
     else if (Controller1.ButtonDown.pressing()) {
       
@@ -156,10 +183,10 @@ void usercontrol() {
     else {}
 
     if(Controller1.ButtonA.pressing()){
-      
+      Expansion.set(true);
     } 
     else if(Controller1.ButtonY.pressing()){
-      
+      Expansion.set(false);
     }
 
     if(Controller1.ButtonX.pressing()){

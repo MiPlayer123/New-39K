@@ -18,6 +18,7 @@ extern rotation LTrack;
 extern rotation RTrack;
 extern motor Flywheel2;
 extern motor Turret;
+extern digital_out Expansion;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
