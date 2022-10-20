@@ -10,14 +10,16 @@ extern motor BaseRightFront;
 extern motor Flywheel1;
 extern motor Intake;
 extern limit Skills;
-extern digital_out Index;
-extern rotation STrack;
+extern rotation STrackO;
 extern controller Controller1;
 extern inertial Inertial;
-extern rotation LTrack;
-extern rotation RTrack;
+extern rotation LTrackO;
+extern rotation RTrackO;
 extern motor Flywheel2;
-extern motor Turret;
+extern motor Intake2;
+extern encoder STrack;
+extern encoder RTrack;
+extern encoder LTrack;
 extern digital_out Expansion;
 
 /**

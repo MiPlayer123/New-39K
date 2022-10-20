@@ -10,13 +10,13 @@ double THETA_START = THETA_START; //imagine the field is a unit circle
 //The starting x and y coordinates of the bot (INCHES)
   //These distances are relative to some point (0,0) on the field
   //Relative to: BOTTOM LEFT CORNER
-double X_START = 56.5; //19.1
-double Y_START = 8.5; //8.5
+double X_START = X_START; //19.1
+double Y_START = Y_START; //8.5
 
 //Distances of tracking wheels from tracking center (INCHES)
-double LTrackRadius = 6.8335; //was 6.87
-double RTrackRadius = 6.8335; //6.8335
-double STrackRadius = 5.85;
+double LTrackRadius = 4.75; //was 6.87
+double RTrackRadius = 4.75; //6.8335
+double STrackRadius = 3.75;
 
 //Calculated Values (every loop)
 //Angles (DEGREES) *NEEDS TO BE CONVERTED TO RADIANS FOR MATH*
@@ -89,8 +89,8 @@ int positionTracking() {
     totalDeltaDistR += deltaDistR;
 
     //Calculate the current absolute orientation (RADIANS)
-    currentAbsoluteOrientation = THETA_START - ( (totalDeltaDistL - totalDeltaDistR) / (LTrackRadius + RTrackRadius) );
-    //currentAbsoluteOrientation = (360 - Inertial.heading(rotationUnits::deg)) * M_PI / 180.0;
+    //currentAbsoluteOrientation = THETA_START - ( (totalDeltaDistL - totalDeltaDistR) / (LTrackRadius + RTrackRadius) );
+    currentAbsoluteOrientation = (360 - Inertial.heading(rotationUnits::deg)) * M_PI / 180.0;
 
     //Calculate the change in the angle of the bot (RADIANS)
     deltaTheta = currentAbsoluteOrientation - previousTheta;

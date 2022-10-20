@@ -17,15 +17,17 @@
 // Flywheel1            motor         11              
 // Intake               motor         4               
 // Skills               limit         H               
-// Index                digital_out   A               
-// STrack               rotation      16              
+// STrackO              rotation      16              
 // Controller1          controller                    
-// Inertial             inertial      19              
-// LTrack               rotation      18              
-// RTrack               rotation      17              
+// Inertial             inertial      5               
+// LTrackO              rotation      18              
+// RTrackO              rotation      17              
 // Flywheel2            motor         15              
-// Turret               motor         10              
-// Expansion            digital_out   B               
+// Intake2              motor         19              
+// STrack               encoder       A, B            
+// RTrack               encoder       C, D            
+// LTrack               encoder       E, F            
+// Expansion            digital_out   G               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -69,8 +71,9 @@ void auton() {
     
   }
   else{
-    turn_absolute_inertial(90);
-    inertial_drive(12, 50);
+    //turn_absolute_inertial(90);
+    //moveRot(1, 50);
+    //inertial_drive(12, 50);
     //inertial_drive(12, 30, true);
 
     //driveTo(30, 30, 2.78, 600, 1.0);
@@ -84,9 +87,9 @@ void usercontrol() {
   
   // The number of loops we've run
   long ticks = 0;
-  //bool indexStat = 0;
-  //Intake stat
-  //bool intakeStat = false;
+  
+  bool toggle = false;
+  bool latch = false;
 
   while (true) {
     // Get the left and right base speeds from the controller
@@ -140,6 +143,22 @@ void usercontrol() {
     bool l2_pressing = Controller1.ButtonL2.pressing();
 
 
+    if (toggle){
+      spinFlywheel();
+    } else {
+      stopFlywheel();
+    }
+
+    if (l1_pressing) {
+      if(!latch){ //flip the toggle one time and set the latch
+        toggle = !toggle;
+        latch = true;
+      }
+    } else {
+      //Once the BumperA is released then then release the latch too
+      latch = false;
+    }
+    /*
     // If L1 is pressed, 
     if (l1_pressing) {
        spinFlywheel();
@@ -151,9 +170,10 @@ void usercontrol() {
     else{
       stopFlywheel();
     }
+    */
 
     if (l2_pressing ){
-      Index.set(true);
+      
     }
 
     if (r1_pressing) {
@@ -168,30 +188,33 @@ void usercontrol() {
     }
 
     if (Controller1.ButtonUp.pressing()) {
-      Index.set(false);
+      Expansion.set(true);      
     }
     else if (Controller1.ButtonDown.pressing()) {
-      
-    } 
-    else if(Controller1.ButtonLeft.pressing()){
-      //Toggle lock
-     
-    } 
-    else if (Controller1.ButtonRight.pressing()){
-      //Mogo to ring height
-    }
-    else {}
-
-    if(Controller1.ButtonA.pressing()){
       Expansion.set(true);
     } 
+    
+    if(Controller1.ButtonLeft.pressing()){
+      
+    } 
+    else if (Controller1.ButtonRight.pressing()){
+      
+    }
+    else {
+      
+    }
+
+    if(Controller1.ButtonA.pressing()){
+      
+    } 
     else if(Controller1.ButtonY.pressing()){
-      Expansion.set(false);
+      
     }
 
     if(Controller1.ButtonX.pressing()){
       
-    } else if (Controller1.ButtonB.pressing()) {
+    } 
+    else if (Controller1.ButtonB.pressing()) {
       
     }
 
@@ -209,9 +232,9 @@ int main() {
   vexcodeInit();
 
   //Set encoders to 0
-  //ROdom.setPosition(0, deg);
-  //LOdom.setPosition(0, deg);
-  //SOdom.setPosition(0, deg);
+  RTrack.setPosition(0, deg);
+  LTrack.setPosition(0, deg);
+  STrack.setPosition(0, deg);
 
   // Calibrate the inertial sensor, and wait for it to finish
   Inertial.calibrate();
@@ -221,10 +244,10 @@ int main() {
 
     if(is_skills()){
     THETA_START = M_PI/2; 
-    X_START = 56.5; //19.1
-    Y_START = 8.5; //8.5
+    X_START = 0; //19.1
+    Y_START = 0; //8.5
   } else{
-    THETA_START = M_PI; 
+    THETA_START = 0; //M_PI
     X_START = 0; //19.1
     Y_START = 0; //8.5
   }

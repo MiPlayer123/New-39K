@@ -3,7 +3,7 @@
 //For PID turns
 #define TURN_KP 0.035
 #define TURN_KI 0.00//25  //0.0018
-#define TURN_KD 0.00//1 //0.001
+#define TURN_KD 0.001 //0.001
 #define TURN_MAX_A (BASE_MAX_V / 0.1)
 #define TURN_MAX_V (BASE_MAX_V * 0.7)
 #define TURN_MIN_V 3

@@ -14,8 +14,8 @@ void stopIntake(){
 }
 
 void spinFlywheel(){
-  Flywheel1.spin(fwd, 60, pct);
-  Flywheel2.spin(fwd, 60, pct);
+  Flywheel1.spin(fwd, 12, volt);
+  Flywheel2.spin(fwd, 12, volt);
 }
 
 void stopFlywheel(){
