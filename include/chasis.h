@@ -28,7 +28,7 @@ void turn_absolute_inertial(double target);
 void turn_rel_inertial(double target);
 
 //PID drive with inertial correction
-void inertial_drive(double target, double speed, bool side=false);
+void inertial_drive(double target, double speed);
 
 //BEN ROTATION
 void rotationDrive(double dist, double speed);

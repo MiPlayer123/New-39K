@@ -75,10 +75,10 @@ void brake_unchecked() {
 }
 
 double getDist(){
-  double leftAvg = (BaseLeftFront.position(turns) + BaseLeftRear.position(turns))/3;
-  double rightAvg = (BaseRightFront.position(turns) + BaseRightRear.position(turns))/3;
+  double leftAvg = (BaseLeftFront.position(turns) + BaseLeftMid.position(turns) + BaseLeftRear.position(turns))/3;
+  double rightAvg = (BaseRightFront.position(turns) + BaseRightMid.position(turns) + BaseRightRear.position(turns))/3;
   double avg = (leftAvg+rightAvg)/2;
-  double dist = avg * 4.125 * M_PI * (3.0/7.0);
+  double dist = avg * 3.30 * M_PI * (3.0/5.0);
   return dist;
 }
 
@@ -140,8 +140,10 @@ void turn_absolute_inertial(double target) {
     } else {
       spin(&BaseLeftRear, output);
       spin(&BaseLeftFront, output);
+      spin(&BaseLeftMid, output);
       spin(&BaseRightRear, -output);
       spin(&BaseRightFront, -output);
+      spin(&BaseRightMid, -output);
       brake_cycles = 0;
     }
     if (brake_cycles > 10 && fabs(error) < 1) {
@@ -153,6 +155,8 @@ void turn_absolute_inertial(double target) {
   BaseRightFront.stop(vex::brakeType::brake);
   BaseRightRear.stop(vex::brakeType::brake);
   BaseLeftRear.stop(vex::brakeType::brake);
+  BaseLeftMid.stop(brake);
+  BaseRightMid.stop(brake);
 }
 
 void turn_rel_inertial(double target) {
@@ -160,18 +164,20 @@ void turn_rel_inertial(double target) {
 }
 
 void rotationDrive(double dist, double speed){
-  double startPosR = 4*(BaseLeftFront.position(rev) + BaseLeftRear.position(rev))/3; 
+  double startPosR = 4*(BaseLeftFront.position(rev) + BaseLeftMid.position(rev) + BaseLeftRear.position(rev))/3; 
   double changePosR = 0; 
-  double startPosL = 4*(BaseRightFront.position(rev) + BaseRightRear.position(rev))/3;
+  double startPosL = 4*(BaseRightFront.position(rev) + BaseRightMid.position(rev) + BaseRightRear.position(rev))/3;
   double changePosL = 0; 
   BaseLeftFront.spin(fwd,12*speed/100, volt);
+  BaseLeftMid.spin(fwd,12*speed/100, volt);
   BaseLeftRear.spin(fwd,12*speed/100, volt);
   BaseRightFront.spin(fwd,12*speed/100, volt);
+  BaseRightMid.spin(fwd,12*speed/100, volt);
   BaseRightRear.spin(fwd,12*speed/100, volt);
 
   while((changePosL + changePosR)/2 <dist){
-    changePosR = (4*(BaseLeftFront.position(rev) + BaseLeftRear.position(rev))/3)-startPosR; 
-    changePosL = (4*(BaseRightFront.position(rev) + BaseRightRear.position(rev))/3)-startPosL; 
+    changePosR = (4*(BaseLeftFront.position(rev) + BaseLeftMid.position(rev) + BaseLeftRear.position(rev))/3)-startPosR; 
+    changePosL = (4*(BaseRightFront.position(rev) + BaseRightMid.position(rev) + BaseRightRear.position(rev))/3)-startPosL; 
     wait(5,msec);
   }
   brake_unchecked(); 
@@ -182,6 +188,8 @@ void moveRot (float rot, float speed)
   BaseLeftRear.rotateFor(rot, rotationUnits::rev, speed, velocityUnits::pct, false);
   BaseLeftFront.rotateFor(rot, rotationUnits::rev, speed, velocityUnits::pct, false);
   BaseRightFront.rotateFor(rot, rotationUnits::rev, speed, velocityUnits::pct, false);
+  BaseRightMid.rotateFor(rot, rotationUnits::rev, speed, velocityUnits::pct, false);
+  BaseLeftMid.rotateFor(rot, rotationUnits::rev, speed, velocityUnits::pct, false);
   BaseRightRear.rotateFor(rot, rotationUnits::rev, speed, velocityUnits::pct, true);
 }
 
@@ -197,11 +205,13 @@ void turnRot (float rot, float speed){
   BaseLeftRear.stop(vex::brakeType::brake);
 }
 
-void inertial_drive(double target, double speed, bool side) {
+void inertial_drive(double target, double speed) {
   BaseRightRear.setPosition(0, turns); 
   BaseLeftRear.setPosition(0, turns);
   BaseRightFront.setPosition(0, turns);
   BaseLeftFront.setPosition(0, turns);
+  BaseLeftMid.setPosition(0, turns);
+  BaseRightMid.setPosition(0, turns);
   LTrack.setPosition(0, turns); 
   RTrack.setPosition(0, turns);
   //Starting pos
@@ -216,17 +226,11 @@ void inertial_drive(double target, double speed, bool side) {
   while (true) {
     // Calculate the error
     double error_c = angle - get_rotation();
-    double error1 = target - LTrack.position(turns) * 2.8 * M_PI;
-    double error2 = target - RTrack.position(turns) * 2.8 * M_PI;
+    double error1 = target - getDist(); //LTrack.position(turns) * 2.8 * M_PI
+    double error2 = target - getDist(); //RTrack.position(turns) * 2.8 * M_PI
     double error;
-    
-    if(side){
-      error = target - STrack.position(turns) * 2.8 * M_PI;
-    }
-    else{
-    //error = target - Distance2.value()/25.4;
+  
     error = (error1 + error2) / 2;
-    }
 
     // Get the turn output
     double raw_output_correct = (TURN_KP * error_c + 0.1 * integral_c); // in/s
@@ -253,17 +257,21 @@ void inertial_drive(double target, double speed, bool side) {
      else if(raw_output < -speed) raw_output = -speed; 
     
      //Normal speed
-    if(!side){ //fwd correct
+     if(target!=0){ //fwd correct
       BaseLeftFront.spin(vex::directionType::fwd, raw_output + raw_output_correct, vex::velocityUnits::pct);
       BaseLeftRear.spin(vex::directionType::fwd, raw_output + raw_output_correct, vex::velocityUnits::pct);
+      BaseLeftMid.spin(vex::directionType::fwd, raw_output + raw_output_correct, vex::velocityUnits::pct);
       BaseRightFront.spin(vex::directionType::fwd, raw_output - raw_output_correct, vex::velocityUnits::pct);
       BaseRightRear.spin(vex::directionType::fwd, raw_output - raw_output_correct, vex::velocityUnits::pct);
+      BaseRightMid.spin(vex::directionType::fwd, raw_output - raw_output_correct, vex::velocityUnits::pct);
      }
-     else{ 
-      BaseLeftFront.spin(vex::directionType::fwd, raw_output + raw_output_correct, vex::velocityUnits::pct);
-      BaseLeftRear.spin(vex::directionType::rev, raw_output + raw_output_correct, vex::velocityUnits::pct);
-      BaseRightFront.spin(vex::directionType::rev, raw_output - raw_output_correct, vex::velocityUnits::pct);
-      BaseRightRear.spin(vex::directionType::fwd, raw_output - raw_output_correct, vex::velocityUnits::pct);
+     else{ //rev correct
+      BaseLeftFront.spin(vex::directionType::fwd, raw_output + raw_output_correct*0, vex::velocityUnits::pct);
+      BaseLeftRear.spin(vex::directionType::fwd, raw_output + raw_output_correct*0, vex::velocityUnits::pct);
+      BaseLeftMid.spin(vex::directionType::fwd, raw_output + raw_output_correct*0, vex::velocityUnits::pct);
+      BaseRightFront.spin(vex::directionType::fwd, raw_output - raw_output_correct*0, vex::velocityUnits::pct);
+      BaseRightRear.spin(vex::directionType::fwd, raw_output - raw_output_correct*0, vex::velocityUnits::pct);
+      BaseRightMid.spin(vex::directionType::fwd, raw_output - raw_output_correct*0, vex::velocityUnits::pct);
      }
 
 		if(std::abs(error) <= .5){
@@ -272,6 +280,8 @@ void inertial_drive(double target, double speed, bool side) {
         BaseRightFront.stop(vex::brakeType::coast);
         BaseRightRear.stop(vex::brakeType::coast);
         BaseLeftRear.stop(vex::brakeType::coast);
+        BaseRightMid.stop(vex::brakeType::coast);
+        BaseLeftMid.stop(vex::brakeType::coast);
         break;
       }
       else{
@@ -279,6 +289,8 @@ void inertial_drive(double target, double speed, bool side) {
         BaseRightFront.stop(vex::brakeType::brake);
         BaseRightRear.stop(vex::brakeType::brake);
         BaseLeftRear.stop(vex::brakeType::brake);
+        BaseLeftMid.stop(brake);
+        BaseRightMid.stop(brake);
         break;
       }
 		}

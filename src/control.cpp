@@ -6,7 +6,11 @@ using namespace vex;
 //Voids for auton 
 
 void spinIntake(){
-  Intake.spin(fwd, 100, pct);
+  Intake.spin(fwd, 80, pct);
+}
+
+void spinIndex(){
+  Intake.spin(reverse, 80, pct);
 }
 
 void stopIntake(){
@@ -14,11 +18,9 @@ void stopIntake(){
 }
 
 void spinFlywheel(){
-  Flywheel1.spin(fwd, 12, volt);
-  Flywheel2.spin(fwd, 12, volt);
+  Flywheel.spin(fwd, 12, volt);
 }
 
 void stopFlywheel(){
-  Flywheel1.stop(coast);
-  Flywheel2.stop(coast);
+  Flywheel.stop(coast);
 }

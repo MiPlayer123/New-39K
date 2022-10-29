@@ -9,6 +9,8 @@ using namespace vex;
 
 void spinIntake();
 
+void spinIndex();
+
 void stopIntake();
 
 void spinFlywheel();
