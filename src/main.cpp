@@ -178,20 +178,24 @@ void usercontrol() {
 
     if (r1_pressing) {
       spinIntake();
+      Intake2.spin(fwd, 100, pct);
     }
     else if (r2_pressing) { 
       Intake.spin(reverse, 100, pct);
+      Intake2.spin(reverse, 100, pct);
+
     }
 
     else {
       stopIntake();
+      Intake2.stop(coast);
     }
 
     if (Controller1.ButtonUp.pressing()) {
       Expansion.set(true);      
     }
     else if (Controller1.ButtonDown.pressing()) {
-      Expansion.set(true);
+      Expansion.set(false);
     } 
     
     if(Controller1.ButtonLeft.pressing()){
