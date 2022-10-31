@@ -10,9 +10,9 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// BaseLeftRear         motor         1               
+// BaseLeftRear         motor         2               
 // BaseLeftFront        motor         6               
-// BaseRightRear        motor         8               
+// BaseRightRear        motor         3               
 // BaseRightFront       motor         7               
 // BaseLeftMid          motor         11              
 // BaseRightMid         motor         4               
@@ -23,7 +23,7 @@
 // LTrackO              rotation      18              
 // RTrackO              rotation      17              
 // Flywheel             motor         15              
-// Intake               motor         19              
+// Intake               motor         1               
 // STrack               encoder       A, B            
 // RTrack               encoder       C, D            
 // LTrack               encoder       E, F            
@@ -108,6 +108,7 @@ void usercontrol() {
     }
     // Otherwise spin the motors with the input 
     else {
+      /*
       if (left_speed <0){
         left_speed = -((pow(fabs(left_speed), 4 *.4))/pow(100, (4*.4)-1));
       }
@@ -117,6 +118,7 @@ void usercontrol() {
       if((left_speed*right_speed <0)){
         left_speed = .7*left_speed; 
       }
+      */
       spin(&BaseLeftRear, left_speed);
       spin(&BaseLeftFront, left_speed);
       spin(&BaseLeftMid, left_speed);
@@ -125,12 +127,13 @@ void usercontrol() {
 
     // This is equivalent to the code above
     if ((right_speed < deadzone && right_speed > -deadzone)) {
-      if (stop_right) {
+      
       BaseRightRear.stop(coast);
       BaseRightFront.stop(coast);
       BaseRightMid.stop(coast);
       stop_right = false;
     } else {
+      /*
       if (right_speed <0){
         right_speed = -((pow(fabs(right_speed), 4 *.4))/pow(100, (4*.4)-1));
       }
@@ -139,13 +142,12 @@ void usercontrol() {
       }
       if((right_speed*left_speed) <0){
         right_speed = .7*right_speed; 
-      }
+      */
       spin(&BaseRightRear, right_speed);
       spin(&BaseRightFront, right_speed);
       spin(&BaseRightMid, right_speed);
       stop_right = true;
     }
-  }
 
     // Get the values for the right front buttons
     bool r1_pressing = Controller1.ButtonR1.pressing();
