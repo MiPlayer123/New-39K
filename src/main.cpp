@@ -48,8 +48,8 @@ task chassisControlTask;
 
 void auton() {
 
-  task odometryTask(positionTracking);
-  task chassisControlTask(chassisControl);
+  //task odometryTask(positionTracking);
+  //task chassisControlTask(chassisControl);
   //task drawFieldTask(drawField);
 
 
@@ -71,9 +71,15 @@ void auton() {
     
   }
   else{
+    moveRot(-3.5,30);
+    turn_absolute_inertial(90);
+    moveRot(-1.5,30);
+    spinIndex();
+    wait(500,msec);
+    stopIntake();
     //turn_absolute_inertial(90);
     //moveRot(1, 50);
-    //inertial_drive(12, 50);
+    //inertial_drive(24, 80);
   }
 } 
 
