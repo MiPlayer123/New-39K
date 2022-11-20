@@ -10,24 +10,23 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// BaseLeftRear         motor         2               
-// BaseLeftFront        motor         6               
-// BaseRightRear        motor         3               
-// BaseRightFront       motor         7               
+// BaseLeftRear         motor         20              
+// BaseLeftFront        motor         1               
+// BaseRightRear        motor         19              
+// BaseRightFront       motor         4               
 // BaseLeftMid          motor         11              
-// BaseRightMid         motor         4               
+// BaseRightMid         motor         8               
 // Skills               limit         H               
-// STrackO              rotation      16              
 // Controller1          controller                    
-// Inertial             inertial      5               
-// LTrackO              rotation      18              
-// RTrackO              rotation      17              
+// Inertial             inertial      13              
+// LTrack               rotation      18              
+// RTrack               rotation      17              
 // Flywheel             motor         15              
-// Intake               motor         1               
-// STrack               encoder       A, B            
-// RTrack               encoder       C, D            
-// LTrack               encoder       E, F            
+// Intake               motor         2               
+// STrack               encoder       C, D            
 // Expansion            digital_out   G               
+// AngleAdjust          digital_out   F               
+// Optical              optical       7               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -71,15 +70,9 @@ void auton() {
     
   }
   else{
-    moveRot(-3.5,30);
     turn_absolute_inertial(90);
-    moveRot(-1.5,30);
-    spinIndex();
-    wait(500,msec);
-    stopIntake();
-    //turn_absolute_inertial(90);
-    //moveRot(1, 50);
-    //inertial_drive(24, 80);
+    
+    inertial_drive(48, 60);
   }
 } 
 
@@ -164,9 +157,9 @@ void usercontrol() {
 
 
     if (toggle){
-      spinFlywheel();
+      FwVelocitySet( 50, .95 );
     } else {
-      stopFlywheel();
+      FwVelocitySet( 0, 0 );
     }
 
     if (l1_pressing) {
@@ -192,22 +185,35 @@ void usercontrol() {
     }
 
     if (Controller1.ButtonUp.pressing()) {
-      Expansion.set(true);      
+      AngleAdjust.set(true);      
     }
     else if (Controller1.ButtonDown.pressing()) {
-      Expansion.set(false);
+      AngleAdjust.set(false);
     } 
     
     if(Controller1.ButtonLeft.pressing()){} 
     else if (Controller1.ButtonRight.pressing()){}
     else {}
 
-    if(Controller1.ButtonA.pressing()){} 
+    if(Controller1.ButtonA.pressing()){
+      AutoRoller("red");
+    } 
     else if(Controller1.ButtonY.pressing()){}
 
-    if(Controller1.ButtonX.pressing()){} 
-    else if (Controller1.ButtonB.pressing()) {}
+    if(Controller1.ButtonX.pressing()){
+      Expansion.set(true);
+    } 
+    else if (Controller1.ButtonB.pressing()){
+      Expansion.set(false);
+    }
 
+    Brain.Screen.setCursor(3, 1);
+    Brain.Screen.print("X: %.1lf Y: %.1lf Theta: %.1lf", 0.0,0.0, get_rotation());
+    Brain.Screen.setCursor(5, 1);
+    Brain.Screen.print("RPM: %.1lf Actual RPM: %.1lf", Flywheel.velocity(rpm), Flywheel.velocity(rpm)*6);
+    Brain.Screen.setCursor(6, 1);
+    Brain.Screen.print("Base Temp %.0lf Flywheel Temp: %.0lf Intake temp: %.0lf", 
+      BaseRightMid.temperature(fahrenheit), Flywheel.temperature(fahrenheit), Intake.temperature(fahrenheit));
 
     // Increase the tick count
     ticks += 1;
@@ -226,6 +232,15 @@ int main() {
   LTrack.setPosition(0, deg);
   STrack.setPosition(0, deg);
 
+  BaseLeftRear.setPosition(0, turns);
+  BaseRightFront.setPosition(0, turns);
+  BaseRightMid.setPosition(0, turns);
+  BaseLeftMid.setPosition(0, turns);
+  BaseLeftFront.setPosition(0, turns);
+  BaseRightRear.setPosition(0, turns);
+
+  Flywheel.setPosition(0, deg);
+
   // Calibrate the inertial sensor, and wait for it to finish
   Inertial.calibrate();
   while(Inertial.isCalibrating()) {
@@ -243,19 +258,13 @@ int main() {
   }
 
   // Print to the screen when we're done calibrating
-  Brain.Screen.setCursor(2, 1);
+  Brain.Screen.setCursor(1, 1);
   Brain.Screen.print("Done Calibrating");
 
   // Initialize our PIDs and rotation tracking thread
   initialize();
-  //task mogoHeightTask(mogoHeight);
 
-  BaseLeftRear.setPosition(0, turns);
-  BaseRightFront.setPosition(0, turns);
-  BaseRightMid.setPosition(0, turns);
-  BaseLeftMid.setPosition(0, turns);
-  BaseLeftFront.setPosition(0, turns);
-  BaseRightRear.setPosition(0, turns);
+  FwControlTask(); //Flywheel control
 
   /*
   Brain.Screen.pressed( userTouchCallbackPressed );

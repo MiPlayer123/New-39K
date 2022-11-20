@@ -10,17 +10,16 @@ extern motor BaseRightFront;
 extern motor BaseLeftMid;
 extern motor BaseRightMid;
 extern limit Skills;
-extern rotation STrackO;
 extern controller Controller1;
 extern inertial Inertial;
-extern rotation LTrackO;
-extern rotation RTrackO;
+extern rotation LTrack;
+extern rotation RTrack;
 extern motor Flywheel;
 extern motor Intake;
 extern encoder STrack;
-extern encoder RTrack;
-extern encoder LTrack;
 extern digital_out Expansion;
+extern digital_out AngleAdjust;
+extern optical Optical;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

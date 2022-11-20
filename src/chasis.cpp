@@ -15,15 +15,6 @@
 #define integral_threshold 10
 #define kp_c .45 //.42
 
-//For PD balance
-#define   kp_bal 1 
-#define   kd_bal .5 
-
-//For other inertialDrive()
-#define   m_kp 2 // Kp
-#define   m_ki 0 // Ki
-#define   m_kd  0.0 // Kd
-
 mutex heading_mtx;
 
 // Filter to track our rotation
@@ -78,7 +69,7 @@ double getDist(){
   double leftAvg = (BaseLeftFront.position(turns) + BaseLeftMid.position(turns) + BaseLeftRear.position(turns))/3;
   double rightAvg = (BaseRightFront.position(turns) + BaseRightMid.position(turns) + BaseRightRear.position(turns))/3;
   double avg = (leftAvg+rightAvg)/2;
-  double dist = avg * 3.30 * M_PI * (3.0/5.0);
+  double dist = avg * (3.30/2) * M_PI * (3.0/5.0);
   return dist;
 }
 

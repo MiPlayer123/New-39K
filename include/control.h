@@ -4,6 +4,7 @@
 #include "util.h"
 #include "vex.h"
 #include "util.h"
+#include <string>
 
 using namespace vex;
 
@@ -16,5 +17,11 @@ void stopIntake();
 void spinFlywheel();
 
 void stopFlywheel();
+
+void AutoRoller(std::string colour);
+
+void FwVelocitySet( int velocityM, float predicted_drive );
+
+task FwControlTask();
 
 #endif

@@ -100,3 +100,9 @@ double threshold(double x, double threshold) {
     return x;
   }
 }
+
+int sgn(double v) {
+  if (v < 0) return -1;
+  if (v > 0) return 1;
+  return 0;
+}

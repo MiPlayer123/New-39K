@@ -55,4 +55,6 @@ double sq(double x);
 // If |x| < threshold, then 0 is returned, else x is returned.
 double threshold(double x, double threshold);
 
+int sgn(double v);
+
 #endif
