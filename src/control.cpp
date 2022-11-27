@@ -45,6 +45,49 @@ void AutoRoller(std::string colour){
   stopIntake();
 }
 
+void timeCtrl(std::string control, float tim){
+  float mili = tim*1000;
+  if(control == "drivef"){
+    allBaseVoltage(true, 5);
+    task::sleep(mili);
+    allBaseVoltage(true, 0);
+    brake_unchecked();
+  }
+  else if  (control == "driveb"){
+    allBaseVoltage(false, 5);
+    task::sleep(mili);
+    allBaseVoltage(true, 0);
+    brake_unchecked();
+  }
+  else if (control == "intake"){
+    spinIntake();
+    task::sleep(mili);
+    stopIntake();
+  }
+  else if (control == "index"){
+    spinIndex();
+    task::sleep(mili);
+    stopIntake();
+  }
+  else if (control == "shoot"){
+    FwVelocitySet(450,.95);
+    task::sleep(mili);
+    FwVelocitySet(0, 0);
+  }
+  else{
+    task::sleep(mili);
+  }
+}
+
+void volley(int speed, float timeIndex){
+  FwVelocitySet(speed, .95);
+  while((Flywheel.velocity(rpm)-5)<speed){
+    task::sleep(20);
+  }
+  timeCtrl("index", timeIndex);
+  FwVelocitySet(0, 0);
+}
+
 /* Flywheel TBH Controller */
 
 // velocity measurement
@@ -124,10 +167,10 @@ void FwControlUpdateVelocityTbh()
 	last_error = current_error;
 }
 
-task FwControlTask()
+int FwControlTask()
 {
 	// Set the gain
-	gain = 0.00025; //0.00025
+	gain = 0.0003; //0.00025
 
 	while(1)
 	{
@@ -145,4 +188,5 @@ task FwControlTask()
 		// Run at somewhere between 20 and 50mS
 		task::sleep( 20 );
 	}
+  return 1;
 }

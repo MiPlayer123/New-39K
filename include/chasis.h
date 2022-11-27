@@ -40,7 +40,7 @@ void moveRot (float rot, float speed);
 void turnRot (float rot, float speed);
 
 //Base voltage   
-void allBaseVoltage(bool Dir, double v);
+void allBaseVoltage(bool dirFwd, double v);
 
 //Swing turn
 void swinging(double leftPower, double rightPower, double gogoAngle);

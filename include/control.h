@@ -20,8 +20,12 @@ void stopFlywheel();
 
 void AutoRoller(std::string colour);
 
+void timeCtrl(std::string control, float tim);
+
+void volley(int speed, float timeIndex=1.5);
+
 void FwVelocitySet( int velocityM, float predicted_drive );
 
-task FwControlTask();
+int FwControlTask();
 
 #endif

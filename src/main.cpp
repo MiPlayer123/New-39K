@@ -13,7 +13,7 @@
 // BaseLeftRear         motor         20              
 // BaseLeftFront        motor         1               
 // BaseRightRear        motor         19              
-// BaseRightFront       motor         4               
+// BaseRightFront       motor         6               
 // BaseLeftMid          motor         11              
 // BaseRightMid         motor         8               
 // Skills               limit         H               
@@ -70,9 +70,7 @@ void auton() {
     
   }
   else{
-    turn_absolute_inertial(90);
-    
-    inertial_drive(48, 60);
+    AutoRoller("red");
   }
 } 
 
@@ -84,6 +82,8 @@ void usercontrol() {
   long ticks = 0;
 
   int deadzone = 8;
+
+  int flywheelRPM = 450;
 
   // Whether or not the left/right side of the base needs to be stopped
   bool stop_left = true;
@@ -156,9 +156,9 @@ void usercontrol() {
     bool l2_pressing = Controller1.ButtonL2.pressing();
 
 
-    if (toggle){
-      FwVelocitySet( 50, .95 );
-    } else {
+    if (toggle && latch){
+      FwVelocitySet( flywheelRPM, .95 );
+    } else if(!toggle) {
       FwVelocitySet( 0, 0 );
     }
 
@@ -175,10 +175,10 @@ void usercontrol() {
     if (l2_pressing ){}
 
     if (r1_pressing) {
-      spinIntake();
+      spinIndex();
     }
     else if (r2_pressing) { 
-      spinIndex();
+      spinIntake();
     }
     else {
       stopIntake();
@@ -191,8 +191,14 @@ void usercontrol() {
       AngleAdjust.set(false);
     } 
     
-    if(Controller1.ButtonLeft.pressing()){} 
-    else if (Controller1.ButtonRight.pressing()){}
+    if(Controller1.ButtonLeft.pressing()){
+      flywheelRPM-=50;
+    } 
+    else if (Controller1.ButtonRight.pressing()){
+      flywheelRPM+=50;
+      if(flywheelRPM>=600)
+        flywheelRPM=600;
+    }
     else {}
 
     if(Controller1.ButtonA.pressing()){
@@ -207,13 +213,19 @@ void usercontrol() {
       Expansion.set(false);
     }
 
+    double relRPM = Flywheel.velocity(rpm);
+    double actualRPM = relRPM*6;
+
     Brain.Screen.setCursor(3, 1);
     Brain.Screen.print("X: %.1lf Y: %.1lf Theta: %.1lf", 0.0,0.0, get_rotation());
     Brain.Screen.setCursor(5, 1);
-    Brain.Screen.print("RPM: %.1lf Actual RPM: %.1lf", Flywheel.velocity(rpm), Flywheel.velocity(rpm)*6);
+    Brain.Screen.print("RPM: %.1lf Actual RPM: %.1lf", relRPM, actualRPM);
     Brain.Screen.setCursor(6, 1);
     Brain.Screen.print("Base Temp %.0lf Flywheel Temp: %.0lf Intake temp: %.0lf", 
-      BaseRightMid.temperature(fahrenheit), Flywheel.temperature(fahrenheit), Intake.temperature(fahrenheit));
+      BaseRightMid.temperature(celsius), Flywheel.temperature(celsius), Intake.temperature(celsius));
+    
+    Controller1.Screen.setCursor(3, 1);
+    Controller1.Screen.print("Set: %.0f Actual: %.0lf", (float)flywheelRPM, relRPM); 
 
     // Increase the tick count
     ticks += 1;
@@ -264,7 +276,7 @@ int main() {
   // Initialize our PIDs and rotation tracking thread
   initialize();
 
-  FwControlTask(); //Flywheel control
+  task fwControl(FwControlTask); //Flywheel control
 
   /*
   Brain.Screen.pressed( userTouchCallbackPressed );

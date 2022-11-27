@@ -1,19 +1,19 @@
 #include "chasis.h"
 
 //For PID turns
-#define TURN_KP 0.035
-#define TURN_KI 0.00//25  //0.0018
-#define TURN_KD 0.001 //0.001
+#define TURN_KP 0.03
+#define TURN_KI 0.0015//25  //0.0018
+#define TURN_KD 0.0001 //0.001
 #define TURN_MAX_A (BASE_MAX_V / 0.1)
 #define TURN_MAX_V (BASE_MAX_V * 0.7)
 #define TURN_MIN_V 3
 
 //For main inertial_drive
-#define   kp 4 //8/7 
-#define   ki .0008 //.5
-#define   kd 1 //.45
+#define   kp 6.5 //8 
+#define   ki .007 //.5
+#define   kd 0.2 //.45
 #define integral_threshold 10
-#define kp_c .45 //.42
+#define kp_c .43 //.45
 
 mutex heading_mtx;
 
@@ -69,7 +69,7 @@ double getDist(){
   double leftAvg = (BaseLeftFront.position(turns) + BaseLeftMid.position(turns) + BaseLeftRear.position(turns))/3;
   double rightAvg = (BaseRightFront.position(turns) + BaseRightMid.position(turns) + BaseRightRear.position(turns))/3;
   double avg = (leftAvg+rightAvg)/2;
-  double dist = avg * (3.30/2) * M_PI * (3.0/5.0);
+  double dist = avg * (3.25) * M_PI * (3.0/5.0);
   return dist;
 }
 
@@ -288,18 +288,22 @@ void inertial_drive(double target, double speed) {
   }
 }
 
-void allBaseVoltage(bool Dir, double v){
-  if(Dir){ 
+void allBaseVoltage(bool dirFwd, double v){
+  if(dirFwd){ 
     BaseLeftFront.spin(fwd, v, volt); 
     BaseLeftRear.spin(fwd, v, volt);
     BaseRightFront.spin(fwd, v, volt); 
     BaseRightRear.spin(fwd, v, volt);
+    BaseRightMid.spin(fwd, v, volt); 
+    BaseLeftMid.spin(fwd, v, volt);
   }
   else {
     BaseLeftFront.spin(reverse, v, volt); 
     BaseLeftRear.spin(reverse, v, volt);
     BaseRightFront.spin(reverse, v, volt); 
     BaseRightRear.spin(reverse, v, volt);
+    BaseRightMid.spin(reverse, v, volt); 
+    BaseLeftMid.spin(reverse, v, volt);
   }
 }
 
