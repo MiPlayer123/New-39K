@@ -41,9 +41,9 @@
 
 using namespace vex;
 
-//task odometryTask;
-//task drawFieldTask;
-//task chassisControlTask;
+task odometryTask;
+task drawFieldTask;
+task chassisControlTask;
 
 void auton() {
 
@@ -77,13 +77,13 @@ void auton() {
     moveRot(.65, 40);
     turn_absolute_inertial(-45);
     spinIntake();
-    moveRot(3.7,40);
+    moveRot(3.85,40);
     turn_absolute_inertial(90);
     stopIntake();
     timeCtrl("driveb", .38);
     AutoRoller("red");
     //second roller
-    moveRot(.28,50);
+    moveRot(.30,50);
     turn_absolute_inertial(-0);
     inertial_drive(55,60);
     FwVelocitySet(450, .95);
