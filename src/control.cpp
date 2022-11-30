@@ -42,7 +42,7 @@ void AutoRoller(std::string colour){
     task::sleep(20);
     count+=20;
   }
-  stopIntake();
+   Intake.stop(brake);
 }
 
 void timeCtrl(std::string control, float tim){

@@ -41,9 +41,9 @@
 
 using namespace vex;
 
-task odometryTask;
-task drawFieldTask;
-task chassisControlTask;
+//task odometryTask;
+//task drawFieldTask;
+//task chassisControlTask;
 
 void auton() {
 
@@ -70,7 +70,64 @@ void auton() {
     
   }
   else{
+
+    timeCtrl("driveb", .2);
+    //first roller
     AutoRoller("red");
+    moveRot(.65, 40);
+    turn_absolute_inertial(-45);
+    spinIntake();
+    moveRot(3.7,40);
+    turn_absolute_inertial(90);
+    stopIntake();
+    timeCtrl("driveb", .38);
+    AutoRoller("red");
+    //second roller
+    moveRot(.28,50);
+    turn_absolute_inertial(-0);
+    inertial_drive(55,60);
+    FwVelocitySet(450, .95);
+    turn_absolute_inertial(8);
+    volley(430);
+    //first volley
+    /*
+    turn_absolute_inertial(90);
+    spinIntake();
+    inertial_drive(30,30);
+    inertial_drive(-12,30);
+    FwVelocitySet(450, .95);
+    turn_absolute_inertial(10);
+    volley(450);
+    */
+    turn_absolute_inertial(-0);
+    inertial_drive(-29, 50);
+    turn_absolute_inertial(90);
+    spinIntake();
+    inertial_drive(17.5, 40);
+    turn_absolute_inertial(47);
+    inertial_drive(37, 40);
+    wait(1000,msec);
+    FwVelocitySet(480, .95);
+    turn_absolute_inertial(-45);
+    stopIntake();
+    volley(480);
+    //second volley
+    turn_absolute_inertial(45);
+    inertial_drive(26,70);
+    spinIntake();
+    inertial_drive(24,10);
+    inertial_drive(10, 60);
+    turn_absolute_inertial(-90);
+    stopIntake();
+    FwVelocitySet(430, .95);
+    inertial_drive(36, 50);
+    volley(430);
+    //third volley
+    //Later
+    //inertial_drive(, 60)
+
+
+    
   }
 } 
 
@@ -100,9 +157,9 @@ void usercontrol() {
     // If the input speed is below our threshold, stop the motors
     if ((left_speed < deadzone && left_speed > -deadzone)) {
       // This condition only calls the stop instruction once        
-      BaseLeftRear.stop(coast);
-      BaseLeftFront.stop(coast);
-      BaseLeftMid.stop(coast);
+      BaseLeftRear.stop(brake);
+      BaseLeftFront.stop(brake);
+      BaseLeftMid.stop(brake);
       stop_left = false;
     }
     // Otherwise spin the motors with the input 
@@ -127,9 +184,9 @@ void usercontrol() {
     // This is equivalent to the code above
     if ((right_speed < deadzone && right_speed > -deadzone)) {
       
-      BaseRightRear.stop(coast);
-      BaseRightFront.stop(coast);
-      BaseRightMid.stop(coast);
+      BaseRightRear.stop(brake);
+      BaseRightFront.stop(brake);
+      BaseRightMid.stop(brake);
       stop_right = false;
     } else {
       /*
