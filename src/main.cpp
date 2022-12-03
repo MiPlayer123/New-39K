@@ -70,7 +70,85 @@ void auton() {
     
   }
   else{
+    // hypercarry
 
+    timeCtrl("driveb", .2);
+    timeCtrl("intake", .2);
+    moveRot(.3,50);
+    turn_absolute_inertial(45);
+    FwVelocitySet(570, .95);
+    inertial_drive(30, 70);
+    spinIntake();
+    inertial_drive(23,30);
+    timeCtrl("", .25);
+    turn_absolute_inertial(-40);
+    timeCtrl("", .4);
+    moveRot(.4,80);
+    Intake.spin(reverse,70,pct);
+    timeCtrl("", 2.5);
+    stopIntake();
+    moveRot(-.4,80);
+    turn_absolute_inertial(47);
+    spinIntake();
+    FwVelocitySet(600, .95);
+    inertial_drive(60,70); 
+    timeCtrl("", .1);
+    turn_absolute_inertial(-77);
+    moveRot(.5,80);
+    timeCtrl("",.5);
+    Intake.spin(reverse,80,pct);
+    timeCtrl("", 2);
+    stopIntake();
+    turn_absolute_inertial(-145);
+    inertial_drive(-28, 80);
+    turn_absolute_inertial(-90);
+    timeCtrl("driveb",.8);
+    timeCtrl("intake", .2);
+    FwVelocitySet(0, .95);
+
+    
+
+    /*
+    timeCtrl("driveb", .2);
+    timeCtrl("intake", .25);
+    moveRot(.4,50);
+    turn_absolute_inertial(45);
+    FwVelocitySet(590, .95);
+    inertial_drive(60,50);
+    turn_absolute_inertial(-40);
+    moveRot(.4,80);
+    timeCtrl("index", 2.5);
+    turn_absolute_inertial(45);
+    */
+
+
+    
+  
+
+
+    /*
+    FwVelocitySet(600, .95);
+    timeCtrl("driveb", .2);
+    timeCtrl("intake", .25);
+    moveRot(.3,50);
+    turn_absolute_inertial(-8.5);
+    volley(550,2.5);
+    moveRot(.25,50);
+    turn_absolute_inertial(55);
+    spinIndex();
+    inertial_drive(30,60);
+    spinIntake();
+    inertial_drive(10.5,10);
+    inertial_drive(10.5,60);
+    turn_absolute_inertial(-40);
+    FwVelocitySet(600, .95);
+    moveRot(.8,40);
+    stopIntake();
+*/
+
+
+
+    /*
     timeCtrl("driveb", .2);
     //first roller
     AutoRoller("red");
@@ -90,15 +168,6 @@ void auton() {
     turn_absolute_inertial(8);
     volley(430);
     //first volley
-    /*
-    turn_absolute_inertial(90);
-    spinIntake();
-    inertial_drive(30,30);
-    inertial_drive(-12,30);
-    FwVelocitySet(450, .95);
-    turn_absolute_inertial(10);
-    volley(450);
-    */
     turn_absolute_inertial(-0);
     inertial_drive(-29, 50);
     turn_absolute_inertial(90);
@@ -122,10 +191,16 @@ void auton() {
     FwVelocitySet(430, .95);
     inertial_drive(36, 50);
     volley(430);
+    timeCtrl("driveb", 3);
+    inertial_drive(10, 60);
+    turn_absolute_inertial(-45); 
+    */
+
+    //zExpansion.set(true);
+
     //third volley
     //Later
     //inertial_drive(, 60)
-
 
     
   }
