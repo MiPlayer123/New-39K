@@ -45,7 +45,7 @@ void AutoRoller(std::string colour){
    Intake.stop(brake);
 }
 
-void timeCtrl(std::string control, float tim){
+void timeCtrl(std::string control, float tim, float motorSpeed){
   float mili = tim*1000;
   if(control == "drivef"){
     allBaseVoltage(true, 5);
@@ -60,12 +60,12 @@ void timeCtrl(std::string control, float tim){
     brake_unchecked();
   }
   else if (control == "intake"){
-    spinIntake();
+    Intake.spin(fwd, motorSpeed, pct);
     task::sleep(mili);
     stopIntake();
   }
   else if (control == "index"){
-    spinIndex();
+    Intake.spin(reverse, motorSpeed, pct);
     task::sleep(mili);
     stopIntake();
   }

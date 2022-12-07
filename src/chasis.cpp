@@ -2,8 +2,8 @@
 
 //For PID turns
 #define TURN_KP 0.03
-#define TURN_KI 0.0015//25  //0.0018
-#define TURN_KD 0.0001 //0.001
+#define TURN_KI 0.0015
+#define TURN_KD 0.0001
 #define TURN_MAX_A (BASE_MAX_V / 0.1)
 #define TURN_MAX_V (BASE_MAX_V * 0.7)
 #define TURN_MIN_V 3
@@ -13,7 +13,7 @@
 #define   ki .007 //.5
 #define   kd 0.2 //.45
 #define integral_threshold 10
-#define kp_c .43 //.45
+#define kp_c .4 //.45
 
 mutex heading_mtx;
 

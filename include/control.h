@@ -20,7 +20,7 @@ void stopFlywheel();
 
 void AutoRoller(std::string colour);
 
-void timeCtrl(std::string control, float tim);
+void timeCtrl(std::string control, float tim, float motorSpeed=100);
 
 void volley(int speed, float timeIndex=2);
 

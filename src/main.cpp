@@ -23,10 +23,13 @@
 // RTrack               rotation      17              
 // Flywheel             motor         15              
 // Intake               motor         2               
-// STrack               encoder       C, D            
 // Expansion            digital_out   G               
 // AngleAdjust          digital_out   F               
 // Optical              optical       7               
+// STrack               rotation      3               
+// HyperCarry           limit         A               
+// RollerSide           limit         B               
+// FarSide              limit         C               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -59,70 +62,119 @@ void auton() {
   bool auto4 = buttons[3].state;
 
   if(is_skills()){
-    
-  } else if(auto1){
-      
-  } else if(auto2){
-    
-  } else if(auto3){
-    
-  } else if(auto4){
-    
-  }
-  else{
-    
-    spinIntake();
-    FwVelocitySet(580, .95);
-    inertial_drive(18, 50);
-    turn_absolute_inertial(17);
-    timeCtrl("",.2);
-    moveRot(.5,50);
-    Intake.spin(reverse,20,pct);
-    timeCtrl("", 4);
-    stopIntake();
-    FwVelocitySet(0, .95);
-
+    // first roller
+    timeCtrl("driveb", .2);
+    AutoRoller("red");
+    moveRot(.65, 40);
     turn_absolute_inertial(-45);
-    inertial_drive(-36,50);
-    turn_absolute_inertial(0);
-    timeCtrl("driveb", 1);
-    timeCtrl("intake", .2);
-   
 
-    // hypercarry
-/*
+    // intake first disc
+    spinIntake();
+    inertial_drive(20,60);
+    turn_absolute_inertial(90);
+    stopIntake();
+
+    // second roller
+    timeCtrl("driveb", .52);
+    AutoRoller("red");
+
+    // first volley
+    moveRot(.40,50); //.3
+    turn_absolute_inertial(-0);
+    inertial_drive(50,60);
+    FwVelocitySet(405, .95);
+    volley(430); // shoot
+
+    // intake diagonal discs
+    inertial_drive(-23, 50);
+    turn_absolute_inertial(90);
+    spinIntake();
+    inertial_drive(17.5, 40);
+    turn_absolute_inertial(45);
+    inertial_drive(37, 40);
+    wait(250,msec);
+
+    //second volley
+    FwVelocitySet(405, .95);
+    turn_absolute_inertial(-46);
+    stopIntake();
+    volley(450); //shoot
+    turn_absolute_inertial(47);
+    inertial_drive(26,70);
+
+    // intake 3 stack
+    spinIntake();
+    inertial_drive(14,10); 
+    inertial_drive(12, 60);
+    turn_absolute_inertial(-91);
+    stopIntake();
+
+    //third volley
+    FwVelocitySet(415, .95);
+    inertial_drive(26, 50);
+    volley(430); // shoot
+    turn_absolute_inertial(-60);
+
+    // 3stack
+    inertial_drive(-24,70);
+    turn_absolute_inertial(90);
+
+    // third roller
+    
+    /*
+    // third roller
+    //timeCtrl("driveb", 3);
+    inertial_drive(-50, 60);
+    turn_absolute_inertial(180); 
+    timeCtrl("driveb", 1);
+    AutoRoller("red");
+
+    // fourth roller
+    moveRot(2.75, 40);
+    turn_absolute_inertial(270);
+    timeCtrl("driveb", 1.1);
+    AutoRoller("red");
+    moveRot(1,50);
+    turn_absolute_inertial(-135);
+
+    // expansion
+    Expansion.set(true);
+    */
+
+    //inertial_drive(, 60)
+  } else if(auto1 || HyperCarry.pressing()){
     // roller
+    FwVelocitySet(550, .95);
     timeCtrl("driveb", .2);
     timeCtrl("intake", .2);
     moveRot(.3,50);
-    turn_absolute_inertial(45);
-    FwVelocitySet(500, .95);
 
-    // intake stack 
+    //shot pre
+    turn_absolute_inertial(-10);
+    FwVelocitySet(500, .95);
+    timeCtrl("index", 2, 70);
+
+    // intake stack
+    turn_absolute_inertial(45); 
     inertial_drive(26, 70);
     spinIntake();
     inertial_drive(27,50);
     timeCtrl("", .2);
 
-    // first volley
+    // second volley
     turn_absolute_inertial(-40);
     timeCtrl("", .2);
     moveRot(.4,80);
-    Intake.spin(reverse,70,pct);
-    timeCtrl("", 2);
-    stopIntake();
+    timeCtrl("index", 2, 70);
 
     // intake diagonal
-    
     moveRot(-.4,80);
     turn_absolute_inertial(47);
     spinIntake();
-    FwVelocitySet(600, .95); // flywheel velocity #1
     inertial_drive(60,80); 
     timeCtrl("", .1);
     
-
-    // second volley
+    // third volley
     /*
     turn_absolute_inertial(-77);
     moveRot(.45,80);
@@ -130,23 +182,22 @@ void auton() {
     Intake.spin(reverse,80,pct);
     timeCtrl("", 1);
     stopIntake();
-
+    moveRot(.45,80);
+    */
 
     // 2nd roller
-    
-    moveRot(.45,80);
     turn_absolute_inertial(-145);
     inertial_drive(-28, 80);
     turn_absolute_inertial(-90);
     timeCtrl("driveb",.8);
     timeCtrl("intake", .2);
-    FwVelocitySet(0, .95);
-*/
-    /*
-
+    FwVelocitySet(0, 0);
+      
+  } else if(auto2 || RollerSide.pressing()){
     timeCtrl("driveb", .2);
     timeCtrl("intake", .25);
     moveRot(.4,50);
+    //insert preload shooting here
     turn_absolute_inertial(45);
     FwVelocitySet(590, .95);
     inertial_drive(60,50);
@@ -154,99 +205,32 @@ void auton() {
     moveRot(.4,80);
     timeCtrl("index", 2.5);
     turn_absolute_inertial(45);
-    
 
-
-    
-/*
-    
-    FwVelocitySet(600, .95);
-    timeCtrl("driveb", .2);
-    timeCtrl("intake", .25);
-    moveRot(.3,50);
-    turn_absolute_inertial(-8.5);
-    volley(550,2.5);
-    moveRot(.25,50);
-    turn_absolute_inertial(55);
-    spinIndex();
-    inertial_drive(30,60);
+  } else if(auto3 || FarSide.pressing()){
     spinIntake();
-    inertial_drive(10.5,10);
-    inertial_drive(10.5,60);
-    turn_absolute_inertial(-40);
-    FwVelocitySet(600, .95);
-    moveRot(.8,40);
-    stopIntake();
-*/
+    FwVelocitySet(550, .95);
+    inertial_drive(18, 50);
+    turn_absolute_inertial(17); //face goal
+    timeCtrl("",.2);
+    moveRot(.5,50);
+    timeCtrl("index", 4, 20); //shoot
+    FwVelocitySet(0, 0);
 
-
-
-    /*
-    timeCtrl("driveb", .2);
-    //first roller
-    AutoRoller("red");
-    moveRot(.65, 40);
+    //roller
     turn_absolute_inertial(-45);
-    spinIntake();
-    moveRot(3.85,40);
-    turn_absolute_inertial(90);
-    stopIntake();
-    timeCtrl("driveb", .38);
-    AutoRoller("red");
-    //second roller
-    moveRot(.30,50);
-    turn_absolute_inertial(-0);
-    inertial_drive(55,60);
-    //first volley
-    FwVelocitySet(450, .95);
-    turn_absolute_inertial(7);
-    volley(430);
-    turn_absolute_inertial(-0);
-    inertial_drive(-29, 50);
-    turn_absolute_inertial(90);
-    spinIntake();
-    inertial_drive(17.5, 40);
-    turn_absolute_inertial(47);
-    inertial_drive(37, 40);
-    wait(1000,msec);
-
-    //second volley
-    FwVelocitySet(440, .95);
-    turn_absolute_inertial(-47.5);
-    stopIntake();
-    volley(460);
-    turn_absolute_inertial(45);
-    inertial_drive(26,70);
-    spinIntake();
-    inertial_drive(24,10);
-    inertial_drive(10, 60);
-    turn_absolute_inertial(-96);
-    stopIntake();
-
-    //third volley
-    FwVelocitySet(430, .95);
-    inertial_drive(36, 50);
-    volley(430);
-    turn_absolute_inertial(-90);
-    
-    //timeCtrl("driveb", 3);
-    inertial_drive(-50, 60);
-    turn_absolute_inertial(180); 
+    inertial_drive(-36,50);
+    turn_absolute_inertial(0);
     timeCtrl("driveb", 1);
-    AutoRoller("red");
-    moveRot(2.75, 40);
-    turn_absolute_inertial(270);
-    timeCtrl("driveb", 1.1);
-    AutoRoller("red");
-    moveRot(1,50);
-    turn_absolute_inertial(-135);
-    Expansion.set(true);
+    timeCtrl("intake", .2);
 
-    //inertial_drive(, 60)
-*/
+  } else if(auto4){
+    
+  }
+  else{ 
+    
   }
   
-  } 
+} 
 
 bool locked= false;
 
