@@ -77,12 +77,12 @@ void auton() {
     // second roller
     timeCtrl("driveb", .52);
     AutoRoller("red");
+    FwVelocitySet(405, .95);
 
     // first volley
-    moveRot(.40,50); //.3
+    moveRot(.43,50); //.4
     turn_absolute_inertial(-0);
     inertial_drive(50,60);
-    FwVelocitySet(405, .95);
     volley(430); // shoot
 
     // intake diagonal discs
@@ -110,25 +110,35 @@ void auton() {
     stopIntake();
 
     //third volley
-    FwVelocitySet(415, .95);
+    FwVelocitySet(418, .95);
     inertial_drive(26, 50);
-    volley(430); // shoot
-    turn_absolute_inertial(-60);
+    volley(440); // shoot
+    turn_absolute_inertial(120);
 
     // 3stack
-    inertial_drive(-24,70);
-    turn_absolute_inertial(90);
+    inertial_drive(25,70);
+    turn_absolute_inertial(75);
+    spinIntake();
+    inertial_drive(42, 25);
 
     // third roller
-    
-    /*
-    // third roller
-    //timeCtrl("driveb", 3);
-    inertial_drive(-50, 60);
-    turn_absolute_inertial(180); 
-    timeCtrl("driveb", 1);
+    turn_absolute_inertial(-90); 
+    timeCtrl("driveb", .5);
     AutoRoller("red");
+    moveRot(.43,50); //.4
 
+    //Shoot
+    FwVelocitySet(405, .95);
+    turn_absolute_inertial(-180);
+    inertial_drive(48,60);
+    volley(430);
+
+    //temp expand
+    
+    //inertial_drive(-53, 80);
+    //turn_absolute_inertial(-135);
+    //Expansion.set(true);
+    /*
     // fourth roller
     moveRot(2.75, 40);
     turn_absolute_inertial(270);
@@ -140,71 +150,107 @@ void auton() {
     // expansion
     Expansion.set(true);
     */
-
     //inertial_drive(, 60)
+    // intake diagonal discs
+    inertial_drive(-23, 50);
+    turn_absolute_inertial(270);
+    spinIntake();
+    inertial_drive(17.5, 40);
+    turn_absolute_inertial(225);
+    inertial_drive(37, 40);
+    wait(250,msec);
+
+    //fifth  volley
+    FwVelocitySet(405, .95);
+    turn_absolute_inertial(134);
+    stopIntake();
+    volley(450); //shoot
+    turn_absolute_inertial(227);
+    inertial_drive(26,70);
+
+    // intake 3 stack
+    spinIntake();
+    inertial_drive(14,10); 
+    inertial_drive(12, 60);
+    turn_absolute_inertial(89);
+    stopIntake();
+
+    //sixth volley
+    FwVelocitySet(418, .95);
+    inertial_drive(26, 50);
+    volley(440); // shoot
+
+    inertial_drive(-53, 80);
+    turn_absolute_inertial(45);
+    Expansion.set(true);
+    
   } else if(auto1 || HyperCarry.pressing()){
     // roller
-    FwVelocitySet(550, .95);
+    FwVelocitySet(575, .98);
     timeCtrl("driveb", .2);
     timeCtrl("intake", .2);
     moveRot(.3,50);
 
     //shot pre
-    turn_absolute_inertial(-10);
-    FwVelocitySet(500, .95);
-    timeCtrl("index", 2, 70);
+    turn_absolute_inertial(-9);
+    timeCtrl("", 1.1);
+    timeCtrl("index", 1.8, 60);
 
     // intake stack
-    turn_absolute_inertial(45); 
-    inertial_drive(26, 70);
+    turn_absolute_inertial(55); 
+    inertial_drive(27, 75);
+    FwVelocitySet(532, .95);
     spinIntake();
-    inertial_drive(27,50);
+    inertial_drive(28,40);
+    timeCtrl("", .1);
+
+    // second volley
+    turn_absolute_inertial(-43);
+    timeCtrl("", .15);
+    moveRot(.95,80);
+    timeCtrl("index", 1.8, 45);
+    
+  
+    // intake diagonal
+    turn_absolute_inertial(44);
+    spinIntake();
+    inertial_drive(86,80);
+    
+    // 2nd roller
+    turn_absolute_inertial(-90);
+    timeCtrl("driveb",.5);
+    timeCtrl("intake", .2);
+    FwVelocitySet(0, 0);
+    
+  } else if(auto2 || RollerSide.pressing()){
+    // roller
+    FwVelocitySet(575, .98);
+    timeCtrl("driveb", .2);
+    timeCtrl("intake", .25);
+    moveRot(.3,50);
+
+    //shot pre
+    turn_absolute_inertial(-9.3);
+    timeCtrl("", 1.6);
+    timeCtrl("index", 1.8, 60);
+
+    // intake stack
+    turn_absolute_inertial(55); 
+    inertial_drive(27, 75);
+    FwVelocitySet(530, .95);
+    spinIntake();
+    inertial_drive(28,40);
     timeCtrl("", .2);
 
     // second volley
-    turn_absolute_inertial(-40);
+    turn_absolute_inertial(-43.5);
     timeCtrl("", .2);
-    moveRot(.4,80);
-    timeCtrl("index", 2, 70);
+    moveRot(.95,80);
+    timeCtrl("index", 4, 45);
 
-    // intake diagonal
-    moveRot(-.4,80);
-    turn_absolute_inertial(47);
+    turn_absolute_inertial(44);
     spinIntake();
-    inertial_drive(60,80); 
-    timeCtrl("", .1);
-    
-    // third volley
-    /*
-    turn_absolute_inertial(-77);
-    moveRot(.45,80);
-    timeCtrl("",.5);
-    Intake.spin(reverse,80,pct);
-    timeCtrl("", 1);
-    stopIntake();
-    moveRot(.45,80);
-    */
-
-    // 2nd roller
-    turn_absolute_inertial(-145);
-    inertial_drive(-28, 80);
-    turn_absolute_inertial(-90);
-    timeCtrl("driveb",.8);
-    timeCtrl("intake", .2);
-    FwVelocitySet(0, 0);
-      
-  } else if(auto2 || RollerSide.pressing()){
-    timeCtrl("driveb", .2);
-    timeCtrl("intake", .25);
-    moveRot(.4,50);
-    //insert preload shooting here
-    turn_absolute_inertial(45);
-    FwVelocitySet(590, .95);
-    inertial_drive(60,50);
-    turn_absolute_inertial(-40);
-    moveRot(.4,80);
-    timeCtrl("index", 2.5);
-    turn_absolute_inertial(45);
+    inertial_drive(57,80);
 
   } else if(auto3 || FarSide.pressing()){
     spinIntake();
@@ -241,8 +287,8 @@ void usercontrol() {
 
   int deadzone = 8;
 
-  int flywheelRPM = 450;
-
+  int flywheelRPM = 440; //450
+  
   // Whether or not the left/right side of the base needs to be stopped
   bool stop_left = true;
   bool stop_right = true;
@@ -254,6 +300,8 @@ void usercontrol() {
     // Get the left and right base speeds from the controller
     double left_speed = Controller1.Axis3.position();
     double right_speed = Controller1.Axis2.position();
+    double RT_speed = right_speed*.5;
+    double LT_speed = left_speed*.5;
 
     // If the input speed is below our threshold, stop the motors
     if ((left_speed < deadzone && left_speed > -deadzone)) {
@@ -289,7 +337,20 @@ void usercontrol() {
       BaseRightFront.stop(brake);
       BaseRightMid.stop(brake);
       stop_right = false;
-    } else {
+    } 
+    
+    else if(left_speed <0 &right_speed >0 ||left_speed >0 &right_speed <0){
+      spin(&BaseLeftRear, LT_speed);
+      spin(&BaseLeftFront, LT_speed);
+      spin(&BaseLeftMid, LT_speed);
+      stop_left = true;
+      spin(&BaseRightRear, RT_speed);
+      spin(&BaseRightFront, RT_speed);
+      spin(&BaseRightMid, RT_speed);
+      stop_right = true;
+    }
+
+    else {
       /*
       if (right_speed <0){
         right_speed = -((pow(fabs(right_speed), 4 *.4))/pow(100, (4*.4)-1));
@@ -305,6 +366,7 @@ void usercontrol() {
       spin(&BaseRightMid, right_speed);
       stop_right = true;
     }
+
 
     // Get the values for the right front buttons
     bool r1_pressing = Controller1.ButtonR1.pressing();
