@@ -188,12 +188,17 @@ void turnRot (float rot, float speed){
   BaseLeftRear.rotateFor(rot, rotationUnits::rev, speed, velocityUnits::pct, false);
   BaseLeftFront.rotateFor(rot, rotationUnits::rev, speed, velocityUnits::pct, false);
   BaseRightRear.rotateFor(-rot, rotationUnits::rev, speed, velocityUnits::pct, false);
-  BaseRightFront.rotateFor(-rot, rotationUnits::rev, speed, velocityUnits::pct, true);
-  
+  BaseRightFront.rotateFor(-rot, rotationUnits::rev, speed, velocityUnits::pct, false);
+  BaseLeftMid.rotateFor(rot, rotationUnits::rev, speed, velocityUnits::pct, false);
+  BaseRightMid.rotateFor(-rot, rotationUnits::rev, speed, velocityUnits::pct, true);
+  /*
   BaseLeftFront.stop(vex::brakeType::brake);
   BaseRightFront.stop(vex::brakeType::brake);
   BaseRightRear.stop(vex::brakeType::brake);
   BaseLeftRear.stop(vex::brakeType::brake);
+  BaseRightMid.stop(vex::brakeType::brake);
+  BaseLeftMid.stop(vex::brakeType::brake);
+  */
 }
 
 void inertial_drive(double target, double speed) {
