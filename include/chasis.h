@@ -22,7 +22,7 @@ void brake_unchecked();
 double getDist();
 
 // Turns the robot to an absolute rotation.
-void turn_absolute_inertial(double target);
+void turn_absolute_inertial(double target, bool slow = false);
 
 // Turns the robot a relative number of degrees.
 void turn_rel_inertial(double target);

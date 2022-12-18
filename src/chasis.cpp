@@ -3,7 +3,7 @@
 //For PID turns
 #define TURN_KP 0.03
 #define TURN_KI 0.0015
-#define TURN_KD 0.0001
+#define TURN_KD 0.000
 #define TURN_MAX_A (BASE_MAX_V / 0.1)
 #define TURN_MAX_V (BASE_MAX_V * 0.7)
 #define TURN_MIN_V 3
@@ -13,7 +13,7 @@
 #define   ki .007 //.5
 #define   kd 0.2 //.45
 #define integral_threshold 10
-#define kp_c .4 //.45
+#define kp_c .25 //.4
 
 mutex heading_mtx;
 
@@ -63,6 +63,9 @@ void brake_unchecked() {
   BaseLeftFront.stop(brakeType::brake);
   BaseRightRear.stop(brakeType::brake);
   BaseRightFront.stop(brakeType::brake);
+  BaseLeftMid.stop(brakeType::brake);
+  BaseRightMid.stop(brakeType::brake);
+  
 }
 
 double getDist(){
@@ -74,7 +77,7 @@ double getDist(){
 }
 
 // Turn to an absolute rotation
-void turn_absolute_inertial(double target) {
+void turn_absolute_inertial(double target, bool slow) {
   double last_error = 1000;
   double last_output = 0;
   double integral = 0;
@@ -104,7 +107,10 @@ void turn_absolute_inertial(double target) {
     // Calculate the raw output and update the last erro
     double raw_output;
     
-    raw_output = TURNING_RADIUS * (TURN_KP * error + TURN_KI * integral + TURN_KD * derivative); // in/s
+    if(slow)
+      raw_output = TURNING_RADIUS * (.01 * error + TURN_KI * 0 + TURN_KD * 0); // in/s
+    else 
+      raw_output = TURNING_RADIUS * (TURN_KP * error + TURN_KI * integral + TURN_KD * derivative); // in/s
     
     last_error = error;
 
@@ -317,6 +323,8 @@ void swinging(double leftPower, double rightPower, double gogoAngle){
   BaseLeftRear.spin(fwd, 12*leftPower/100, volt); 
   BaseRightFront.spin(fwd, 12*rightPower/100, volt);  
   BaseRightRear.spin(fwd, 12*rightPower/100, volt); 
+  BaseRightMid.spin(fwd, 12*rightPower/100, volt);
+  BaseLeftMid.spin(fwd, 12*leftPower/100, volt);
   if(get_rotation() > gogoAngle){
     while(get_rotation() > (gogoAngle+4)){
       wait(5,msec); 
