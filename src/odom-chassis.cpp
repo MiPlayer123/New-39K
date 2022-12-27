@@ -20,17 +20,34 @@ double drivePowerFLBR = 0;
 double drivePowerFRBL = 0;
 
 bool runChassisControl = false;
+bool enableBrake = true;
+
+//Don't run turns
+bool disableTurn = false;
 
 int timeOutValue = 2500;
 
 double maxAllowedSpeed = 1.0;
 
+void disableBreak(){
+  brake_unchecked();
+  enableBrake = false;
+}
+
+void waitTilCompletion(){
+  while(runChassisControl){
+    wait(50, msec);
+  }
+}
+
 //Sets the target position and indicates a specific target heading
-void driveTo(double xTarget, double yTarget, double targetAngle, double timeOutLength = 2500, double maxSpeed = 1.0) {
+void driveTo(double xTarget, double yTarget, double targetAngle, double timeOutLength, double maxSpeed) {
   xTargetLocation = xTarget;
   yTargetLocation = yTarget;
   targetFacingAngle = targetAngle;
   runChassisControl = true;
+  enableBrake = true;
+  disableTurn = true; //Don't turn
   timeOutValue = timeOutLength;
   Brain.resetTimer();
   maxAllowedSpeed = maxSpeed;
@@ -38,7 +55,7 @@ void driveTo(double xTarget, double yTarget, double targetAngle, double timeOutL
 
 
 // turns toward a specific heading
-void turnTo(double targetAngle, double timeOutLength = 2500) {
+void turnTo(double targetAngle, double timeOutLength) {
   targetFacingAngle = targetAngle;
 
   xTargetLocation = xPosGlobal;
@@ -46,13 +63,14 @@ void turnTo(double targetAngle, double timeOutLength = 2500) {
 
   runChassisControl = true;
 
-  timeOutValue = timeOutLength;
+  enableBrake = true;
 
+  timeOutValue = timeOutLength;
 
   Brain.resetTimer();
 }
 
-void turnToPoint(double xCoordToFace, double yCoordToFace, double timeOutLength = 1500) {
+void turnToPoint(double xCoordToFace, double yCoordToFace, double timeOutLength) {
   targetFacingAngle = atan2(yCoordToFace - yPosGlobal, xCoordToFace - xPosGlobal);
 
   if(targetFacingAngle < 0) {
@@ -62,6 +80,10 @@ void turnToPoint(double xCoordToFace, double yCoordToFace, double timeOutLength 
   yTargetLocation = yPosGlobal;
 
   runChassisControl = true;
+
+  enableBrake = true;
+
+  disableTurn = false; //Don't turn
 
   timeOutValue = timeOutLength;
 
@@ -101,15 +123,10 @@ double driveIntegralBound = 1.5;
 
 double driveDerivative = 0;
 
-double drivekP = 1.5;
+double drivekP = .7;
 
-double drivekI = 0.02;
-double drivekD = 10.0;
-
-// double drivekP = 0.55;
-
-// double drivekI = 0.05;
-// double drivekD = 0.42;
+double drivekI = 0.021; //.02
+double drivekD = 0.85; //10.0
 
 double drivePowerPID = 0;
 
@@ -158,9 +175,9 @@ double turnIntegralBound = 0.09;
 
 double turnDerivative = 0;
 
-double turnkP = 13.00;
-double turnkI = 1.00;
-double turnkD = 10.00;
+double turnkP = 5.12;
+double turnkI = .90; //1.00
+double turnkD = .50; //10.00
 
 double turnPowerPID = 0;
 
@@ -247,19 +264,21 @@ int chassisControl() {
 
       //get PID values for driving and turning
       drivePID();
-      turnPID();
+      if(!disableTurn)
+        turnPID();
 
       //set power for each motor
       FrontLeftPower = (turnPowerPID + (drivePowerFLBR * drivePowerPID)) * maxAllowedSpeed;
       FrontRightPower = ((drivePowerFRBL * drivePowerPID) - turnPowerPID) * maxAllowedSpeed;
-      BackLeftPower = ((drivePowerFRBL * drivePowerPID) + turnPowerPID) * maxAllowedSpeed;
-      BackRightPower = ((drivePowerFLBR * drivePowerPID) - turnPowerPID) * maxAllowedSpeed;
+      //BackLeftPower = ((drivePowerFRBL * drivePowerPID) + turnPowerPID) * maxAllowedSpeed;
+      //BackRightPower = ((drivePowerFLBR * drivePowerPID) - turnPowerPID) * maxAllowedSpeed;
       
       BaseLeftFront.spin(directionType::fwd, FrontLeftPower, voltageUnits::volt);
       BaseRightFront.spin(directionType::fwd, FrontRightPower, voltageUnits::volt);
-      BaseLeftRear.spin(directionType::fwd, BackLeftPower, voltageUnits::volt);
-      BaseLeftRear.spin(directionType::fwd, BackRightPower, voltageUnits::volt);
-      
+      BaseLeftRear.spin(directionType::fwd, FrontLeftPower, voltageUnits::volt);
+      BaseRightRear.spin(directionType::fwd, FrontRightPower, voltageUnits::volt);
+      BaseLeftMid.spin(directionType::fwd, FrontLeftPower, voltageUnits::volt);
+      BaseRightMid.spin(directionType::fwd, FrontRightPower, voltageUnits::volt);
 
    
       if(fabs(driveError) < 0.1 && fabs(turnError) < 0.003) {
@@ -297,10 +316,23 @@ int chassisControl() {
     }
     //What to do when not using the chassis controls
     else {
+      disableTurn = false;
+      if(enableBrake){
       BaseLeftFront.stop(brakeType::brake);
       BaseRightFront.stop(brakeType::brake);
       BaseLeftRear.stop(brakeType::brake);
       BaseRightRear.stop(brakeType::brake);
+      BaseLeftMid.stop(brakeType::brake);
+      BaseRightMid.stop(brakeType::brake);
+      }
+      else {
+        BaseLeftFront.stop(brakeType::coast);
+        BaseRightFront.stop(brakeType::coast);
+        BaseLeftRear.stop(brakeType::coast);
+        BaseRightRear.stop(brakeType::coast);
+        BaseLeftMid.stop(brakeType::coast);
+        BaseRightMid.stop(brakeType::coast);
+      }
     }
     
     task::sleep(20);

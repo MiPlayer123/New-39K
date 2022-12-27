@@ -2,7 +2,8 @@
 
 //CONSTANTS / Hard-Coded Values
 //Radius of tracking wheels in inches
-double WHEEL_RADIUS = 2.80/2;
+double WHEEL_RADIUS = 3.25/2;
+double SWHEEL_RADIUS = 2.80/2;
 
 //Starting angle (relative to field) (RADIANS)
 double THETA_START = THETA_START; //imagine the field is a unit circle
@@ -14,8 +15,8 @@ double X_START = X_START; //19.1
 double Y_START = Y_START; //8.5
 
 //Distances of tracking wheels from tracking center (INCHES)
-double LTrackRadius = 4.75; //was 6.87
-double RTrackRadius = 4.75; //6.8335
+double LTrackRadius = 5.875; //was 6.87
+double RTrackRadius = 5.875; //6.8335
 double STrackRadius = 3.75;
 
 //Calculated Values (every loop)
@@ -68,16 +69,16 @@ int positionTracking() {
   while(1) {
     //Get encoder values (DEGREES)
     
-    LPos = LTrack.position(rotationUnits::deg);
-    RPos = RTrack.position(rotationUnits::deg);
+    LPos = (BaseLeftFront.position(deg) + BaseLeftMid.position(deg) + BaseLeftRear.position(deg))/3.0;//LTrack.position(rotationUnits::deg);
+    RPos = (BaseRightFront.position(deg) + BaseRightMid.position(deg) + BaseRightRear.position(deg))/3.0;//RTrack.position(rotationUnits::deg);
     SPos = STrack.position(rotationUnits::deg);
 
     //Calculate distance traveled by tracking each wheel (INCHES)
       //Converts degrees to radians
-    deltaDistL = ((LPos - LPrevPos) * M_PI / 180) * WHEEL_RADIUS;
-    deltaDistR = ((RPos - RPrevPos) * M_PI / 180) * WHEEL_RADIUS;
-    deltaDistS = ((SPos - SPrevPos) * M_PI / 180) * WHEEL_RADIUS;
-
+    deltaDistL = ((LPos - LPrevPos) * M_PI / 180) * WHEEL_RADIUS * (3.0/5.0);
+    deltaDistR = ((RPos - RPrevPos) * M_PI / 180) * WHEEL_RADIUS * (3.0/5.0);
+    deltaDistS = ((SPos - SPrevPos) * M_PI / 180) * SWHEEL_RADIUS;
+    
     //Update previous values to be used next loop (DEGREES)
     LPrevPos = LPos;
     RPrevPos = RPos;
@@ -90,14 +91,14 @@ int positionTracking() {
 
     //Calculate the current absolute orientation (RADIANS)
     //currentAbsoluteOrientation = THETA_START - ( (totalDeltaDistL - totalDeltaDistR) / (LTrackRadius + RTrackRadius) );
-    currentAbsoluteOrientation = (360 - Inertial.heading(rotationUnits::deg)) * M_PI / 180.0;
+    currentAbsoluteOrientation = (360 - get_rotation()) * M_PI / 180.0;
 
     //Calculate the change in the angle of the bot (RADIANS)
     deltaTheta = currentAbsoluteOrientation - previousTheta;
 
     //Update the previous Theta value (RADIANS)  
     previousTheta = currentAbsoluteOrientation;
-
+    /*
     //If we didn't turn, then we only translated
     if(deltaTheta == 0) {
       deltaXLocal = deltaDistS;
@@ -113,13 +114,26 @@ int positionTracking() {
       deltaYLocal = 2 * sin(deltaTheta / 2.0) * ((deltaDistR / deltaTheta) - RTrackRadius);
 
     }
+    */
+    //double angular_displacement = (deltaDistR - deltaDistL) / (LTrackRadius);
+    double dist = (deltaDistL+deltaDistR)/2;
 
+    // Update the pose of the robot using the inertial heading as the heading measurement
+    //deltaXLocal = dist * std::cos(get_rotation() + angular_displacement / 2);
+    //deltaYLocal = dist * std::sin(get_rotation() + angular_displacement / 2);
+    
+    deltaXLocal = dist * std::cos(currentAbsoluteOrientation);
+    deltaYLocal = dist * std::sin(currentAbsoluteOrientation);
+    
+    deltaXGlobal = deltaXLocal;
+    deltaYGlobal = deltaYLocal;
+    /*
     //The average angle of the robot during it's arc (RADIANS)
     avgThetaForArc = currentAbsoluteOrientation - (deltaTheta / 2);
 
     deltaXGlobal = (deltaYLocal * cos(avgThetaForArc)) - (deltaXLocal * sin(avgThetaForArc));
     deltaYGlobal = (deltaYLocal * sin(avgThetaForArc)) + (deltaXLocal * cos(avgThetaForArc));
-
+    */
     //Wraps angles back around if they ever go under 0 or over 2 pi
     while(currentAbsoluteOrientation >= 2 * M_PI) {
       currentAbsoluteOrientation -= 2 * M_PI;

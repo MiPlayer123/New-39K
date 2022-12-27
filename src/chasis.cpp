@@ -1,12 +1,12 @@
 #include "chasis.h"
 
 //For PID turns
-#define TURN_KP 0.03
-#define TURN_KI 0.0015
-#define TURN_KD 0.000
+#define TURN_KP 0.0302
+#define TURN_KI 0.006 //.005
+#define TURN_KD 0.002
 #define TURN_MAX_A (BASE_MAX_V / 0.1)
 #define TURN_MAX_V (BASE_MAX_V * 0.7)
-#define TURN_MIN_V 3
+#define TURN_MIN_V 2.2 //3
 
 //For main inertial_drive
 #define   kp 6.5 //8 
@@ -148,12 +148,12 @@ void turn_absolute_inertial(double target, bool slow) {
     }
     wait(BASE_DT, sec);
   }
-  BaseLeftFront.stop(vex::brakeType::brake);
-  BaseRightFront.stop(vex::brakeType::brake);
-  BaseRightRear.stop(vex::brakeType::brake);
-  BaseLeftRear.stop(vex::brakeType::brake);
-  BaseLeftMid.stop(brake);
-  BaseRightMid.stop(brake);
+    BaseLeftFront.stop(vex::brakeType::brake);
+    BaseRightFront.stop(vex::brakeType::brake);
+    BaseRightRear.stop(vex::brakeType::brake);
+    BaseLeftRear.stop(vex::brakeType::brake);
+    BaseLeftMid.stop(brake);
+    BaseRightMid.stop(brake);
 }
 
 void turn_rel_inertial(double target) {

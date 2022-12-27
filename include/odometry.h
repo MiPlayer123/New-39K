@@ -1,4 +1,5 @@
 #include "vex.h"
+#include "chasis.h"
 
 //The current angle of the bot (RADIANS)
 extern double currentAbsoluteOrientation;

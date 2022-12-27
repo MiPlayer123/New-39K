@@ -6,12 +6,17 @@ extern double yTargetLocation;
 extern double targetFacingAngle;
 
 extern bool runChassisControl;
+extern bool enableBreak;
 
-extern void driveTo(double xTarget, double yTarget, double targetAngle, double timeOutLength, double maxSpeed);
+void disableBreak();
 
-extern void turnTo(double targetAngle, double timeOutLength);
+void waitTilCompletion();
 
-extern void turnToPoint(double xCoordToFace, double yCoordToFace, double timeOutLength);
+extern void driveTo(double xTarget, double yTarget, double targetAngle, double timeOutLength = 5000, double maxSpeed = 1.0);
+
+extern void turnTo(double targetAngle, double timeOutLength = 2000);
+
+extern void turnToPoint(double xCoordToFace, double yCoordToFace, double timeOutLength = 2000);
 
 void setDrivePower(double theta);
 
