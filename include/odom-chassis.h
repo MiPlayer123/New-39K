@@ -12,7 +12,7 @@ void disableBreak();
 
 void waitTilCompletion();
 
-extern void driveTo(double xTarget, double yTarget, double targetAngle, double timeOutLength = 5000, double maxSpeed = 1.0);
+extern void driveTo(double xTarget, double yTarget, double targetAngle = -1, double timeOutLength = 5000, double maxSpeed = 1.0);
 
 extern void turnTo(double targetAngle, double timeOutLength = 2000);
 

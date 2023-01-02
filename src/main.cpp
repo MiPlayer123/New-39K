@@ -52,10 +52,10 @@ task chassisControlTask;
 void auton() {
 
   task odometryTask(positionTracking);
-  //task chassisControlTask(chassisControl);
+  task chassisControlTask(chassisControl);
   task drawFieldTask(drawField);
 
-  //disableBreak();
+  disableBreak();
 
   //bool colord = buttons[0].state;
   bool auto1 = buttons[1].state;
@@ -74,55 +74,108 @@ void auton() {
 
     // intake first disc
     spinIntake();
-    inertial_drive(27,60);
+    inertial_drive(30,60);
     turn_absolute_inertial(90);
     stopIntake();
 
     // second roller
-    timeCtrl("driveb", .5);
+    timeCtrl("driveb", .32);
     AutoRoller("red");
-    FwVelocitySet(440, .95);
+    FwVelocitySet(430, .95);
 
     // first volley
     spinIntake();
-    moveRot(.8,50); //.45
+    moveRot(.84,50); //.45
     turn_absolute_inertial(1.5);
     timeCtrl("", .1);
-    inertial_drive(53.8,80);
+    inertial_drive(51,80);
     stopIntake();
-    turn_rel_inertial(7);
-    volley(440); // shoot
+    turn_rel_inertial(4.5);
+    volley(430); // shoot
 
-    turn_absolute_inertial(-271); //
+    //Grab edge
+    turn_absolute_inertial(-271);
     FwVelocitySet(440, .95);
     spinIntake();
     inertial_drive(30, 30);
-    inertial_drive(-27, 65);
+    inertial_drive(-32, 65);
+   
+    // 2nd volley - shot edge
     turn_absolute_inertial(-350);
     stopIntake();
     volley(440);
-    turn_absolute_inertial(140);
-
+    turn_absolute_inertial(-219.5);
+    
     // intake diagonal discs
     spinIntake();
+    inertial_drive(32, 80);
+    turn_absolute_inertial(-305);
     inertial_drive(35, 60);
-    turn_absolute_inertial(45);
-    inertial_drive(37, 40);
     wait(250,msec);
 
-    //second volley
-    FwVelocitySet(450, .95);
+    //third volley
+    FwVelocitySet(465, .95);
     turn_absolute_inertial(-46);
     stopIntake();
-    volley(450); //shoot
-    turn_absolute_inertial(45);
+    volley(465); //shoot
+    turn_absolute_inertial(46);
     inertial_drive(26,80);
-    /*
+    
     // intake 3 stack
+    FwVelocitySet(460, .95);
     spinIntake();
-    inertial_drive(14,10); 
-    inertial_drive(12, 60);
-    turn_absolute_inertial(-91);
+    inertial_drive(36,60); 
+    turn_absolute_inertial(180);
+    timeCtrl("driveb", .5);
+    AutoRoller("red");
+
+    moveRot(.5, 60);
+    turn_absolute_inertial(265);
+    inertial_drive(37, 80);
+    volley(465);
+    turn_absolute_inertial(145);
+
+    inertial_drive(24,80);
+    turn_absolute_inertial(90);
+    spinIntake();
+    inertial_drive(11, 80);
+    inertial_drive(30, 60);
+    turn_absolute_inertial(270);
+    stopIntake();
+    timeCtrl("driveb", .4);
+    AutoRoller("red");
+
+    // other side
+
+    // intake first disc
+    spinIntake();
+    FwVelocitySet(440, .95);
+    moveRot(.84,50); //.45
+    turn_absolute_inertial(181.5);
+    timeCtrl("", .1);
+    inertial_drive(47,80);
+    stopIntake();
+    //turn_rel_inertial(4.5);
+    volley(440); // shoot
+
+    turn_absolute_inertial(325);
+
+    spinIntake();
+    inertial_drive(32, 80);
+    turn_absolute_inertial(225);
+    inertial_drive(35, 60);
+    wait(250,msec);
+
+    // volley
+    FwVelocitySet(465, .95);
+    turn_absolute_inertial(136);
+    stopIntake();
+    volley(465); //shoot
+    turn_absolute_inertial(225);
+    inertial_drive(26,80);
+    
+    //Roller
+    /*
 
     //third volley
     FwVelocitySet(440, .95);
@@ -238,40 +291,40 @@ void auton() {
     timeCtrl("driveb", .2);
     timeCtrl("intake", .27);
     moveRot(.3,50);
+    //Grab disk
     turn_absolute_inertial(-35);
     spinIntake();
     moveRot(1,50);
     FwVelocitySet(600, 0.95);
     moveRot(-.5,70);
+    //Shoot pre
     turn_absolute_inertial(53); 
     moveRot(2,70);
     turn_absolute_inertial(-12);
     stopIntake();
-    moveRot(.5,70);
-    timeCtrl("index", 2, 30);
-    FwVelocitySet(0, 0.95);
-    FwVelocitySet(565, 0.95);
-    moveRot(-.5,50);
+    moveRot(.2, 70);
+    timeCtrl("index", 2.5, 40); //30
+    FwVelocitySet(571, 0.95); //570
+    //Grab stack
     turn_absolute_inertial(53); 
     spinIntake();
-    inertial_drive(14, 30);
-    inertial_drive(22.5, 50);
-    turn_absolute_inertial(-32.65);
+    inertial_drive(14, 60);
+    inertial_drive(22.5, 40);
+    //Shoot 3
+    turn_absolute_inertial(-33.5);
     stopIntake();
     moveRot(0.5,30);
-    timeCtrl("index", 2, 35);
-    FwVelocitySet(0, 0.95);
-    FwVelocitySet(560, 0.95);
+    timeCtrl("index", 2, 40); //35
+    //Grab 1
     spinIntake();
     moveRot(1,30);
     moveRot(-1,15);
     stopIntake();
-    timeCtrl("index", 1, 100);
-    FwVelocitySet(0, 0.95);
+    //Shoot 1 and done
+    timeCtrl("index", 1);
+    FwVelocitySet(0, 0);
 
-
-
-
+    /*Old*/
     //shot pre
     //turn_absolute_inertial(-9);
     /*
@@ -301,6 +354,37 @@ void auton() {
     */
 
   } else if(auto3 || FarSide.pressing()){
+    // intake 1
+    FwVelocitySet(585, .95);
+    inertial_drive(-20, 60);
+    turn_absolute_inertial(90);
+    timeCtrl("driveb", .27);
+    timeCtrl("intake", .3);
+    moveRot(.5,60);
+    turn_absolute_inertial(45);
+    spinIntake();
+    inertial_drive(27,70);
+
+    // 1st volley
+    turn_absolute_inertial(105.5);
+    moveRot(.6, 60);
+    timeCtrl("index", 2, 50);
+
+    // intake 
+    spinIntake();
+    moveRot(.6, 60);
+    moveRot(-.7, 60);
+    turn_absolute_inertial(45);
+    inertial_drive(40,60);
+    inertial_drive(-23, 60);
+
+    // 2nd volley
+    FwVelocitySet(590, .95);
+    turn_absolute_inertial(121.5);
+    moveRot(.6, 60);
+    timeCtrl("index", 2, 50);
+
+    /*
     spinIntake();
     FwVelocitySet(535, .95);
     inertial_drive(18, 50);
@@ -318,16 +402,17 @@ void auton() {
     turn_absolute_inertial(0);
     timeCtrl("driveb", .9);
     timeCtrl("intake", .23);
+    */
 
   } else if(auto4){
     
   }
   else{    
-    //turnToPoint(12,0);
-    driveTo(24,2,0);
-    waitTilCompletion();
-    turnToPoint(10,-10);
-    waitTilCompletion();
+    turnToPoint(24,10);
+    //driveTo(24,10);
+    //waitTilCompletion();
+    //turnToPoint(10,-10);
+    //waitTilCompletion();
     //turnTo(M_PI/2);
     disableBreak();
   }
@@ -343,7 +428,8 @@ void usercontrol() {
 
   int deadzone = 8;
 
-  int flywheelRPM = 460;
+  int defaultRPM = 460;
+  int flywheelRPM = defaultRPM;
   
   // Whether or not the left/right side of the base needs to be stopped
   bool stop_left = true;
@@ -461,19 +547,25 @@ void usercontrol() {
     }
 
     if (Controller1.ButtonUp.pressing()) {
-      AngleAdjust.set(true);      
+      AngleAdjust.set(true);
+      flywheelRPM=415;
+      FwVelocitySet( flywheelRPM, .95 );    
     }
     else if (Controller1.ButtonDown.pressing()) {
       AngleAdjust.set(false);
+      flywheelRPM = defaultRPM;
+      FwVelocitySet( flywheelRPM, .95 );
     } 
     
     if(Controller1.ButtonLeft.pressing()){
       flywheelRPM-=50;
+      FwVelocitySet( flywheelRPM, .95 );
     } 
     else if (Controller1.ButtonRight.pressing()){
       flywheelRPM+=50;
       if(flywheelRPM>=600)
         flywheelRPM=600;
+      FwVelocitySet( flywheelRPM, .95 );
     }
     else {}
 

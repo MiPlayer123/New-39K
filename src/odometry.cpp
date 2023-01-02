@@ -92,6 +92,7 @@ int positionTracking() {
     //Calculate the current absolute orientation (RADIANS)
     //currentAbsoluteOrientation = THETA_START - ( (totalDeltaDistL - totalDeltaDistR) / (LTrackRadius + RTrackRadius) );
     currentAbsoluteOrientation = (360 - get_rotation()) * M_PI / 180.0;
+    currentAbsoluteOrientation = THETA_START - currentAbsoluteOrientation;
 
     //Calculate the change in the angle of the bot (RADIANS)
     deltaTheta = currentAbsoluteOrientation - previousTheta;

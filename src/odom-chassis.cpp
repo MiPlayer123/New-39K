@@ -32,6 +32,12 @@ double maxAllowedSpeed = 1.0;
 void disableBreak(){
   brake_unchecked();
   enableBrake = false;
+  BaseLeftFront.stop(brakeType::coast);
+  BaseRightFront.stop(brakeType::coast);
+  BaseLeftRear.stop(brakeType::coast);
+  BaseRightRear.stop(brakeType::coast);
+  BaseLeftMid.stop(brakeType::coast);
+  BaseRightMid.stop(brakeType::coast);
 }
 
 void waitTilCompletion(){
@@ -44,10 +50,11 @@ void waitTilCompletion(){
 void driveTo(double xTarget, double yTarget, double targetAngle, double timeOutLength, double maxSpeed) {
   xTargetLocation = xTarget;
   yTargetLocation = yTarget;
-  targetFacingAngle = targetAngle;
+  //targetFacingAngle = targetAngle;
+  targetFacingAngle = atan2(yTarget - yPosGlobal, xTarget - xPosGlobal);
   runChassisControl = true;
   enableBrake = true;
-  disableTurn = true; //Don't turn
+  disableTurn = false; //turn first
   timeOutValue = timeOutLength;
   Brain.resetTimer();
   maxAllowedSpeed = maxSpeed;
@@ -64,6 +71,8 @@ void turnTo(double targetAngle, double timeOutLength) {
   runChassisControl = true;
 
   enableBrake = true;
+
+  disableTurn = false; //turn
 
   timeOutValue = timeOutLength;
 
@@ -83,7 +92,7 @@ void turnToPoint(double xCoordToFace, double yCoordToFace, double timeOutLength)
 
   enableBrake = true;
 
-  disableTurn = false; //Don't turn
+  disableTurn = false; //Turn
 
   timeOutValue = timeOutLength;
 
@@ -263,9 +272,14 @@ int chassisControl() {
       setDrivePower(robotRelativeAngle);
 
       //get PID values for driving and turning
-      drivePID();
       if(!disableTurn)
         turnPID();
+      else
+        drivePID();
+
+      if(fabs(turnError) < 0.003) {
+        disableTurn = true;
+      }
 
       //set power for each motor
       FrontLeftPower = (turnPowerPID + (drivePowerFLBR * drivePowerPID)) * maxAllowedSpeed;
@@ -316,7 +330,6 @@ int chassisControl() {
     }
     //What to do when not using the chassis controls
     else {
-      disableTurn = false;
       if(enableBrake){
       BaseLeftFront.stop(brakeType::brake);
       BaseRightFront.stop(brakeType::brake);
@@ -326,12 +339,14 @@ int chassisControl() {
       BaseRightMid.stop(brakeType::brake);
       }
       else {
+        /*
         BaseLeftFront.stop(brakeType::coast);
         BaseRightFront.stop(brakeType::coast);
         BaseLeftRear.stop(brakeType::coast);
         BaseRightRear.stop(brakeType::coast);
         BaseLeftMid.stop(brakeType::coast);
         BaseRightMid.stop(brakeType::coast);
+        */
       }
     }
     
