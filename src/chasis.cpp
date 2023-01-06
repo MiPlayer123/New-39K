@@ -1,9 +1,9 @@
 #include "chasis.h"
 
 //For PID turns
-#define TURN_KP 0.0302
-#define TURN_KI 0.006 //.005
-#define TURN_KD 0.002
+#define TURN_KP 0.035
+#define TURN_KI 0.005 //.005
+#define TURN_KD 0.0005
 #define TURN_MAX_A (BASE_MAX_V / 0.1)
 #define TURN_MAX_V (BASE_MAX_V * 0.7)
 #define TURN_MIN_V 2.2 //3

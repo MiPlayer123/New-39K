@@ -54,7 +54,7 @@ void driveTo(double xTarget, double yTarget, double targetAngle, double timeOutL
   targetFacingAngle = atan2(yTarget - yPosGlobal, xTarget - xPosGlobal);
   runChassisControl = true;
   enableBrake = true;
-  disableTurn = false; //turn first
+  disableTurn = true; //turn first
   timeOutValue = timeOutLength;
   Brain.resetTimer();
   maxAllowedSpeed = maxSpeed;
@@ -272,14 +272,12 @@ int chassisControl() {
       setDrivePower(robotRelativeAngle);
 
       //get PID values for driving and turning
-      if(!disableTurn)
+      if(!disableTurn){
+        drivePID();
         turnPID();
+      }
       else
         drivePID();
-
-      if(fabs(turnError) < 0.003) {
-        disableTurn = true;
-      }
 
       //set power for each motor
       FrontLeftPower = (turnPowerPID + (drivePowerFLBR * drivePowerPID)) * maxAllowedSpeed;
