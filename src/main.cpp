@@ -111,7 +111,7 @@ void auton() {
     inertial_drive(32, 80);
     turn_absolute_inertial(-305);
     inertial_drive(35, 60);
-    wait(250,msec);
+    wait(150,msec);
 
     //third volley
     FwVelocitySet(465, .95);
@@ -163,8 +163,8 @@ void auton() {
     spinIntake();
     inertial_drive(32, 80);
     turn_absolute_inertial(225);
-    inertial_drive(35, 60);
-    wait(250,msec);
+    inertial_drive(35, 80);
+    wait(150,msec);
 
     // volley
     FwVelocitySet(465, .95);
@@ -174,7 +174,8 @@ void auton() {
     turn_absolute_inertial(225);
     spinIntake();
     inertial_drive(14,70);
-     
+    timeCtrl("",.1);
+    inertial_drive(12, 70);
     turn_absolute_inertial(-271);
 
     //sixth volley
@@ -301,43 +302,54 @@ void auton() {
   } else if(auto2 || RollerSide.pressing()){
     // roller
     //FwVelocitySet(575, .98);
-    FwVelocitySet(570, 0.95);
-    timeCtrl("driveb", .2);
+    FwVelocitySet(580, 0.95);
+    timeCtrl("driveb", .4);
     timeCtrl("intake", .27);
     moveRot(.3,50);
     //Grab disk
     //turn_absolute_inertial(-35);
-    turnRot(.3,70);
+    turnRot(-.8,70);
     spinIntake();
     moveRot(1,50);
-    FwVelocitySet(600, 0.95);
+    FwVelocitySet(575, 0.95);
     moveRot(-1,70);
     //Shoot pre
-    turn_absolute_inertial(53); 
+    turn_absolute_inertial(48); 
     moveRot(2,70);
-    turn_absolute_inertial(-13.5);
+    turn_absolute_inertial(-15);
     stopIntake();
-    timeCtrl("index", 2.5, 35); //30
-    moveRot(-.2,70);
-    FwVelocitySet(550, 0.95); //570
+    timeCtrl("index", .4, 100); 
+    timeCtrl("",.4);
+    timeCtrl("index", .4, 100); 
+    timeCtrl("",.4);
+    timeCtrl("index", .4, 100);
+    //moveRot(-.2,70);
+    FwVelocitySet(537, 0.95); //570
     //Grab stack
-    turn_absolute_inertial(53); 
+    turn_absolute_inertial(49); 
     spinIntake();
-    inertial_drive(14, 60);
+    inertial_drive(14, 70);
     inertial_drive(22.5, 40);
+    timeCtrl("", .5);
     //Shoot 3
-    turn_absolute_inertial(-40);
+    turn_absolute_inertial(-41.5);
     stopIntake();
     moveRot(0.5,30);
-    timeCtrl("index", 2, 40); //35
-    //Grab 1
+    timeCtrl("index", .4, 100); 
+    timeCtrl("",.4);
+    timeCtrl("index", .4, 100); 
+    timeCtrl("",.4);
+    timeCtrl("index", .4, 100);
+    FwVelocitySet(0,.95);
     spinIntake();
-    moveRot(1,30);
-    moveRot(-1,15);
+    moveRot(.2,30);
+    moveRot(-.5,15);
+    /*
     stopIntake();
     //Shoot 1 and done
     timeCtrl("index", 1);
     FwVelocitySet(0, 0);
+    */
 
     /*Old*/
     //shot pre
