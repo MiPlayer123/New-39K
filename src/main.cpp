@@ -104,7 +104,7 @@ void auton() {
     turn_absolute_inertial(-350);
     stopIntake();
     volley(440);
-    turn_absolute_inertial(-219.5);
+    turn_absolute_inertial(-216);
     
     // intake diagonal discs
     spinIntake();
@@ -301,7 +301,6 @@ void auton() {
     
   } else if(auto2 || RollerSide.pressing()){
     // roller
-    //FwVelocitySet(575, .98);
     FwVelocitySet(580, 0.95);
     timeCtrl("driveb", .4);
     timeCtrl("intake", .27);
@@ -450,7 +449,8 @@ void auton() {
     //waitTilCompletion();
     //turnTo(M_PI/2);
     //disableBreak();
-    turn_absolute_inertial(90);
+    //turn_absolute_inertial(90);
+    moveToPoint(10, 10, 60);
   }
   
 } 
@@ -473,6 +473,10 @@ void usercontrol() {
   
   bool toggle = false;
   bool latch = false;
+
+  drawFieldTask.suspend();
+  chassisControlTask.suspend();
+  Brain.Screen.clearScreen();
 
   while (true) {
     // Get the left and right base speeds from the controller
@@ -621,7 +625,7 @@ void usercontrol() {
     double actualRPM = relRPM*6;
 
     Brain.Screen.setCursor(3, 1);
-    Brain.Screen.print("X: %.1lf Y: %.1lf Theta: %.1lf", 0.0,0.0, get_rotation());
+    Brain.Screen.print("X: %.1lf Y: %.1lf Theta: %.1lf", xPosGlobal,yPosGlobal, get_rotation());
     Brain.Screen.setCursor(5, 1);
     Brain.Screen.print("RPM: %.1lf Actual RPM: %.1lf", relRPM, actualRPM);
     Brain.Screen.setCursor(6, 1);

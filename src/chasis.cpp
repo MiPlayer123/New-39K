@@ -6,7 +6,7 @@
 #define TURN_KD 0.0005
 #define TURN_MAX_A (BASE_MAX_V / 0.1)
 #define TURN_MAX_V (BASE_MAX_V * 0.7)
-#define TURN_MIN_V 2.2 //3
+#define TURN_MIN_V 3 //2.2
 
 //For main inertial_drive
 #define   kp 6.5 //8 

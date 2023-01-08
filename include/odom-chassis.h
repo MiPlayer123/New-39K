@@ -12,6 +12,8 @@ void disableBreak();
 
 void waitTilCompletion();
 
+void moveToPoint(double xTarget, double yTarget, double speed);
+
 extern void driveTo(double xTarget, double yTarget, double targetAngle = -1, double timeOutLength = 5000, double maxSpeed = 1.0);
 
 extern void turnTo(double targetAngle, double timeOutLength = 2000);
