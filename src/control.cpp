@@ -9,6 +9,15 @@ void spinIntake(){
   Intake.spin(fwd, 100, pct);
 }
 
+void longVolley(){
+  stopIntake();
+  timeCtrl("index", .32, 100); 
+  timeCtrl("",.51);
+  timeCtrl("index", .32, 100); 
+  timeCtrl("",.51);
+  timeCtrl("index", .32, 100);
+}
+
 void spinIndex(){
   Intake.spin(reverse, 100, pct);
 }

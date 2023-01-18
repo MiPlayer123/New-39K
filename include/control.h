@@ -10,6 +10,8 @@ using namespace vex;
 
 void spinIntake();
 
+void longVolley();
+
 void spinIndex();
 
 void stopIntake();
