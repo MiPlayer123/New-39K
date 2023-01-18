@@ -48,10 +48,16 @@ void waitTilCompletion(){
 
 void moveToPoint(double xTarget, double yTarget, double speed){
   double targetAngle = atan2(yTarget - yPosGlobal, xTarget - xPosGlobal);
+  targetAngle-= M_PI_2;
+  if(targetAngle < 0) {
+    targetAngle = 2 * M_PI - fabs(targetAngle);
+  }
+  targetAngle = targetAngle * 180 / M_PI;
+  targetAngle = targetAngle - 360;
   turn_absolute_inertial(targetAngle);
-  inertial_drive(sqrt(pow((xPosGlobal - xTargetLocation), 2) + pow((yPosGlobal - yTargetLocation), 2)), speed);
+  double dist = sqrt(pow((xPosGlobal - xTarget), 2) + pow((yPosGlobal - yTarget), 2));
+  inertial_drive(dist, speed);
 }
-
 //Sets the target position and indicates a specific target heading
 void driveTo(double xTarget, double yTarget, double targetAngle, double timeOutLength, double maxSpeed) {
   xTargetLocation = xTarget;

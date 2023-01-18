@@ -26,7 +26,7 @@ void stopFlywheel(){
   Flywheel.stop(coast);
 }
 
-void AutoRoller(std::string colour){
+void AutoRoller(std::string colour, int flag){
   double timeout = 1.5;
   int count = 0;
   vex::color rollerColor;
@@ -36,13 +36,22 @@ void AutoRoller(std::string colour){
     rollerColor = vex::blue;
   else
     rollerColor = vex::white;
-
-  while(Optical.color()!=rollerColor && count/1000 < timeout){
-    spinIntake();
-    task::sleep(20);
-    count+=20;
+  if (flag == 1){
+    while(OpticalLeft.color()!=rollerColor && count/1000 < timeout){
+      spinIntake();
+      task::sleep(20);
+      count+=20;
+    }
+    Intake.stop(brake);
   }
-   Intake.stop(brake);
+  else if (flag == 2) {
+     while(OpticalRight.color()!=rollerColor && count/1000 < timeout){
+      spinIntake();
+      task::sleep(20);
+      count+=20;
+    }
+    Intake.stop(brake);
+  }
 }
 
 void timeCtrl(std::string control, float tim, float motorSpeed){

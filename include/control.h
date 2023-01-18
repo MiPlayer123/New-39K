@@ -18,7 +18,7 @@ void spinFlywheel();
 
 void stopFlywheel();
 
-void AutoRoller(std::string colour);
+void AutoRoller(std::string colour, int flag);
 
 void timeCtrl(std::string control, float tim, float motorSpeed=100);
 

@@ -18,12 +18,13 @@ extern motor Flywheel;
 extern motor Intake;
 extern digital_out Expansion;
 extern digital_out AngleAdjust;
-extern optical Optical;
+extern optical OpticalLeft;
 extern rotation STrackO;
 extern limit HyperCarry;
 extern limit RollerSide;
 extern limit FarSide;
 extern encoder STrack;
+extern optical OpticalRight;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

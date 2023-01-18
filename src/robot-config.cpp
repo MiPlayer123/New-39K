@@ -23,12 +23,13 @@ motor Flywheel = motor(PORT15, ratio6_1, true);
 motor Intake = motor(PORT2, ratio6_1, true);
 digital_out Expansion = digital_out(Brain.ThreeWirePort.G);
 digital_out AngleAdjust = digital_out(Brain.ThreeWirePort.D);
-optical Optical = optical(PORT7);
+optical OpticalLeft = optical(PORT7);
 rotation STrackO = rotation(PORT3, false);
 limit HyperCarry = limit(Brain.ThreeWirePort.A);
 limit RollerSide = limit(Brain.ThreeWirePort.B);
 limit FarSide = limit(Brain.ThreeWirePort.C);
 encoder STrack = encoder(Brain.ThreeWirePort.E);
+optical OpticalRight = optical(PORT5);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable
