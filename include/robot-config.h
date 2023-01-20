@@ -23,8 +23,9 @@ extern rotation STrackO;
 extern limit HyperCarry;
 extern limit RollerSide;
 extern limit FarSide;
-extern encoder STrack;
 extern optical OpticalRight;
+extern digital_out SideExpansion;
+extern rotation STrack;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

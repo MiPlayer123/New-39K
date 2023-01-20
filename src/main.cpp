@@ -21,6 +21,137 @@
 // HyperCarry           limit         A               
 // RollerSide           limit         B               
 // FarSide              limit         C               
+// OpticalRight         optical       5               
+// SideExpansion        digital_out   E               
+// STrack               rotation      4               
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// BaseLeftRear         motor         20              
+// BaseLeftFront        motor         1               
+// BaseRightRear        motor         19              
+// BaseRightFront       motor         6               
+// BaseLeftMid          motor         11              
+// BaseRightMid         motor         8               
+// Skills               limit         H               
+// Controller1          controller                    
+// Inertial             inertial      13              
+// LTrack               rotation      18              
+// RTrack               rotation      17              
+// Flywheel             motor         15              
+// Intake               motor         2               
+// Expansion            digital_out   G               
+// AngleAdjust          digital_out   D               
+// OpticalLeft          optical       7               
+// STrackO              rotation      3               
+// HyperCarry           limit         A               
+// RollerSide           limit         B               
+// FarSide              limit         C               
+// OpticalRight         optical       5               
+// SideExpansion        digital_out   E               
+// Rotation4            rotation      4               
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// BaseLeftRear         motor         20              
+// BaseLeftFront        motor         1               
+// BaseRightRear        motor         19              
+// BaseRightFront       motor         6               
+// BaseLeftMid          motor         11              
+// BaseRightMid         motor         8               
+// Skills               limit         H               
+// Controller1          controller                    
+// Inertial             inertial      13              
+// LTrack               rotation      18              
+// RTrack               rotation      17              
+// Flywheel             motor         15              
+// Intake               motor         2               
+// Expansion            digital_out   G               
+// AngleAdjust          digital_out   D               
+// OpticalLeft          optical       7               
+// STrackO              rotation      3               
+// HyperCarry           limit         A               
+// RollerSide           limit         B               
+// FarSide              limit         C               
+// OpticalRight         optical       5               
+// SideExpansion        digital_out   E               
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// BaseLeftRear         motor         20              
+// BaseLeftFront        motor         1               
+// BaseRightRear        motor         19              
+// BaseRightFront       motor         6               
+// BaseLeftMid          motor         11              
+// BaseRightMid         motor         8               
+// Skills               limit         H               
+// Controller1          controller                    
+// Inertial             inertial      13              
+// LTrack               rotation      18              
+// RTrack               rotation      17              
+// Flywheel             motor         15              
+// Intake               motor         2               
+// Expansion            digital_out   G               
+// AngleAdjust          digital_out   D               
+// OpticalLeft          optical       7               
+// STrackO              rotation      3               
+// HyperCarry           limit         A               
+// RollerSide           limit         B               
+// FarSide              limit         C               
+// OpticalRight         optical       5               
+// DigitalOutE          digital_out   E               
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// BaseLeftRear         motor         20              
+// BaseLeftFront        motor         1               
+// BaseRightRear        motor         19              
+// BaseRightFront       motor         6               
+// BaseLeftMid          motor         11              
+// BaseRightMid         motor         8               
+// Skills               limit         H               
+// Controller1          controller                    
+// Inertial             inertial      13              
+// LTrack               rotation      18              
+// RTrack               rotation      17              
+// Flywheel             motor         15              
+// Intake               motor         2               
+// Expansion            digital_out   G               
+// AngleAdjust          digital_out   D               
+// OpticalLeft          optical       7               
+// STrackO              rotation      3               
+// HyperCarry           limit         A               
+// RollerSide           limit         B               
+// FarSide              limit         C               
+// OpticalRight         optical       5               
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// BaseLeftRear         motor         20              
+// BaseLeftFront        motor         1               
+// BaseRightRear        motor         19              
+// BaseRightFront       motor         6               
+// BaseLeftMid          motor         11              
+// BaseRightMid         motor         8               
+// Skills               limit         H               
+// Controller1          controller                    
+// Inertial             inertial      13              
+// LTrack               rotation      18              
+// RTrack               rotation      17              
+// Flywheel             motor         15              
+// Intake               motor         2               
+// Expansion            digital_out   G               
+// AngleAdjust          digital_out   D               
+// OpticalLeft          optical       7               
+// STrackO              rotation      3               
+// HyperCarry           limit         A               
+// RollerSide           limit         B               
+// FarSide              limit         C               
 // STrack               encoder       E, F            
 // OpticalRight         optical       5               
 // ---- END VEXCODE CONFIGURED DEVICES ----
@@ -152,7 +283,7 @@ void auton() {
     // intake first disc
     spinIntake();
     inertial_drive(27.5,85);
-    turn_absolute_inertial(90);
+    turn_absolute_inertial(90.5);
     stopIntake();
 
     // second roller
@@ -163,7 +294,7 @@ void auton() {
     // first volley
     spinIntake();
     moveRot(.5,50); //.45
-    turn_absolute_inertial(0.2);
+    turn_absolute_inertial(1.0);
     //timeCtrl("", .1);
     inertial_drive(45.5,85);
     //moveToPoint(132, 86 , 70);
@@ -186,29 +317,29 @@ void auton() {
     //turn_absolute_inertial(10);
     //stopIntake();
     //volley(425);
-    turn_absolute_inertial(140);//-214.5
+    turn_absolute_inertial(139);//-214.5
     
     // intake diagonal discs
     spinIntake();
+    FwVelocitySet(450, .95);
     inertial_drive(27, 80);
-    turn_absolute_inertial(44);
+    turn_absolute_inertial(45);
     inertial_drive(35, 60);
     wait(150,msec);
 
     //third volley
-    FwVelocitySet(455, .95);
     turn_absolute_inertial(-45.5);//-46
     stopIntake();
-    volley(452); //shoot
-    turn_absolute_inertial(46);
+    volley(446); //shoot
+    turn_absolute_inertial(45);
     inertial_drive(27.5,80);
     
     // intake 3 stack
     FwVelocitySet(460, .95);
     spinIntake();
-    inertial_drive(36,70); 
-    turn_absolute_inertial(181);
-    timeCtrl("driveb", .5);
+    inertial_drive(37.1,65); 
+    turn_absolute_inertial(178.0);
+    timeCtrl("driveb", .35);
     AutoRoller("red", 1);
 
     moveRot(.75, 60);
@@ -217,13 +348,13 @@ void auton() {
     volley(450);
     turn_absolute_inertial(145);
 
-    inertial_drive(1,80);
+    inertial_drive(19,90);
     turn_rel_inertial(1);
-    turn_absolute_inertial(90);
+    turn_absolute_inertial(90.0);
     spinIntake();
-    inertial_drive(19, 80);
+    inertial_drive(21, 85);
     inertial_drive(30, 50);
-    turn_absolute_inertial(269);
+    turn_absolute_inertial(270.5);
     stopIntake();
     timeCtrl("driveb", 1);
     AutoRoller("red", 2);
@@ -234,37 +365,41 @@ void auton() {
     spinIntake();
     FwVelocitySet(440, .95);
     moveRot(.54,50); //.45
-    turn_absolute_inertial(176.5);
+    turn_absolute_inertial(182);
     //timeCtrl("", .1);
     inertial_drive(40,80);
     //moveToPoint(132, 86 , 70);
     stopIntake();
     //turn_rel_inertial(4.5);
     volley(440); // shoot
-    turn_absolute_inertial(-46.5);
+
+    turn_absolute_inertial(-46.0);
     spinIntake();
-    inertial_drive(26, 80);
-    turn_absolute_inertial(-128);
-    inertial_drive(35, 60);
-    wait(150,msec);
+    inertial_drive(22, 80);
+    FwVelocitySet(445, .95);
+    turn_absolute_inertial(-134.0);
+    inertial_drive(37, 65);
     turn_absolute_inertial(135);
-    volley(440); // shoot
+    volley(445); // shoot
 
-    turn_absolute_inertial(225);
+    turn_absolute_inertial(221);
 
     spinIntake();
-    inertial_drive(32, 80);
+    inertial_drive(33, 80);
     // volley
+    /*
     FwVelocitySet(465, .95);
     turn_absolute_inertial(136);
     inertial_drive(12, 50);
     stopIntake();
     volley(465); //shoot
+
     turn_absolute_inertial(38);
     inertial_drive(-51, 95);
     turn_absolute_inertial(45);
     Expansion.set(true);
     timeCtrl("driveb", .3);
+    */
     
   } else if(auto1 || HyperCarry.pressing()){
     // roller
@@ -408,6 +543,7 @@ void usercontrol() {
   int defaultRPM = 460;
   int flywheelRPM = defaultRPM;
   
+  bool expanded = false;
   // Whether or not the left/right side of the base needs to be stopped
   bool stop_left = true;
   bool stop_right = true;
@@ -567,9 +703,14 @@ void usercontrol() {
 
     if(Controller1.ButtonX.pressing()){
       Expansion.set(true);
+      if (expanded){
+        SideExpansion.set(true);
+      }
+      expanded = true;
     } 
     else if (Controller1.ButtonB.pressing()){
       Expansion.set(false);
+      SideExpansion.set(false);
     }
 
     double relRPM = Flywheel.velocity(rpm);
@@ -579,13 +720,14 @@ void usercontrol() {
    // Brain.Screen.print("X: %.1lf Y: %.1lf Theta: %.1lf", xPosGlobal,yPosGlobal, get_rotation());
    // Brain.Screen.setCursor(5, 1);
    // Brain.Screen.print("RPM: %.1lf Actual RPM: %.1lf", relRPM, actualRPM);
-    //Brain.Screen.drawImageFromFile("logo.png", 0, 0 );
+    Brain.Screen.drawImageFromFile("logo.png", 1,1);
     Brain.Screen.setCursor(1, 1);
     Brain.Screen.print("Base Temp %.0lf Flywheel Temp: %.0lf Intake temp: %.0lf Heading Theta: %.1lf", 
-      BaseRightMid.temperature(celsius), Flywheel.temperature(celsius), Intake.temperature(celsius), get_rotation());
+    BaseRightMid.temperature(celsius), Flywheel.temperature(celsius), Intake.temperature(celsius), get_rotation());
     
-   // Controller1.Screen.setCursor(3, 1);
-    //Controller1.Screen.print("Set: %.0f Actual: %.0lf", (float)flywheelRPM, relRPM); 
+    
+    Controller1.Screen.setCursor(3, 1);
+    Controller1.Screen.print("Set: %.0f Actual: %.0lf", (float)flywheelRPM, relRPM); 
 
     // Increase the tick count
     ticks += 1;

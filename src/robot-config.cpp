@@ -28,8 +28,9 @@ rotation STrackO = rotation(PORT3, false);
 limit HyperCarry = limit(Brain.ThreeWirePort.A);
 limit RollerSide = limit(Brain.ThreeWirePort.B);
 limit FarSide = limit(Brain.ThreeWirePort.C);
-encoder STrack = encoder(Brain.ThreeWirePort.E);
 optical OpticalRight = optical(PORT5);
+digital_out SideExpansion = digital_out(Brain.ThreeWirePort.E);
+rotation STrack = rotation(PORT4, false);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable
