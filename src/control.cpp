@@ -11,11 +11,11 @@ void spinIntake(){
 
 void longVolley(){
   stopIntake();
-  timeCtrl("index", .32, 100); 
+  timeCtrl("index", .27, 100); 
   timeCtrl("",.51);
-  timeCtrl("index", .32, 100); 
+  timeCtrl("index", .27, 100); 
   timeCtrl("",.51);
-  timeCtrl("index", .32, 100);
+  timeCtrl("index", .27, 100);
 }
 
 void spinIndex(){
@@ -36,7 +36,7 @@ void stopFlywheel(){
 }
 
 void AutoRoller(std::string colour, int flag){
-  double timeout = 1.5;
+  double timeout = 1.2;
   int count = 0;
   vex::color rollerColor;
   if(colour=="red")

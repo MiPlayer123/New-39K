@@ -253,15 +253,15 @@
 
 using namespace vex;
 
-task odometryTask;
-task drawFieldTask;
-task chassisControlTask;
+//task odometryTask;
+//task drawFieldTask;
+//task chassisControlTask;
 
 void auton() {
 
-  task odometryTask(positionTracking);
+  //task odometryTask(positionTracking);
   //task chassisControlTask(chassisControl);
-  task drawFieldTask(drawField);
+  //task drawFieldTask(drawField);
 
   disableBreak();
 
@@ -273,16 +273,17 @@ void auton() {
 
   if(is_skills()){
     // first roller
-    timeCtrl("driveb", .2);
+    OpticalLeft.setLightPower(40, percent); 
+    OpticalRight.setLightPower(40, percent);
+    timeCtrl("driveb", .1);
     AutoRoller("red", 1);
     //driveTo(12,137,0);
     //driveTo(10,0,0);
     moveRot(.65, 40);
     turn_absolute_inertial(-45);
-
     // intake first disc
     spinIntake();
-    inertial_drive(27.5,85);
+    inertial_drive(24.5,85);
     turn_absolute_inertial(90.5);
     stopIntake();
 
@@ -296,11 +297,11 @@ void auton() {
     moveRot(.5,50); //.45
     turn_absolute_inertial(1.0);
     //timeCtrl("", .1);
-    inertial_drive(45.5,85);
+    inertial_drive(45.5,95);
     //moveToPoint(132, 86 , 70);
     stopIntake();
     //turn_rel_inertial(4.5);
-    volley(430); // shoot
+    volley(447); // shoot
 
     //Grab edge
     //turn_absolute_inertial(-271);
@@ -330,29 +331,29 @@ void auton() {
     //third volley
     turn_absolute_inertial(-45.5);//-46
     stopIntake();
-    volley(446); //shoot
-    turn_absolute_inertial(45);
-    inertial_drive(27.5,80);
+    volley(473); //shoot
+    turn_absolute_inertial(44.5);
+    inertial_drive(29,90);
     
     // intake 3 stack
     FwVelocitySet(460, .95);
     spinIntake();
-    inertial_drive(37.1,65); 
-    turn_absolute_inertial(178.0);
+    inertial_drive(35.9,55); 
+    turn_absolute_inertial(177.5);
     timeCtrl("driveb", .35);
     AutoRoller("red", 1);
 
     moveRot(.75, 60);
-    turn_absolute_inertial(263.5);
-    inertial_drive(37, 80);
+    turn_absolute_inertial(263);
+    inertial_drive(37, 95);
     volley(450);
     turn_absolute_inertial(145);
 
-    inertial_drive(19,90);
+    inertial_drive(19,85);
     turn_rel_inertial(1);
     turn_absolute_inertial(90.0);
     spinIntake();
-    inertial_drive(21, 85);
+    inertial_drive(22, 85);
     inertial_drive(30, 50);
     turn_absolute_inertial(270.5);
     stopIntake();
@@ -364,28 +365,38 @@ void auton() {
     // intake first disc
     spinIntake();
     FwVelocitySet(440, .95);
-    moveRot(.54,50); //.45
-    turn_absolute_inertial(182);
+    moveRot(.65,50); //.45
+    turn_absolute_inertial(180.0);
     //timeCtrl("", .1);
-    inertial_drive(40,80);
+    inertial_drive(40,90);
     //moveToPoint(132, 86 , 70);
     stopIntake();
     //turn_rel_inertial(4.5);
-    volley(440); // shoot
+    volley(445); // shoot
 
     turn_absolute_inertial(-46.0);
     spinIntake();
     inertial_drive(22, 80);
     FwVelocitySet(445, .95);
-    turn_absolute_inertial(-134.0);
+    turn_absolute_inertial(-134.5);
     inertial_drive(37, 65);
-    turn_absolute_inertial(135);
-    volley(445); // shoot
-
-    turn_absolute_inertial(221);
+    turn_absolute_inertial(120);
+    volley(462); // shoot
+    turn_absolute_inertial(-140);
 
     spinIntake();
-    inertial_drive(33, 80);
+    inertial_drive(34, 80);
+    inertial_drive(14, 65);
+    FwVelocitySet(465, .95);
+    turn_absolute_inertial(90.0);
+    inertial_drive(12, 50);
+    stopIntake();
+    volley(465); //shoot
+    inertial_drive(-40, 95);
+    turn_absolute_inertial(45);
+    Expansion.set(true);
+
+
     // volley
     /*
     FwVelocitySet(465, .95);
@@ -403,75 +414,72 @@ void auton() {
     
   } else if(auto1 || HyperCarry.pressing()){
     // roller
-    FwVelocitySet(575, .98);
-    timeCtrl("driveb", .2);
+    FwVelocitySet(563, .98);
+    timeCtrl("driveb", .1);
     timeCtrl("intake", .4);
-    moveRot(.3,50);
+    moveRot(.6,50);
 
-    //shot pre
-    turn_absolute_inertial(-9);
-    //turnRot(-.2, 40);
-    timeCtrl("index", .32, 100); 
-    timeCtrl("",.45);
-    timeCtrl("index", .32, 100);
-    FwVelocitySet(535, .95); 
-
-    // intake stack
-    turn_absolute_inertial(52); 
-    inertial_drive(27, 75);
+    turn_absolute_inertial(49);
     spinIntake();
-    inertial_drive(28,40);
+
+
+    inertial_drive(27, 75);
     timeCtrl("", .1);
+    turn_absolute_inertial(-24.5);
+    longVolley();
 
     // second volley
-    turn_absolute_inertial(-41);
-    //turnRot(-1.82,40);
-    timeCtrl("", .15);
-    moveRot(.5,40); //.95
-    timeCtrl("index", 1.85, 55);
-    FwVelocitySet(0, 0);
-    
-  
-    // intake diagonal
-    turn_absolute_inertial(45.1);
+    FwVelocitySet(560,.95);
+    turn_absolute_inertial(49.0);
     spinIntake();
-    inertial_drive(87,80);
-    
-    // 2nd roller
+    inertial_drive(40, 75);
+    turn_absolute_inertial(-45.0);
+    longVolley();
+    turn_absolute_inertial(45);
+    FwVelocitySet(0, 0);
+    spinIntake();
+    inertial_drive(70, 75);
     turn_absolute_inertial(-90);
     timeCtrl("driveb",.5);
-    timeCtrl("intake", .23);
+    timeCtrl("intake", .4);
+  
+    
+    // 2nd roller
+    /*
+
+    */
     
   } else if(auto2 || RollerSide.pressing()){
     // roller
-    FwVelocitySet(561, 0.95);
-    timeCtrl("driveb", .4);
+    FwVelocitySet(583, 0.95);
+    timeCtrl("driveb", .1);
     timeCtrl("intake", .27);
     moveRot(.3,50);
     //Grab disk
     turnRot(-.8,70);
     spinIntake();
     moveRot(1,50);
-    moveRot(-1.25,70);
+    moveRot(-1.2,70); //-1.25
     //Shoot pre
-    turn_absolute_inertial(48); 
-    moveRot(2,70);
-    turn_absolute_inertial(-15);
+    turn_absolute_inertial(47.8); 
+    moveRot(2,55);
+    turn_absolute_inertial(-14.35);
     longVolley();
-    FwVelocitySet(517, 0.95); //570
+    FwVelocitySet(522, 0.95); //570
     //Grab stack
-    turn_absolute_inertial(49); 
+    turn_absolute_inertial(49.0); 
     spinIntake();
     inertial_drive(13.5, 65);
     inertial_drive(23, 40);
     timeCtrl("", .5);
     //Shoot 3
-    turn_absolute_inertial(-37);
+    turn_absolute_inertial(-35.8);
     longVolley();
     spinIntake();
-    FwVelocitySet(515, 0.95);
+        
+    FwVelocitySet(503, 0.95);
     //Get Midline
-    moveRot(1.2,30);
+    moveRot(1.35,30);
     moveRot(-.8,15);
     timeCtrl("", .3);
     timeCtrl("index", .5, 100);
@@ -479,7 +487,7 @@ void auton() {
 
   } else if(auto3 || FarSide.pressing()){
     // intake 1
-    FwVelocitySet(529, .95);
+    FwVelocitySet(540, .95);
     inertial_drive(-20, 60);
     turn_absolute_inertial(90);
     timeCtrl("driveb", .27);
@@ -490,7 +498,7 @@ void auton() {
     inertial_drive(27,70);
 
     // 1st volley
-    turn_absolute_inertial(107);
+    turn_absolute_inertial(106.5);
     longVolley();
 
     // intake 
@@ -498,19 +506,21 @@ void auton() {
     moveRot(1.3, 30);
     moveRot(-1.4, 30);
     turn_absolute_inertial(44);
-    inertial_drive(37,55);
-    inertial_drive(-18, 55);
+    inertial_drive(38,55);
+    inertial_drive(-19, 55);
 
     // 2nd volley
-    FwVelocitySet(535, .95);
-    turn_absolute_inertial(119.75);
+    FwVelocitySet(533, .95);
+    turn_absolute_inertial(118.0);
     longVolley();
+        /*
+    timeCtrl("",.1);
     spinIntake();
     moveRot(1,55);
     moveRot(-1,20);
-    timeCtrl("index", 1, 100);
+    //timeCtrl("index", 1, 100);
     FwVelocitySet(0, 0);
-
+    */
   } else if(auto4){
     
   }
@@ -551,8 +561,8 @@ void usercontrol() {
   bool toggle = false;
   bool latch = false;
 
-  drawFieldTask.suspend();
-  chassisControlTask.suspend();
+ // drawFieldTask.suspend();
+ // chassisControlTask.suspend();
   Brain.Screen.clearScreen();
 
   while (true) {
@@ -676,7 +686,7 @@ void usercontrol() {
 
     if (Controller1.ButtonUp.pressing()) {
       AngleAdjust.set(true);
-      flywheelRPM=415;
+      flywheelRPM=430;
       FwVelocitySet( flywheelRPM, .95 );    
     }
     else if (Controller1.ButtonDown.pressing()) {
@@ -716,14 +726,14 @@ void usercontrol() {
     double relRPM = Flywheel.velocity(rpm);
     double actualRPM = relRPM*6;
 
-   // Brain.Screen.setCursor(3, 1);
-   // Brain.Screen.print("X: %.1lf Y: %.1lf Theta: %.1lf", xPosGlobal,yPosGlobal, get_rotation());
-   // Brain.Screen.setCursor(5, 1);
-   // Brain.Screen.print("RPM: %.1lf Actual RPM: %.1lf", relRPM, actualRPM);
-    Brain.Screen.drawImageFromFile("logo.png", 1,1);
+    Brain.Screen.setCursor(3, 1);
+    Brain.Screen.print("X: %.1lf Y: %.1lf Theta: %.1lf", xPosGlobal,yPosGlobal, get_rotation());
+    Brain.Screen.setCursor(5, 1);
+    Brain.Screen.print("RPM: %.1lf Actual RPM: %.1lf", relRPM, actualRPM);
+    //Brain.Screen.drawImageFromFile("logo.png", 1,1);
     Brain.Screen.setCursor(1, 1);
-    Brain.Screen.print("Base Temp %.0lf Flywheel Temp: %.0lf Intake temp: %.0lf Heading Theta: %.1lf", 
-    BaseRightMid.temperature(celsius), Flywheel.temperature(celsius), Intake.temperature(celsius), get_rotation());
+    Brain.Screen.print("Base Temp %.0lf Flywheel Temp: %.0lf Intake temp: %.0lf", 
+    BaseRightMid.temperature(celsius), Flywheel.temperature(celsius), Intake.temperature(celsius));
     
     
     Controller1.Screen.setCursor(3, 1);

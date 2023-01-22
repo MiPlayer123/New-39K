@@ -87,7 +87,7 @@ void turn_absolute_inertial(double target, bool slow) {
 
   while (true) {
     // Calculate the error
-    double error = target - get_rotation();
+    double error = target - get_rotation();//get_rotation();
 
     // Initialize the last error if it was not already
     if (ae(last_error, 1000)) {
