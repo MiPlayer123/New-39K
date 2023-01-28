@@ -569,8 +569,8 @@ void usercontrol() {
     // Get the left and right base speeds from the controller
     double left_speed = Controller1.Axis3.position();
     double right_speed = Controller1.Axis2.position();
-    double RT_speed = right_speed*.5;
-    double LT_speed = left_speed*.5;
+    double RT_speed = right_speed*1;
+    double LT_speed = left_speed*1;
 
     // If the input speed is below our threshold, stop the motors
     if ((left_speed < deadzone && left_speed > -deadzone)) {
