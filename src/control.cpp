@@ -208,3 +208,54 @@ int FwControlTask()
 	}
   return 1;
 }
+
+int flywheelControl() {
+  Flywheel.setBrake(coast);
+
+  int targetRPM = 460*6; // initial RPM for flywheel
+
+  bool flywheelRunning = true;
+
+  double alpha = 0.6;
+  double kP = 5;
+  double kD = 5;
+  double kF = 1.0 / 300.0;
+  double trueRPM = 0;
+  double filteredRPM = 0;
+  double prevFilteredRPM = 0;
+  double motorPower = 0;
+  double prevMotorPower = 0;
+  double slewLimit = 0.1; // volts / 10 msec. KEEP IN MIND UNITS!
+  double error = 0;
+  double prevError = 0;
+  double derivative = 0;
+  // TUNE KP AND KD SO THAT THEY WORK FOR VOLTS!
+
+  while (true) {
+
+    // FLYWHEEL VELO CALCS
+    trueRPM = Flywheel.velocity(rpm) * 6;  
+
+    filteredRPM = (alpha * trueRPM) + ((1 - alpha) * (prevFilteredRPM));
+
+    error = targetRPM - filteredRPM;
+
+    derivative = derivative >= 0 ? error - prevError : (error - prevError) / 4;
+
+    prevError = error;
+
+    motorPower = flywheelRunning ? error * kP + derivative * kD + targetRPM * kF : 0;
+
+    // SLEW RATE IMPLEMENTATION
+    double increment = motorPower - prevMotorPower;
+    
+    if (fabs(increment) > slewLimit) {
+      motorPower = prevMotorPower + slewLimit * sgn(increment);
+    }
+
+    Flywheel.spin(forward, motorPower, volt);
+
+    wait(10, msec);
+  }
+  return 1;
+}

@@ -99,6 +99,16 @@ int positionTracking() {
 
     //Update the previous Theta value (RADIANS)  
     previousTheta = currentAbsoluteOrientation;
+
+    //Wraps angles back around if they ever go under 0 or over 2 pi
+    while(currentAbsoluteOrientation >= 2 * M_PI) {
+      currentAbsoluteOrientation -= 2 * M_PI;
+    }
+    
+    while(currentAbsoluteOrientation < 0) {
+      currentAbsoluteOrientation += 2 * M_PI;
+    }
+
     /*
     //If we didn't turn, then we only translated
     if(deltaTheta == 0) {
@@ -135,14 +145,6 @@ int positionTracking() {
     deltaXGlobal = (deltaYLocal * cos(avgThetaForArc)) - (deltaXLocal * sin(avgThetaForArc));
     deltaYGlobal = (deltaYLocal * sin(avgThetaForArc)) + (deltaXLocal * cos(avgThetaForArc));
     */
-    //Wraps angles back around if they ever go under 0 or over 2 pi
-    while(currentAbsoluteOrientation >= 2 * M_PI) {
-      currentAbsoluteOrientation -= 2 * M_PI;
-    }
-    
-    while(currentAbsoluteOrientation < 0) {
-      currentAbsoluteOrientation += 2 * M_PI;
-    }
 
     //Update global positions
     xPosGlobal += deltaXGlobal;

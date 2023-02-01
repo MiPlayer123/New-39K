@@ -1,211 +1,3 @@
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// BaseLeftRear         motor         20              
-// BaseLeftFront        motor         1               
-// BaseRightRear        motor         19              
-// BaseRightFront       motor         6               
-// BaseLeftMid          motor         11              
-// BaseRightMid         motor         8               
-// Skills               limit         H               
-// Controller1          controller                    
-// Inertial             inertial      13              
-// LTrack               rotation      18              
-// RTrack               rotation      17              
-// Flywheel             motor         15              
-// Intake               motor         2               
-// Expansion            digital_out   G               
-// AngleAdjust          digital_out   D               
-// OpticalLeft          optical       7               
-// STrackO              rotation      3               
-// HyperCarry           limit         A               
-// RollerSide           limit         B               
-// FarSide              limit         C               
-// OpticalRight         optical       5               
-// SideExpansion        digital_out   E               
-// STrack               rotation      4               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// BaseLeftRear         motor         20              
-// BaseLeftFront        motor         1               
-// BaseRightRear        motor         19              
-// BaseRightFront       motor         6               
-// BaseLeftMid          motor         11              
-// BaseRightMid         motor         8               
-// Skills               limit         H               
-// Controller1          controller                    
-// Inertial             inertial      13              
-// LTrack               rotation      18              
-// RTrack               rotation      17              
-// Flywheel             motor         15              
-// Intake               motor         2               
-// Expansion            digital_out   G               
-// AngleAdjust          digital_out   D               
-// OpticalLeft          optical       7               
-// STrackO              rotation      3               
-// HyperCarry           limit         A               
-// RollerSide           limit         B               
-// FarSide              limit         C               
-// OpticalRight         optical       5               
-// SideExpansion        digital_out   E               
-// Rotation4            rotation      4               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// BaseLeftRear         motor         20              
-// BaseLeftFront        motor         1               
-// BaseRightRear        motor         19              
-// BaseRightFront       motor         6               
-// BaseLeftMid          motor         11              
-// BaseRightMid         motor         8               
-// Skills               limit         H               
-// Controller1          controller                    
-// Inertial             inertial      13              
-// LTrack               rotation      18              
-// RTrack               rotation      17              
-// Flywheel             motor         15              
-// Intake               motor         2               
-// Expansion            digital_out   G               
-// AngleAdjust          digital_out   D               
-// OpticalLeft          optical       7               
-// STrackO              rotation      3               
-// HyperCarry           limit         A               
-// RollerSide           limit         B               
-// FarSide              limit         C               
-// OpticalRight         optical       5               
-// SideExpansion        digital_out   E               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// BaseLeftRear         motor         20              
-// BaseLeftFront        motor         1               
-// BaseRightRear        motor         19              
-// BaseRightFront       motor         6               
-// BaseLeftMid          motor         11              
-// BaseRightMid         motor         8               
-// Skills               limit         H               
-// Controller1          controller                    
-// Inertial             inertial      13              
-// LTrack               rotation      18              
-// RTrack               rotation      17              
-// Flywheel             motor         15              
-// Intake               motor         2               
-// Expansion            digital_out   G               
-// AngleAdjust          digital_out   D               
-// OpticalLeft          optical       7               
-// STrackO              rotation      3               
-// HyperCarry           limit         A               
-// RollerSide           limit         B               
-// FarSide              limit         C               
-// OpticalRight         optical       5               
-// DigitalOutE          digital_out   E               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// BaseLeftRear         motor         20              
-// BaseLeftFront        motor         1               
-// BaseRightRear        motor         19              
-// BaseRightFront       motor         6               
-// BaseLeftMid          motor         11              
-// BaseRightMid         motor         8               
-// Skills               limit         H               
-// Controller1          controller                    
-// Inertial             inertial      13              
-// LTrack               rotation      18              
-// RTrack               rotation      17              
-// Flywheel             motor         15              
-// Intake               motor         2               
-// Expansion            digital_out   G               
-// AngleAdjust          digital_out   D               
-// OpticalLeft          optical       7               
-// STrackO              rotation      3               
-// HyperCarry           limit         A               
-// RollerSide           limit         B               
-// FarSide              limit         C               
-// OpticalRight         optical       5               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// BaseLeftRear         motor         20              
-// BaseLeftFront        motor         1               
-// BaseRightRear        motor         19              
-// BaseRightFront       motor         6               
-// BaseLeftMid          motor         11              
-// BaseRightMid         motor         8               
-// Skills               limit         H               
-// Controller1          controller                    
-// Inertial             inertial      13              
-// LTrack               rotation      18              
-// RTrack               rotation      17              
-// Flywheel             motor         15              
-// Intake               motor         2               
-// Expansion            digital_out   G               
-// AngleAdjust          digital_out   D               
-// OpticalLeft          optical       7               
-// STrackO              rotation      3               
-// HyperCarry           limit         A               
-// RollerSide           limit         B               
-// FarSide              limit         C               
-// STrack               encoder       E, F            
-// OpticalRight         optical       5               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// BaseLeftRear         motor         20              
-// BaseLeftFront        motor         1               
-// BaseRightRear        motor         19              
-// BaseRightFront       motor         6               
-// BaseLeftMid          motor         11              
-// BaseRightMid         motor         8               
-// Skills               limit         H               
-// Controller1          controller                    
-// Inertial             inertial      13              
-// LTrack               rotation      18              
-// RTrack               rotation      17              
-// Flywheel             motor         15              
-// Intake               motor         2               
-// Expansion            digital_out   G               
-// AngleAdjust          digital_out   D               
-// OpticalLeft          optical       7               
-// STrackO              rotation      3               
-// HyperCarry           limit         A               
-// RollerSide           limit         B               
-// FarSide              limit         C               
-// STrack               encoder       E, F            
-// OpticalRight         optical       5               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// BaseLeftRear         motor         20              
-// BaseLeftFront        motor         1               
-// BaseRightRear        motor         19              
-// BaseRightFront       motor         6               
-// BaseLeftMid          motor         11              
-// BaseRightMid         motor         8               
-// Skills               limit         H               
-// Controller1          controller                    
-// Inertial             inertial      13              
-// LTrack               rotation      18              
-// RTrack               rotation      17              
-// Flywheel             motor         15              
-// Intake               motor         2               
-// Expansion            digital_out   G               
-// AngleAdjust          digital_out   D               
-// OpticalLeft          optical       7               
-// STrackO              rotation      3               
-// HyperCarry           limit         A               
-// RollerSide           limit         B               
-// FarSide              limit         C               
-// STrack               encoder       E, F            
-// ---- END VEXCODE CONFIGURED DEVICES ----
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       main.cpp                                                  */
@@ -233,12 +25,15 @@
 // Intake               motor         2               
 // Expansion            digital_out   G               
 // AngleAdjust          digital_out   D               
-// Optical              optical       7               
+// OpticalLeft          optical       7               
 // STrackO              rotation      3               
 // HyperCarry           limit         A               
 // RollerSide           limit         B               
 // FarSide              limit         C               
-// STrack               encoder       E, F            
+// OpticalRight         optical       5               
+// SideExpansion        digital_out   E               
+// STrack               rotation      4               
+// ThreeStack           digital_out   F               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -252,14 +47,13 @@
 #include "drawField.h"
 
 using namespace vex;
-
-//task odometryTask;
+task odometryTask;
 //task drawFieldTask;
 //task chassisControlTask;
 
 void auton() {
 
-  //task odometryTask(positionTracking);
+  task odometryTask(positionTracking);
   //task chassisControlTask(chassisControl);
   //task drawFieldTask(drawField);
 
@@ -569,8 +363,8 @@ void usercontrol() {
     // Get the left and right base speeds from the controller
     double left_speed = Controller1.Axis3.position();
     double right_speed = Controller1.Axis2.position();
-    double RT_speed = right_speed*.5;
-    double LT_speed = left_speed*.5;
+    double RT_speed = right_speed*1;
+    double LT_speed = left_speed*1;
 
     // If the input speed is below our threshold, stop the motors
     if ((left_speed < deadzone && left_speed > -deadzone)) {
@@ -772,7 +566,7 @@ int main() {
   }
 
   if(is_skills()){
-    THETA_START = M_PI/2; 
+    THETA_START = 0; 
     X_START = 137; //19.1
     Y_START = 10; //8.5
   } else{
@@ -788,6 +582,7 @@ int main() {
   // Initialize our PIDs and rotation tracking thread
   initialize();
 
+  //task FC(flywheelControl);
   task fwControl(FwControlTask); //Flywheel control
 
   /*

@@ -26,6 +26,7 @@ extern limit FarSide;
 extern optical OpticalRight;
 extern digital_out SideExpansion;
 extern rotation STrack;
+extern digital_out ThreeStack;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
