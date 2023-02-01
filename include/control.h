@@ -30,4 +30,6 @@ void FwVelocitySet( int velocityM, float predicted_drive );
 
 int FwControlTask();
 
+int flywheelControl();
+
 #endif
