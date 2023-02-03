@@ -291,7 +291,7 @@ void auton() {
 
   } else if(auto3 || FarSide.pressing()){
     // intake 1
-    FwVelocitySet(540, .95);
+    FwVelocitySet(580, .95);
     inertial_drive(-20, 60);
     turn_absolute_inertial(90);
     timeCtrl("driveb", .27);
@@ -314,7 +314,7 @@ void auton() {
     inertial_drive(-19, 55);
 
     // 2nd volley
-    FwVelocitySet(533, .95);
+    FwVelocitySet(565, .95);
     turn_absolute_inertial(118.0);
     longVolley();
         /*
@@ -354,7 +354,7 @@ void usercontrol() {
 
   int deadzone = 8;
 
-  int defaultRPM = 460;
+  int defaultRPM =470;
   int flywheelRPM = defaultRPM;
   
   bool expanded = false;
@@ -490,7 +490,7 @@ void usercontrol() {
 
     if (Controller1.ButtonUp.pressing()) {
       AngleAdjust.set(true);
-      flywheelRPM=430;
+      flywheelRPM=defaultRPM;
       FwVelocitySet( flywheelRPM, .95 );    
     }
     else if (Controller1.ButtonDown.pressing()) {

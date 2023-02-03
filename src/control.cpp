@@ -188,7 +188,7 @@ void FwControlUpdateVelocityTbh()
 int FwControlTask()
 {
 	// Set the gain
-	gain = 0.0003; //0.00025
+	gain = 0.00025; //0.00025
 
 	while(1)
 	{
@@ -212,14 +212,14 @@ int FwControlTask()
 int flywheelControl() {
   Flywheel.setBrake(coast);
 
-  int targetRPM = 460*6; // initial RPM for flywheel
+  int targetRPM = 480; // initial RPM for flywheel
 
   bool flywheelRunning = true;
 
-  double alpha = 0.6;
+  double alpha = 0.7;
   double kP = 5;
-  double kD = 5;
-  double kF = 1.0 / 300.0;
+  double kD = .8;
+  double kF = 1.0 / 600.0;
   double trueRPM = 0;
   double filteredRPM = 0;
   double prevFilteredRPM = 0;
@@ -232,27 +232,29 @@ int flywheelControl() {
   // TUNE KP AND KD SO THAT THEY WORK FOR VOLTS!
 
   while (true) {
-
+    
     // FLYWHEEL VELO CALCS
-    trueRPM = Flywheel.velocity(rpm) * 6;  
+    trueRPM = Flywheel.velocity(rpm);  
 
     filteredRPM = (alpha * trueRPM) + ((1 - alpha) * (prevFilteredRPM));
 
     error = targetRPM - filteredRPM;
 
-    derivative = derivative >= 0 ? error - prevError : (error - prevError) / 4;
+    derivative = error - prevError;
+
+    derivative /= derivative >= 0 ? 1 : 4;
 
     prevError = error;
 
     motorPower = flywheelRunning ? error * kP + derivative * kD + targetRPM * kF : 0;
-
-    // SLEW RATE IMPLEMENTATION
-    double increment = motorPower - prevMotorPower;
     
+    // SLEW RATE IMPLEMENTATION
+    //double increment = motorPower - prevMotorPower;
+    /*
     if (fabs(increment) > slewLimit) {
       motorPower = prevMotorPower + slewLimit * sgn(increment);
-    }
-
+    }*/
+    
     Flywheel.spin(forward, motorPower, volt);
 
     wait(10, msec);
