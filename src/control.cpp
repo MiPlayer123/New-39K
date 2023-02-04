@@ -12,9 +12,9 @@ void spinIntake(){
 void longVolley(){
   stopIntake();
   timeCtrl("index", .29, 100); 
-  timeCtrl("",.40);
+  timeCtrl("",.45);
   timeCtrl("index", .29, 100); 
-  timeCtrl("",.40);
+  timeCtrl("",.45);
   timeCtrl("index", .29, 100);
 }
 
@@ -188,7 +188,7 @@ void FwControlUpdateVelocityTbh()
 int FwControlTask()
 {
 	// Set the gain
-	gain = 0.00025; //0.00025
+	gain = 0.0003; //0.00025
 
 	while(1)
 	{
@@ -224,8 +224,8 @@ int flywheelControl() {
   double filteredRPM = 0;
   double prevFilteredRPM = 0;
   double motorPower = 0;
-  double prevMotorPower = 0;
-  double slewLimit = 0.1; // volts / 10 msec. KEEP IN MIND UNITS!
+  //double prevMotorPower = 0;
+  //double slewLimit = 0.1; // volts / 10 msec. KEEP IN MIND UNITS!
   double error = 0;
   double prevError = 0;
   double derivative = 0;

@@ -220,12 +220,12 @@ void auton() {
     
   } else if(auto1 || HyperCarry.pressing()){
     // roller
-    FwVelocitySet(563, .98);
+    FwVelocitySet(575, .98);
     timeCtrl("driveb", .1);
     timeCtrl("intake", .4);
     moveRot(.6,50);
 
-    turn_absolute_inertial(49);
+    turn_absolute_inertial(51);
     spinIntake();
 
 
@@ -235,25 +235,20 @@ void auton() {
     longVolley();
 
     // second volley
-    FwVelocitySet(560,.95);
+    FwVelocitySet(555,.95);
     turn_absolute_inertial(49.0);
     spinIntake();
     inertial_drive(40, 75);
     turn_absolute_inertial(-45.0);
     longVolley();
-    turn_absolute_inertial(45);
+    turn_absolute_inertial(43);
     FwVelocitySet(0, 0);
     spinIntake();
-    inertial_drive(70, 75);
+    inertial_drive(66, 75);
+    //2nd roller
     turn_absolute_inertial(-90);
-    timeCtrl("driveb",.5);
+    timeCtrl("driveb",.4);
     timeCtrl("intake", .4);
-  
-    
-    // 2nd roller
-    /*
-
-    */
     
   } else if(auto2 || RollerSide.pressing()){
     // roller
@@ -466,14 +461,14 @@ void usercontrol() {
     }
 
     if (l2_pressing ){
-      if (flywheelRPM == 415){
+      if (flywheelRPM == 430){
         AngleAdjust.set(false);
         flywheelRPM = defaultRPM;
         FwVelocitySet(flywheelRPM, .95 );
       }
       else{
         AngleAdjust.set(true);
-        flywheelRPM = 415;
+        flywheelRPM = 430;
         FwVelocitySet(flywheelRPM, .95 );   
       }
     }
@@ -490,7 +485,7 @@ void usercontrol() {
 
     if (Controller1.ButtonUp.pressing()) {
       AngleAdjust.set(true);
-      flywheelRPM=defaultRPM;
+      flywheelRPM=430;
       FwVelocitySet( flywheelRPM, .95 );    
     }
     else if (Controller1.ButtonDown.pressing()) {
