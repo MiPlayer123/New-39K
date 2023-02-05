@@ -12,9 +12,9 @@ void spinIntake(){
 void longVolley(){
   stopIntake();
   timeCtrl("index", .29, 100); 
-  timeCtrl("",.45);
+  timeCtrl("",.51);
   timeCtrl("index", .29, 100); 
-  timeCtrl("",.45);
+  timeCtrl("",.51);
   timeCtrl("index", .29, 100);
 }
 
