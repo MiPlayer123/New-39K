@@ -11,8 +11,8 @@ double THETA_START = THETA_START; //imagine the field is a unit circle
 //The starting x and y coordinates of the bot (INCHES)
   //These distances are relative to some point (0,0) on the field
   //Relative to: BOTTOM LEFT CORNER
-double X_START = X_START; //19.1
-double Y_START = Y_START; //8.5
+double X_START = X_START;
+double Y_START = Y_START;
 
 //Distances of tracking wheels from tracking center (INCHES)
 double LTrackRadius = 5.875; //was 6.87
@@ -64,6 +64,20 @@ double deltaYGlobal = 0;
 double xPosGlobal = X_START;
 double yPosGlobal = Y_START;
 
+void setPos(double xPos, double yPos){
+  xPosGlobal = xPos;
+  yPosGlobal = yPos;
+}
+
+double getX(){
+  double xRet = xPosGlobal;
+  return xRet;
+}
+
+double getY(){
+  double yRet = yPosGlobal;
+  return yRet;
+}
 
 int positionTracking() {
   while(1) {

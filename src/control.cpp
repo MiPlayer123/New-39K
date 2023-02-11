@@ -88,7 +88,8 @@ void timeCtrl(std::string control, float tim, float motorSpeed){
     stopIntake();
   }
   else if (control == "shoot"){
-    FwVelocitySet(450,.95);
+    FwVelocitySet(470,.95);
+    setFlywheelVel(470);
     task::sleep(mili);
     FwVelocitySet(0, 0);
   }
@@ -99,11 +100,13 @@ void timeCtrl(std::string control, float tim, float motorSpeed){
 
 void volley(int speed, float timeIndex){
   FwVelocitySet(speed, .95);
+  setFlywheelVel(speed);
   while((Flywheel.velocity(rpm)-5)<speed){
     task::sleep(20);
   }
-  timeCtrl("index", timeIndex);
+  timeCtrl("index", timeIndex, 100);
   FwVelocitySet(0, 0);
+  setFlywheelVel(0);
 }
 
 /* Flywheel TBH Controller */
@@ -209,55 +212,153 @@ int FwControlTask()
   return 1;
 }
 
+int targetRPM;
+bool flywheelRunning = false;
+
+void setFlywheelVel(int rpm){
+  if (rpm==0)
+    flywheelRunning = false;
+  else{
+    flywheelRunning = true;
+    targetRPM = rpm;
+  }
+}
+
+
 int flywheelControl() {
   Flywheel.setBrake(coast);
 
-  int targetRPM = 480; // initial RPM for flywheel
-
-  bool flywheelRunning = true;
-
-  double alpha = 0.7;
-  double kP = 5;
-  double kD = .8;
-  double kF = 1.0 / 600.0;
+  double kP = 0.007;//3;//14;
+  double kD = 0.09;//2;//5;//.2;
+  double kF = 1.05 / 300.0; //1.16
+  double alpha = .7; //.15
+  double alpha2 = .2; //.1
   double trueRPM = 0;
   double filteredRPM = 0;
   double prevFilteredRPM = 0;
   double motorPower = 0;
-  //double prevMotorPower = 0;
-  //double slewLimit = 0.1; // volts / 10 msec. KEEP IN MIND UNITS!
+  double prevMotorPower=10;
+  //double slewLimit = 0.7; // volts / 10 msec. KEEP IN MIND UNITS!
   double error = 0;
-  double prevError = 0;
+  //double prevError = 0;
   double derivative = 0;
+  //double prevD = 0;
+  double prevDError = 0;
+  double derror = 0;
+  double prevFilteredRPM2=0;
+  double filteredRPM2 = 0;
   // TUNE KP AND KD SO THAT THEY WORK FOR VOLTS!
 
   while (true) {
+
+    double setRPM = targetRPM*6;
     
     // FLYWHEEL VELO CALCS
-    trueRPM = Flywheel.velocity(rpm);  
+    trueRPM = Flywheel.velocity(rpm)*6;  
 
     filteredRPM = (alpha * trueRPM) + ((1 - alpha) * (prevFilteredRPM));
 
-    error = targetRPM - filteredRPM;
+    prevFilteredRPM = filteredRPM;
 
-    derivative = error - prevError;
+    error = setRPM - filteredRPM;
+
+    //derivative = error - prevError;
+
+    filteredRPM2 = (alpha2 * trueRPM) + ((1 - alpha2)* (prevFilteredRPM2));
+    
+    derror = setRPM - filteredRPM2;
+
+    derivative = derror - prevDError;
 
     derivative /= derivative >= 0 ? 1 : 4;
-
-    prevError = error;
-
-    motorPower = flywheelRunning ? error * kP + derivative * kD + targetRPM * kF : 0;
     
+    //derivative = (alpha2 * derivative) + ((1 - alpha2) * (prevD));
+    
+    prevDError = derror;
+
+    //prevError = error;
+
+    motorPower = flywheelRunning ? error * kP + derivative * kD + setRPM *kF : 0;
+
+    Brain.Screen.setCursor(8, 1);
+    Brain.Screen.print("Target: %.0f Actual: %.1f Filtered: %.1f ", setRPM, trueRPM, filteredRPM);
+    Brain.Screen.setCursor(9, 1);
+    Brain.Screen.print("kP: %.2f kD: %.2f kF: %.2f pwr: %.2f a2: %.2f", error * kP, derivative * kD, setRPM * kF,  motorPower, alpha2);
+
+    if(motorPower <= 0) motorPower = 0;
+   /* if(filteredRPM<0.85*targetRPM && flywheelRunning)
+      motorPower = 12;
+      */
+      
     // SLEW RATE IMPLEMENTATION
     //double increment = motorPower - prevMotorPower;
-    /*
-    if (fabs(increment) > slewLimit) {
-      motorPower = prevMotorPower + slewLimit * sgn(increment);
-    }*/
+    //if(std::abs(increment) > slewLimit) motorPower = prevMotorPower + (slewLimit * sgn(increment));
+    
+    prevMotorPower = motorPower;
     
     Flywheel.spin(forward, motorPower, volt);
 
     wait(10, msec);
+  }
+  return 1;
+}
+
+double II = .9; //there is slight oscilation, not much 1.1
+double alpha = .2;
+double estimatedpower_0 = 105.83;
+double estimatedpower = 10;
+double errorr;
+double current_flywheel_speed;
+double prevFilteredRPM = 0;
+double dspeed;
+double prevdspeed = 0;
+double preverror;
+double factor = 94.4881889764;
+int flyCtrl(){
+  while (true){
+    if(flywheelRunning){
+        //EMA filter
+        current_flywheel_speed = (alpha * Flywheel.velocity(rpm)) + ((1 - alpha) * (prevFilteredRPM));
+        prevFilteredRPM = current_flywheel_speed;
+        if(current_flywheel_speed<0.95*targetRPM){
+            Flywheel.spin(fwd, 12, volt);
+        }
+        else{
+            //error
+            errorr = targetRPM - current_flywheel_speed;
+
+
+            //Integral factor
+            //estimatedpower_0 += errorr*II;
+
+            //derivative factor
+            dspeed = (alpha * (errorr - preverror)) + ((1 - alpha) * (prevdspeed));
+            prevdspeed = dspeed;
+
+            estimatedpower_0 += dspeed*.5;
+
+            //cap for power input
+            if (estimatedpower_0 >127){
+                estimatedpower_0 = 127;
+            }
+              
+            if (std::signbit(preverror)!=std::signbit(errorr)){
+                estimatedpower_0 = 10000/factor;
+            }
+
+            double scaled_power = estimatedpower_0/127;
+            Flywheel.spin(fwd, 12*scaled_power, volt);
+
+            preverror = errorr;
+        }
+    }
+    else {
+        Flywheel.spin(forward, 0, volt);
+        errorr = 0;
+        preverror = 0;
+        estimatedpower = 10000/factor;
+    }
+    task::sleep( 10 );
   }
   return 1;
 }

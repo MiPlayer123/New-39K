@@ -47,17 +47,29 @@ void waitTilCompletion(){
 }
 
 void moveToPoint(double xTarget, double yTarget, double speed){
-  double targetAngle = atan2(yTarget - yPosGlobal, xTarget - xPosGlobal);
+  double xPos = getX();
+  double yPos = getY();
+  double targetAngle = atan2(yTarget - yPos, xTarget - xPos);
   targetAngle-= M_PI_2;
+
   if(targetAngle < 0) {
     targetAngle = 2 * M_PI - fabs(targetAngle);
   }
   targetAngle = targetAngle * 180 / M_PI;
   targetAngle = targetAngle - 360;
+
+  Brain.Screen.setCursor(3, 1);
+  Brain.Screen.print("X: %.1lf Y: %.1lf Theta: %.1lf", xPos,yPos, get_rotation());
+
   turn_absolute_inertial(targetAngle);
-  double dist = sqrt(pow((xPosGlobal - xTarget), 2) + pow((yPosGlobal - yTarget), 2));
+
+  double dist = sqrt(pow((xPos - xTarget), 2) + pow((yPos - yTarget), 2));
+  Brain.Screen.setCursor(4, 1);
+  Brain.Screen.print("Target Angle: %.1lf Target Dist: %.1lf", targetAngle, dist);
+
   inertial_drive(dist, speed);
 }
+
 //Sets the target position and indicates a specific target heading
 void driveTo(double xTarget, double yTarget, double targetAngle, double timeOutLength, double maxSpeed) {
   xTargetLocation = xTarget;

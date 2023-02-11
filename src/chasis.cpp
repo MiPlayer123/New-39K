@@ -208,12 +208,13 @@ void turnRot (float rot, float speed){
 }
 
 void inertial_drive(double target, double speed) {
-  BaseRightRear.setPosition(0, turns); 
+  /*BaseRightRear.setPosition(0, turns); 
   BaseLeftRear.setPosition(0, turns);
   BaseRightFront.setPosition(0, turns);
   BaseLeftFront.setPosition(0, turns);
   BaseLeftMid.setPosition(0, turns);
-  BaseRightMid.setPosition(0, turns);
+  BaseRightMid.setPosition(0, turns);*/
+  double startDist =  getDist();
   LTrack.setPosition(0, turns); 
   RTrack.setPosition(0, turns);
   //Starting pos
@@ -228,8 +229,8 @@ void inertial_drive(double target, double speed) {
   while (true) {
     // Calculate the error
     double error_c = angle - get_rotation();
-    double error1 = target - getDist(); //LTrack.position(turns) * 2.8 * M_PI
-    double error2 = target - getDist(); //RTrack.position(turns) * 2.8 * M_PI
+    double error1 = target - (getDist()- startDist); //LTrack.position(turns) * 2.8 * M_PI
+    double error2 = target - (getDist() - startDist); //RTrack.position(turns) * 2.8 * M_PI
     double error;
   
     error = (error1 + error2) / 2;

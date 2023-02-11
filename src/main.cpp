@@ -53,7 +53,7 @@ task odometryTask;
 
 void auton() {
 
-  task odometryTask(positionTracking);
+  //task odometryTask(positionTracking);
   //task chassisControlTask(chassisControl);
   //task drawFieldTask(drawField);
 
@@ -70,7 +70,7 @@ void auton() {
     OpticalLeft.setLightPower(40, percent); 
     OpticalRight.setLightPower(40, percent);
     spinIntake();
-    timeCtrl("driveb", .1);
+    timeCtrl("driveb", .15);
     AutoRoller("red", 1);
     //driveTo(12,137,0);
     //driveTo(10,0,0);
@@ -84,62 +84,90 @@ void auton() {
     // second roller
     timeCtrl("driveb", .32);
     AutoRoller("red", 2);
-    FwVelocitySet(430, .95);
+    setFlywheelVel(480);
 
     // first volley
     spinIntake();
     moveRot(.5,50); //.45
     turn_absolute_inertial(1.0);
-    //timeCtrl("", .1);
     inertial_drive(45.5,95);
-    //moveToPoint(132, 86 , 70);
     stopIntake();
-    //turn_rel_inertial(4.5);
+    turn_absolute_inertial(4.0);
     volley(447); // shoot
-
-    //Grab edge
-    //turn_absolute_inertial(-271);
-    /*
-    turn_absolute_inertial(83.5);
-    FwVelocitySet(440, .95);
-    spinIntake();
-    inertial_drive(30, 30);
-    inertial_drive(-31.75, 65);
-    */
-   
-    // 2nd volley - shot edge
-    //turn_absolute_inertial(-350);
-    //turn_absolute_inertial(10);
-    //stopIntake();
-    //volley(425);
+   // turn_absolute_inertial(1.0);
     turn_absolute_inertial(139);//-214.5
     
     // intake diagonal discs
     spinIntake();
-    FwVelocitySet(480, .95);
+    setFlywheelVel(480);
     inertial_drive(27.5, 80);
     turn_absolute_inertial(45);
+    inertial_drive(36.5, 60);
+    wait(150,msec);
+
+    //second volley
+    turn_absolute_inertial(-47);//-46
+    stopIntake();
+    volley(478); //shoot
+    
+    inertial_drive(-19,50);
+    turn_absolute_inertial(45);
+    spinIntake();
+    inertial_drive(32, 60);
+    stopIntake();
+    turn_absolute_inertial(0.0);
+    inertial_drive(30, 60);
+    turn_absolute_inertial(90);
+    inertial_drive(11, 60);
+    turn_absolute_inertial(180.0);
+    spinIntake();
+    //third roller
+    timeCtrl("driveb", .4);
+    AutoRoller("red", 1);
+    moveRot(.65, 40);
+    turn_absolute_inertial(135);
+    spinIntake();
+    inertial_drive(26,85);
+    stopIntake();
+    turn_absolute_inertial(270.0);
+
+    // fourth roller
+    timeCtrl("driveb", .32);
+    AutoRoller("red", 2);
+    setFlywheelVel(430);
+
+    spinIntake();
+    moveRot(.6,50); //.45
+    turn_absolute_inertial(180.0);
+    inertial_drive(45.5,95);
+    stopIntake();
+    volley(447); // shoot
+  
+    turn_absolute_inertial(319);//-214.5
+    
+    // intake diagonal discs
+    spinIntake();
+    setFlywheelVel(480);
+    inertial_drive(29, 80);
+    turn_absolute_inertial(225);
     inertial_drive(35, 60);
     wait(150,msec);
 
     //second volley
-    turn_absolute_inertial(-45.5);//-46
+    turn_absolute_inertial(133.5);//-46
     stopIntake();
     volley(478); //shoot
+    inertial_drive(-16, 50);
+    turn_absolute_inertial(225);
+    spinIntake();
+    inertial_drive(34, 70);
+    inertial_drive(18, 85);
+    turn_absolute_inertial(-15);
+    inertial_drive(55,95);
+    volley(460);
+    turn_absolute_inertial(130);
+    inertial_drive(70, 90);
     /*
-    inertial_drive(-17,60);
-    turn_absolute_inertial(45);
-    spinIntake();
-    inertial_drive(36, 60);
-    stopIntake();
-    turn_absolute_inertial(0.0);
-    inertial_drive(36, 60);
-    turn_absolute_inertial(90);
-    inertial_drive(15, 60);
-    turn_absolute_inertial(180.0);
-    spinIntake();
-    */
-    
     turn_absolute_inertial(45.75);
     inertial_drive(29,90);
     
@@ -203,7 +231,7 @@ void auton() {
     inertial_drive(-41, 95);
     turn_absolute_inertial(45);
     Expansion.set(true);
-
+*/
 
     // volley
     /*
@@ -339,7 +367,7 @@ void auton() {
     //turnTo(M_PI/2);
     //disableBreak();
     //turn_absolute_inertial(90);
-    //moveToPoint(10, 10, 60);
+    moveToPoint(20, 20, 60);
   }
   
 } 
@@ -450,10 +478,11 @@ void usercontrol() {
 
     if (toggle && latch){
       FwVelocitySet( flywheelRPM, .95 );
+      setFlywheelVel(flywheelRPM);
     } else if(!toggle) {
       FwVelocitySet( 0, 0 );
+      setFlywheelVel(0);
     }
-
     if (l1_pressing) {
       if(!latch){ //flip the toggle one time and set the latch
         toggle = !toggle;
@@ -465,15 +494,17 @@ void usercontrol() {
     }
 
     if (l2_pressing ){
-      if (flywheelRPM == 440){
+      if (flywheelRPM == 430){
         AngleAdjust.set(false);
         flywheelRPM = defaultRPM;
         FwVelocitySet(flywheelRPM, .95 );
+        setFlywheelVel(flywheelRPM);
       }
       else{
         AngleAdjust.set(true);
         flywheelRPM = 430;
-        FwVelocitySet(flywheelRPM, .95 );   
+        FwVelocitySet(flywheelRPM, .95 ); 
+        setFlywheelVel(flywheelRPM);  
       }
     }
 
@@ -490,23 +521,36 @@ void usercontrol() {
     if (Controller1.ButtonUp.pressing()) {
       AngleAdjust.set(true);
       flywheelRPM=430;
-      FwVelocitySet( flywheelRPM, .95 );    
+      FwVelocitySet( flywheelRPM, .95 );
+      setFlywheelVel(flywheelRPM);    
     }
     else if (Controller1.ButtonDown.pressing()) {
       AngleAdjust.set(false);
       flywheelRPM = defaultRPM;
       FwVelocitySet( flywheelRPM, .95 );
-    } 
+      setFlywheelVel(flywheelRPM);
+      
+      
+      
+      
+      
+      
+      
+      
+      
+          } 
     
     if(Controller1.ButtonLeft.pressing()){
       flywheelRPM-=50;
       FwVelocitySet( flywheelRPM, .95 );
+      setFlywheelVel(flywheelRPM);
     } 
     else if (Controller1.ButtonRight.pressing()){
       flywheelRPM+=50;
       if(flywheelRPM>=600)
         flywheelRPM=600;
       FwVelocitySet( flywheelRPM, .95 );
+      setFlywheelVel(flywheelRPM);
     }
     else {}
 
@@ -578,10 +622,12 @@ int main() {
     THETA_START = 0; 
     X_START = 137; //19.1
     Y_START = 10; //8.5
+    setPos(137, 10);
   } else{
-    THETA_START = 0; //M_PI
-    X_START = 0; //19.1
-    Y_START = 0; //8.5
+    THETA_START = 0.0; //M_PI
+    X_START = 10.0; //19.1
+    Y_START = 10.0; //8.5
+    setPos(10, 10);
   }
 
   // Print to the screen when we're done calibrating
@@ -591,8 +637,11 @@ int main() {
   // Initialize our PIDs and rotation tracking thread
   initialize();
 
-  //task FC(flywheelControl);
-  task fwControl(FwControlTask); //Flywheel control
+  task FC(flywheelControl); //the kaavin
+  //task flyctrl(flyCtrl); //the ryan
+  //task fwControl(FwControlTask); //Flywheel control
+  task odometryTask(positionTracking);
+  
 
   /*
   Brain.Screen.pressed( userTouchCallbackPressed );

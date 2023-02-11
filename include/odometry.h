@@ -14,5 +14,10 @@ extern double THETA_START;
 extern double X_START;
 extern double Y_START;
 
+double getX();
+double getY();
+
+void setPos(double xPos, double yPos);
+
 //The odometry function
 int positionTracking();
