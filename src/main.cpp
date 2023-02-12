@@ -107,41 +107,37 @@ void auton() {
 
     //second volley
     turn_absolute_inertial(-47);//-46
-    stopIntake();
     volley(478); //shoot
     
     inertial_drive(-19,50);
     turn_absolute_inertial(45);
     spinIntake();
     inertial_drive(32, 60);
-    stopIntake();
     turn_absolute_inertial(0.0);
     inertial_drive(30, 60);
     turn_absolute_inertial(90);
     inertial_drive(11, 60);
     turn_absolute_inertial(180.0);
-    spinIntake();
     //third roller
-    timeCtrl("driveb", .4);
+    timeCtrl("driveb", .6);
     AutoRoller("red", 1);
     moveRot(.65, 40);
     turn_absolute_inertial(135);
     spinIntake();
     inertial_drive(26,85);
-    stopIntake();
     turn_absolute_inertial(270.0);
 
     // fourth roller
     timeCtrl("driveb", .32);
     AutoRoller("red", 2);
-    setFlywheelVel(430);
+    setFlywheelVel(460);
 
     spinIntake();
-    moveRot(.6,50); //.45
+    moveRot(.7,50); //.45
     turn_absolute_inertial(180.0);
     inertial_drive(45.5,95);
     stopIntake();
-    volley(447); // shoot
+    volley(460); // shoot
   
     turn_absolute_inertial(319);//-214.5
     
@@ -156,17 +152,30 @@ void auton() {
     //second volley
     turn_absolute_inertial(133.5);//-46
     stopIntake();
-    volley(478); //shoot
-    inertial_drive(-16, 50);
+    volley(485); //shoot
+    inertial_drive(-17, 50);
     turn_absolute_inertial(225);
     spinIntake();
     inertial_drive(34, 70);
     inertial_drive(18, 85);
-    turn_absolute_inertial(-15);
-    inertial_drive(55,95);
+    turn_absolute_inertial(-13);
+    inertial_drive(45,95);
     volley(460);
-    turn_absolute_inertial(130);
-    inertial_drive(70, 90);
+    turn_absolute_inertial(139.2);
+    spinIntake();
+    inertial_drive(40, 90);
+    inertial_drive(32, 80);
+    turn_absolute_inertial(87);
+    volley(470);
+    turn_absolute_inertial(0.0);
+    spinIntake();
+    inertial_drive(94, 95);
+    inertial_drive(10, 85);
+    turn_absolute_inertial(-90.0);
+    volley(470);
+    inertial_drive(45, 95);
+    turn_absolute_inertial(-135);
+    Expansion.set(true);
     /*
     turn_absolute_inertial(45.75);
     inertial_drive(29,90);
@@ -250,7 +259,8 @@ void auton() {
     
   } else if(auto1 || HyperCarry.pressing()){
     // roller
-    FwVelocitySet(585, .98);
+    
+    setFlywheelVel(585); 
     timeCtrl("driveb", .1);
     timeCtrl("intake", .4);
     moveRot(.6,50);
@@ -261,42 +271,48 @@ void auton() {
 
     inertial_drive(27, 75);
     timeCtrl("", .1);
-    turn_absolute_inertial(-24.5);
+    turn_absolute_inertial(-24);
+    wait(200, msec);
     longVolley();
 
     // second volley
-    FwVelocitySet(564,.95);
+    setFlywheelVel(564);
     turn_absolute_inertial(49.0);
     spinIntake();
     inertial_drive(40, 75);
     turn_absolute_inertial(-47.0);
     longVolley();
     turn_absolute_inertial(43.5);
-    FwVelocitySet(0, 0);
+    setFlywheelVel(0);
     spinIntake();
     inertial_drive(64, 85);
+    
     //2nd roller
     turn_absolute_inertial(-90);
     timeCtrl("driveb",.4);
-    timeCtrl("intake", .4);
+    timeCtrl("intake", .2);
     
   } else if(auto2 || RollerSide.pressing()){
     // roller
-    FwVelocitySet(590, 0.95);
+    setFlywheelVel(587);
     timeCtrl("driveb", .1);
     timeCtrl("intake", .27);
     inertial_drive(10.5, 45);
-    turn_absolute_inertial(-14.35);
+    wait(150, msec);
+    turn_absolute_inertial(-14.0);
     longVolley();
-    FwVelocitySet(579, 0.95);
+
+    setFlywheelVel(589); // 85
     ThreeStack.set(true);
-    moveRot(.55,30);
+    moveRot(.55,28);
     ThreeStack.set(false);
     spinIntake();
     timeCtrl("", 2);
+    
     longVolley();
-    moveRot(-1.05,50);
-    FwVelocitySet(535, 0.95); //570
+
+    moveRot(-1.05,45);
+    setFlywheelVel(559); //570 35
     turn_absolute_inertial(49.0); 
     spinIntake();
     inertial_drive(15, 65);
@@ -305,7 +321,9 @@ void auton() {
     turn_absolute_inertial(-36.1);
     longVolley();
     spinIntake();
-    FwVelocitySet(530, 0.95);
+    setFlywheelVel(530);
+    stopIntake();
+    setFlywheelVel(0);
     //Get Midline
     /*
     moveRot(1.35,30);
@@ -317,7 +335,7 @@ void auton() {
 
   } else if(auto3 || FarSide.pressing()){
     // intake 1
-    FwVelocitySet(576, .95);
+    setFlywheelVel(576);
     inertial_drive(-20, 60);
     turn_absolute_inertial(90);
     timeCtrl("driveb", .27);
@@ -340,10 +358,10 @@ void auton() {
     inertial_drive(-19, 55);
 
     // 2nd volley
-    FwVelocitySet(559, .95);
+    setFlywheelVel(559);
     turn_absolute_inertial(119.1);
     longVolley();
-    FwVelocitySet(0, 0);
+    setFlywheelVel(0);
         /*
     timeCtrl("",.1);
     spinIntake();
@@ -384,7 +402,7 @@ void usercontrol() {
   int defaultRPM =470;
   int flywheelRPM = defaultRPM;
   
-  bool expanded = false;
+  //bool expanded = false;
   // Whether or not the left/right side of the base needs to be stopped
   bool stop_left = true;
   bool stop_right = true;
@@ -494,7 +512,7 @@ void usercontrol() {
     }
 
     if (l2_pressing ){
-      if (flywheelRPM == 430){
+      if (flywheelRPM ==440){
         AngleAdjust.set(false);
         flywheelRPM = defaultRPM;
         FwVelocitySet(flywheelRPM, .95 );
@@ -502,7 +520,7 @@ void usercontrol() {
       }
       else{
         AngleAdjust.set(true);
-        flywheelRPM = 430;
+        flywheelRPM = 440;
         FwVelocitySet(flywheelRPM, .95 ); 
         setFlywheelVel(flywheelRPM);  
       }
@@ -520,7 +538,7 @@ void usercontrol() {
 
     if (Controller1.ButtonUp.pressing()) {
       AngleAdjust.set(true);
-      flywheelRPM=430;
+      flywheelRPM=440;
       FwVelocitySet( flywheelRPM, .95 );
       setFlywheelVel(flywheelRPM);    
     }
@@ -529,16 +547,7 @@ void usercontrol() {
       flywheelRPM = defaultRPM;
       FwVelocitySet( flywheelRPM, .95 );
       setFlywheelVel(flywheelRPM);
-      
-      
-      
-      
-      
-      
-      
-      
-      
-          } 
+      } 
     
     if(Controller1.ButtonLeft.pressing()){
       flywheelRPM-=50;
@@ -556,14 +565,16 @@ void usercontrol() {
 
     if(Controller1.ButtonA.pressing()){
     } 
-    else if(Controller1.ButtonY.pressing()){}
+    if(Controller1.ButtonY.pressing()){
+      SideExpansion.set(true);
+    }
 
     if(Controller1.ButtonX.pressing()){
       Expansion.set(true);
-      if (expanded){
+      /*if (expanded){
         SideExpansion.set(true);
       }
-      expanded = true;
+      expanded = true;*/
     } 
     else if (Controller1.ButtonB.pressing()){
       Expansion.set(false);

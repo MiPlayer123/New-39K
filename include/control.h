@@ -24,7 +24,7 @@ void AutoRoller(std::string colour, int flag);
 
 void timeCtrl(std::string control, float tim, float motorSpeed=100);
 
-void volley(int speed, float timeIndex=1.8);
+void volley(int speed, float timeIndex=1.8, int speedIndex = 100);
 
 void FwVelocitySet( int velocityM, float predicted_drive );
 

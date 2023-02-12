@@ -16,6 +16,7 @@ void longVolley(){
   timeCtrl("index", .29, 100); 
   timeCtrl("",.51);
   timeCtrl("index", .29, 100);
+  timeCtrl("", .1);
 }
 
 void spinIndex(){
@@ -98,13 +99,13 @@ void timeCtrl(std::string control, float tim, float motorSpeed){
   }
 }
 
-void volley(int speed, float timeIndex){
+void volley(int speed, float timeIndex, int speedIndex){
   FwVelocitySet(speed, .95);
   setFlywheelVel(speed);
   while((Flywheel.velocity(rpm)-5)<speed){
     task::sleep(20);
   }
-  timeCtrl("index", timeIndex, 100);
+  timeCtrl("index", timeIndex, speedIndex);
   FwVelocitySet(0, 0);
   setFlywheelVel(0);
 }
@@ -183,7 +184,7 @@ void FwControlUpdateVelocityTbh()
 		// Save this drive value in the "tbh" variable
 		drive_at_zero = drive_out;
 	}
-
+;
 	// Save last error
 	last_error = current_error;
 }
@@ -237,7 +238,7 @@ int flywheelControl() {
   double filteredRPM = 0;
   double prevFilteredRPM = 0;
   double motorPower = 0;
-  double prevMotorPower=10;
+  double prevMotorPower=0;
   //double slewLimit = 0.7; // volts / 10 msec. KEEP IN MIND UNITS!
   double error = 0;
   //double prevError = 0;
@@ -265,6 +266,8 @@ int flywheelControl() {
     //derivative = error - prevError;
 
     filteredRPM2 = (alpha2 * trueRPM) + ((1 - alpha2)* (prevFilteredRPM2));
+
+    prevFilteredRPM2 = filteredRPM2;
     
     derror = setRPM - filteredRPM2;
 
@@ -281,14 +284,14 @@ int flywheelControl() {
     motorPower = flywheelRunning ? error * kP + derivative * kD + setRPM *kF : 0;
 
     Brain.Screen.setCursor(8, 1);
-    Brain.Screen.print("Target: %.0f Actual: %.1f Filtered: %.1f ", setRPM, trueRPM, filteredRPM);
+    Brain.Screen.print("Target: %.0f Actual: %.1f Filtered: %.1f F2: %.1f", setRPM, trueRPM, filteredRPM, filteredRPM2);
     Brain.Screen.setCursor(9, 1);
     Brain.Screen.print("kP: %.2f kD: %.2f kF: %.2f pwr: %.2f a2: %.2f", error * kP, derivative * kD, setRPM * kF,  motorPower, alpha2);
 
     if(motorPower <= 0) motorPower = 0;
-   /* if(filteredRPM<0.85*targetRPM && flywheelRunning)
+    if(filteredRPM<0.88*targetRPM && flywheelRunning)
       motorPower = 12;
-      */
+      
       
     // SLEW RATE IMPLEMENTATION
     //double increment = motorPower - prevMotorPower;
