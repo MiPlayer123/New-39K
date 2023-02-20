@@ -13,7 +13,7 @@
 #define   ki .007 //.5
 #define   kd 0.2 //.45
 #define integral_threshold 10
-#define kp_c .25 //.4
+#define kp_c .25 //.25
 
 mutex heading_mtx;
 
@@ -55,6 +55,7 @@ double get_rotation() {
   heading_mtx.lock();
   double rotation = heading_filter.state;
   heading_mtx.unlock();
+  rotation = ( Inertial.rotation() + Inertial2.rotation() ) /2.0;
   return rotation;
 }
 

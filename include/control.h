@@ -10,7 +10,7 @@ using namespace vex;
 
 void spinIntake();
 
-void longVolley();
+void longVolley(float wait = .51);
 
 void spinIndex();
 

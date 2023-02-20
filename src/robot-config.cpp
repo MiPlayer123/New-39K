@@ -32,6 +32,7 @@ optical OpticalRight = optical(PORT5);
 digital_out SideExpansion = digital_out(Brain.ThreeWirePort.E);
 rotation STrack = rotation(PORT4, false);
 digital_out ThreeStack = digital_out(Brain.ThreeWirePort.F);
+inertial Inertial2 = inertial(PORT16);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable

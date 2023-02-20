@@ -34,6 +34,7 @@
 // SideExpansion        digital_out   E               
 // STrack               rotation      4               
 // ThreeStack           digital_out   F               
+// Inertial2            inertial      16              
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -70,7 +71,7 @@ void auton() {
     OpticalLeft.setLightPower(40, percent); 
     OpticalRight.setLightPower(40, percent);
     spinIntake();
-    timeCtrl("driveb", .15);
+    timeCtrl("driveb", .10);
     AutoRoller("red", 1);
     //driveTo(12,137,0);
     //driveTo(10,0,0);
@@ -82,24 +83,24 @@ void auton() {
     turn_absolute_inertial(90.5);
 
     // second roller
-    timeCtrl("driveb", .32);
+    timeCtrl("driveb", .35);
     AutoRoller("red", 2);
-    setFlywheelVel(480);
+    setFlywheelVel(450);
 
     // first volley
     spinIntake();
-    moveRot(.5,50); //.45
-    turn_absolute_inertial(1.0);
+    moveRot(.65,50); //.45
+    turn_absolute_inertial(0.0);
     inertial_drive(45.5,95);
     stopIntake();
-    turn_absolute_inertial(4.0);
+    //turn_absolute_inertial(4.0);
     volley(447); // shoot
    // turn_absolute_inertial(1.0);
     turn_absolute_inertial(139);//-214.5
     
     // intake diagonal discs
     spinIntake();
-    setFlywheelVel(480);
+    setFlywheelVel(470);
     inertial_drive(27.5, 80);
     turn_absolute_inertial(45);
     inertial_drive(36.5, 60);
@@ -107,7 +108,8 @@ void auton() {
 
     //second volley
     turn_absolute_inertial(-47);//-46
-    volley(478); //shoot
+    setFlywheelVel(468);
+    longVolley(.15); //shoot
     
     inertial_drive(-19,50);
     turn_absolute_inertial(45);
@@ -124,11 +126,11 @@ void auton() {
     moveRot(.65, 40);
     turn_absolute_inertial(135);
     spinIntake();
-    inertial_drive(26,85);
+    inertial_drive(29,85);
     turn_absolute_inertial(270.0);
 
     // fourth roller
-    timeCtrl("driveb", .32);
+    timeCtrl("driveb", .4);
     AutoRoller("red", 2);
     setFlywheelVel(460);
 
@@ -152,19 +154,20 @@ void auton() {
     //second volley
     turn_absolute_inertial(133.5);//-46
     stopIntake();
-    volley(485); //shoot
+    setFlywheelVel(480);
+    longVolley(.1); //shoot
     inertial_drive(-17, 50);
     turn_absolute_inertial(225);
     spinIntake();
     inertial_drive(34, 70);
-    inertial_drive(18, 85);
+    inertial_drive(13, 85);
     turn_absolute_inertial(-13);
     inertial_drive(45,95);
     volley(460);
     turn_absolute_inertial(139.2);
     spinIntake();
-    inertial_drive(40, 90);
-    inertial_drive(32, 80);
+    inertial_drive(49, 90);
+    inertial_drive(34, 80);
     turn_absolute_inertial(87);
     volley(470);
     turn_absolute_inertial(0.0);
@@ -260,27 +263,27 @@ void auton() {
   } else if(auto1 || HyperCarry.pressing()){
     // roller
     
-    setFlywheelVel(585); 
+    setFlywheelVel(574); 
     timeCtrl("driveb", .1);
     timeCtrl("intake", .4);
-    moveRot(.6,50);
+    moveRot(.53,50);
 
-    turn_absolute_inertial(51);
+    turn_absolute_inertial(52.2);
     spinIntake();
-
-
     inertial_drive(27, 75);
     timeCtrl("", .1);
-    turn_absolute_inertial(-24);
+    turn_absolute_inertial(-23.6);
+    //wait(500, msec);
     wait(200, msec);
     longVolley();
 
     // second volley
-    setFlywheelVel(564);
-    turn_absolute_inertial(49.0);
+    setFlywheelVel(537);
+    turn_absolute_inertial(49.2);
     spinIntake();
-    inertial_drive(40, 75);
-    turn_absolute_inertial(-47.0);
+    inertial_drive(41, 70);
+    turn_absolute_inertial(-47.2);
+    wait(100, msec);
     longVolley();
     turn_absolute_inertial(43.5);
     setFlywheelVel(0);
@@ -290,7 +293,7 @@ void auton() {
     //2nd roller
     turn_absolute_inertial(-90);
     timeCtrl("driveb",.4);
-    timeCtrl("intake", .2);
+    timeCtrl("intake", .4);
     
   } else if(auto2 || RollerSide.pressing()){
     // roller
@@ -299,20 +302,20 @@ void auton() {
     timeCtrl("intake", .27);
     inertial_drive(10.5, 45);
     wait(150, msec);
-    turn_absolute_inertial(-14.0);
+    turn_absolute_inertial(-14.1);
     longVolley();
 
-    setFlywheelVel(589); // 85
+    setFlywheelVel(574); // 85
     ThreeStack.set(true);
-    moveRot(.55,28);
+    moveRot(.53,28);
     ThreeStack.set(false);
     spinIntake();
     timeCtrl("", 2);
     
     longVolley();
 
-    moveRot(-1.05,45);
-    setFlywheelVel(559); //570 35
+    moveRot(-1.05,40);
+    setFlywheelVel(545); //570 35
     turn_absolute_inertial(49.0); 
     spinIntake();
     inertial_drive(15, 65);
@@ -322,6 +325,7 @@ void auton() {
     longVolley();
     spinIntake();
     setFlywheelVel(530);
+    wait(100, msec);
     stopIntake();
     setFlywheelVel(0);
     //Get Midline
@@ -348,18 +352,19 @@ void auton() {
     // 1st volley
     turn_absolute_inertial(109.2);
     longVolley();
+    turn_absolute_inertial(115);
 
     // intake 
     spinIntake();
-    moveRot(1.3, 30);
-    moveRot(-1.4, 30);
+    moveRot(1.4, 30);
+    moveRot(-1.5, 30);
     turn_absolute_inertial(46.5);
     inertial_drive(38,55);
     inertial_drive(-19, 55);
 
     // 2nd volley
-    setFlywheelVel(559);
-    turn_absolute_inertial(119.1);
+    setFlywheelVel(552);
+    turn_absolute_inertial(119.3);
     longVolley();
     setFlywheelVel(0);
         /*
@@ -399,7 +404,8 @@ void usercontrol() {
 
   int deadzone = 8;
 
-  int defaultRPM =470;
+  int defaultRPM =460; //470
+  int angleRpm = 445;
   int flywheelRPM = defaultRPM;
   
   //bool expanded = false;
@@ -512,7 +518,7 @@ void usercontrol() {
     }
 
     if (l2_pressing ){
-      if (flywheelRPM ==440){
+      if (flywheelRPM == angleRpm){
         AngleAdjust.set(false);
         flywheelRPM = defaultRPM;
         FwVelocitySet(flywheelRPM, .95 );
@@ -520,7 +526,7 @@ void usercontrol() {
       }
       else{
         AngleAdjust.set(true);
-        flywheelRPM = 440;
+        flywheelRPM = angleRpm;
         FwVelocitySet(flywheelRPM, .95 ); 
         setFlywheelVel(flywheelRPM);  
       }
@@ -538,7 +544,7 @@ void usercontrol() {
 
     if (Controller1.ButtonUp.pressing()) {
       AngleAdjust.set(true);
-      flywheelRPM=440;
+      flywheelRPM=angleRpm;
       FwVelocitySet( flywheelRPM, .95 );
       setFlywheelVel(flywheelRPM);    
     }
@@ -592,10 +598,6 @@ void usercontrol() {
     Brain.Screen.setCursor(1, 1);
     Brain.Screen.print("Base Temp %.0lf Flywheel Temp: %.0lf Intake temp: %.0lf", 
     BaseRightMid.temperature(celsius), Flywheel.temperature(celsius), Intake.temperature(celsius));
-    
-    
-    Controller1.Screen.setCursor(3, 1);
-    Controller1.Screen.print("Set: %.0f Actual: %.0lf", (float)flywheelRPM, relRPM); 
 
     // Increase the tick count
     ticks += 1;
@@ -625,7 +627,8 @@ int main() {
 
   // Calibrate the inertial sensor, and wait for it to finish
   Inertial.calibrate();
-  while(Inertial.isCalibrating()) {
+  Inertial2.calibrate();
+  while(Inertial.isCalibrating() || Inertial2.isCalibrating()) {
     wait(100, msec);
   }
 

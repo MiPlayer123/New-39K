@@ -9,13 +9,13 @@ void spinIntake(){
   Intake.spin(fwd, 100, pct);
 }
 
-void longVolley(){
+void longVolley(float wait){
   stopIntake();
-  timeCtrl("index", .29, 100); 
-  timeCtrl("",.51);
-  timeCtrl("index", .29, 100); 
-  timeCtrl("",.51);
-  timeCtrl("index", .29, 100);
+  timeCtrl("index", .28, 100); 
+  timeCtrl("",wait);
+  timeCtrl("index", .28, 100); 
+  timeCtrl("",wait);
+  timeCtrl("index", .28, 100);
   timeCtrl("", .1);
 }
 
@@ -232,8 +232,8 @@ int flywheelControl() {
   double kP = 0.007;//3;//14;
   double kD = 0.09;//2;//5;//.2;
   double kF = 1.05 / 300.0; //1.16
-  double alpha = .7; //.15
-  double alpha2 = .2; //.1
+  double alpha; //.15
+  double alpha2; //.1
   double trueRPM = 0;
   double filteredRPM = 0;
   double prevFilteredRPM = 0;
@@ -251,6 +251,21 @@ int flywheelControl() {
   // TUNE KP AND KD SO THAT THEY WORK FOR VOLTS!
 
   while (true) {
+
+    if(targetRPM > 620 && filteredRPM<0.97*targetRPM){ //520
+      kP = 0.004;//.007;
+      kD = 0.1;//.09;
+      kF = 1.0 / 300.0; //1.0
+      alpha = .5; //.15
+      alpha2 = .15; //.15
+    }
+    else {
+      kP = 0.007;//3;//14;
+      kD = 0.09;//2;//5;//.2;
+      kF = 1.05 / 300.0; //1.16
+      alpha = .7; //.15
+      alpha2 = .2; //.1
+    }
 
     double setRPM = targetRPM*6;
     
@@ -284,13 +299,16 @@ int flywheelControl() {
     motorPower = flywheelRunning ? error * kP + derivative * kD + setRPM *kF : 0;
 
     Brain.Screen.setCursor(8, 1);
-    Brain.Screen.print("Target: %.0f Actual: %.1f Filtered: %.1f F2: %.1f", setRPM, trueRPM, filteredRPM, filteredRPM2);
+    Brain.Screen.print("Tget: %.0f Actual: %.1f F1: %.1f F2: %.1f", setRPM, trueRPM, filteredRPM, filteredRPM2);
     Brain.Screen.setCursor(9, 1);
-    Brain.Screen.print("kP: %.2f kD: %.2f kF: %.2f pwr: %.2f a2: %.2f", error * kP, derivative * kD, setRPM * kF,  motorPower, alpha2);
+    Brain.Screen.print("kP: %.2f kD: %.2f kF: %.2f pwr: %.2f", error * kP, derivative * kD, setRPM * kF,  motorPower);
+
+    Controller1.Screen.setCursor(3, 1);
+    Controller1.Screen.print("Set: %.0f Actual: %.0lf", (float)targetRPM, Flywheel.velocity(rpm)); 
 
     if(motorPower <= 0) motorPower = 0;
-    if(filteredRPM<0.88*targetRPM && flywheelRunning)
-      motorPower = 12;
+    if(filteredRPM<0.88*targetRPM && flywheelRunning && motorPower<12)
+      motorPower = 12.5;
       
       
     // SLEW RATE IMPLEMENTATION
