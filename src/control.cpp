@@ -49,6 +49,7 @@ void AutoRoller(std::string colour, int flag){
   if (flag == 1){
     while(OpticalLeft.color()!=rollerColor && count/1000 < timeout){
       spinIntake();
+      swinging(10, 0,0);
       task::sleep(20);
       count+=20;
     }
@@ -57,6 +58,7 @@ void AutoRoller(std::string colour, int flag){
   else if (flag == 2) {
      while(OpticalRight.color()!=rollerColor && count/1000 < timeout){
       spinIntake();
+      swinging(0, 10,0);
       task::sleep(20);
       count+=20;
     }

@@ -1,19 +1,19 @@
 #include "chasis.h"
 
 //For PID turns
-#define TURN_KP 0.035
-#define TURN_KI 0.005 //.005
-#define TURN_KD 0.0005
+#define TURN_KP 0.035 //.04
+#define TURN_KI 0.005 //.0001
+#define TURN_KD .005 // 150
 #define TURN_MAX_A (BASE_MAX_V / 0.1)
 #define TURN_MAX_V (BASE_MAX_V * 0.7)
-#define TURN_MIN_V 3 //2.2
+#define TURN_MIN_V 3.2 //4
 
 //For main inertial_drive
 #define   kp 6.5 //8 
 #define   ki .007 //.5
 #define   kd 0.2 //.45
 #define integral_threshold 10
-#define kp_c .25 //.25
+#define kp_c .1 //.25
 
 mutex heading_mtx;
 
@@ -326,7 +326,7 @@ void swinging(double leftPower, double rightPower, double gogoAngle){
   BaseRightFront.spin(fwd, 12*rightPower/100, volt);  
   BaseRightRear.spin(fwd, 12*rightPower/100, volt); 
   BaseRightMid.spin(fwd, 12*rightPower/100, volt);
-  BaseLeftMid.spin(fwd, 12*leftPower/100, volt);
+  BaseLeftMid.spin(fwd, 12*leftPower/100, volt);/*
   if(get_rotation() > gogoAngle){
     while(get_rotation() > (gogoAngle+4)){
       wait(5,msec); 
@@ -336,6 +336,6 @@ void swinging(double leftPower, double rightPower, double gogoAngle){
     while((gogoAngle-10) > get_rotation()){
       wait(5,msec);
     }
-  }
+  }*/
   brake_unchecked(); 
 }
