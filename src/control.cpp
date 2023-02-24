@@ -15,7 +15,7 @@ void longVolley(float wait){
   timeCtrl("",wait);
   timeCtrl("index", .28, 100); 
   timeCtrl("",wait);
-  timeCtrl("index", .28, 100);
+  timeCtrl("index", .3, 100);
   timeCtrl("", .1);
 }
 
@@ -37,7 +37,7 @@ void stopFlywheel(){
 }
 
 void AutoRoller(std::string colour, int flag){
-  double timeout = 1.2;
+  double timeout = .8;
   int count = 0;
   vex::color rollerColor;
   if(colour=="red")

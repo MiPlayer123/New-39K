@@ -13,7 +13,7 @@
 #define   ki .007 //.5
 #define   kd 0.2 //.45
 #define integral_threshold 10
-#define kp_c .1 //.25
+#define kp_c .15 //.25
 
 mutex heading_mtx;
 
