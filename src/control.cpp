@@ -13,7 +13,7 @@ void longVolley(float wait){
   stopIntake();
   timeCtrl("index", .28, 100); 
   timeCtrl("",wait);
-  timeCtrl("index", .275, 100); 
+  timeCtrl("index", .28, 100); 
   timeCtrl("",wait);
   timeCtrl("index", .3, 100);
   timeCtrl("", .1);
@@ -307,15 +307,11 @@ int flywheelControl() {
 
     Controller1.Screen.setCursor(3, 1);
     Controller1.Screen.print("Set: %.0f Actual: %.0lf", (float)targetRPM, Flywheel.velocity(rpm)); 
-    Brain.Screen.setCursor(4, 1);
-    Brain.Screen.print("voltage of flyheel: %.0lf", (Flywheel.voltage())); 
-    Brain.Screen.setCursor(6, 1);
-    Brain.Screen.print("voltage of intake: %.0lf", ((int)Intake.voltage())); 
 
     if(motorPower <= 0) motorPower = 0;
-    if(filteredRPM<0.988*targetRPM && flywheelRunning && motorPower<12)
+    if(filteredRPM<0.88*targetRPM && flywheelRunning && motorPower<12)
       motorPower = 12.5;
-    
+      
       
     // SLEW RATE IMPLEMENTATION
     //double increment = motorPower - prevMotorPower;

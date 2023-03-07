@@ -1,17 +1,17 @@
 #include "chasis.h"
 
 //For PID turns
-#define TURN_KP 0.035 //.04, 0.035
-#define TURN_KI 0.001105 //.0001, 0.005
-#define TURN_KD 0.4000 // 150, 0.005, 0.048
+#define TURN_KP 0.035 //.04
+#define TURN_KI 0.005 //.0001
+#define TURN_KD .005 // 150
 #define TURN_MAX_A (BASE_MAX_V / 0.1)
 #define TURN_MAX_V (BASE_MAX_V * 0.7)
-#define TURN_MIN_V 6 //4, 3.2, 5.5
+#define TURN_MIN_V 3.2 //4
 
 //For main inertial_drive
 #define   kp 6.5 //8 
 #define   ki .007 //.5
-#define   kd 0.3 //.45
+#define   kd 0.2 //.45
 #define integral_threshold 10
 #define kp_c .15 //.25
 
