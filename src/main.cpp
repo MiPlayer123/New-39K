@@ -563,12 +563,15 @@ void usercontrol() {
 
     if (r1_pressing) {
       spinIndex();
+      Flywheel.spin(reverse,100,pct);
     }
     else if (r2_pressing) { 
       spinIntake();
+      Flywheel.spin(fwd,100,pct);
     }
     else {
       stopIntake();
+      stopFlywheel();
     }
 
     if (Controller1.ButtonUp.pressing()) {
