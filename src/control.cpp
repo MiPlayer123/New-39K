@@ -9,14 +9,61 @@ void spinIntake(){
   Intake.spin(fwd, 100, pct);
 }
 
-void longVolley(float wait){
+void longVolley( int targetRPM){
+  /*
+  double index_timeout = 800;
+  double wait_timeout = 600;
+  int rpmError = 80;
+  int count = 0;
+  
+  spinIntake();
+  while((targetRPM-Flywheel.velocity(rpm))<rpmError && count<=index_timeout){ // && count<=index_timeout
+    spinIndex();
+    count+=20;
+    task::sleep(20);
+  }
   stopIntake();
-  timeCtrl("index", .28, 100); 
-  timeCtrl("",wait);
-  timeCtrl("index", .28, 100); 
-  timeCtrl("",wait);
-  timeCtrl("index", .3, 100);
-  timeCtrl("", .1);
+  count = 0;
+   while((Flywheel.velocity(rpm)-5)<targetRPM && count<=wait_timeout){
+    task::sleep(20);
+    count+=20;
+    spinIntake();
+  }
+
+  spinIntake();
+  while((targetRPM-Flywheel.velocity(rpm))<rpmError && count<=index_timeout){ // && count<=index_timeout
+    spinIndex();
+    count+=20;
+    task::sleep(20);
+  }
+  stopIntake();
+  count = 0;
+   while((Flywheel.velocity(rpm)-5)<targetRPM && count<=wait_timeout){
+    task::sleep(20);
+    count+=20;
+  }
+
+  spinIntake();
+  while((targetRPM-Flywheel.velocity(rpm))<rpmError && count<=index_timeout){ // && count<=index_timeout
+    spinIndex();
+    count+=20;
+    task::sleep(20);
+  }
+  stopIntake();
+  count = 0;
+   while((Flywheel.velocity(rpm)-5)<targetRPM && count<=wait_timeout){
+    task::sleep(20);
+    count+=20;
+    spinIntake();
+  }
+  stopIntake();
+*/
+ timeCtrl("index", .29, 100); 
+ timeCtrl("intake",.50);
+ timeCtrl("index", .29, 100); 
+ timeCtrl("intake",.55);
+ timeCtrl("index", .35, 100);
+ timeCtrl("", .1);
 }
 
 void spinIndex(){
@@ -53,6 +100,7 @@ void AutoRoller(std::string colour, int flag){
       task::sleep(20);
       count+=20;
     }
+    task::sleep(200);
     Intake.stop(brake);
   }
   else if (flag == 2) {
@@ -62,6 +110,7 @@ void AutoRoller(std::string colour, int flag){
       task::sleep(20);
       count+=20;
     }
+    task::sleep(200);
     Intake.stop(brake);
   }
 }
@@ -262,9 +311,9 @@ int flywheelControl() {
       alpha2 = .15; //.15
     }
     else {
-      kP = 0.007;//3;//14;
-      kD = 0.09;//2;//5;//.2;
-      kF = 1.05 / 300.0; //1.16
+      kP = 0.007; //3;//14;
+      kD = 0.09; //2;//5;//.2;
+      kF = .98 / 300.0; //1.16
       alpha = .7; //.15
       alpha2 = .2; //.1
     }
@@ -298,7 +347,12 @@ int flywheelControl() {
 
     //prevError = error;
 
-    motorPower = flywheelRunning ? error * kP + derivative * kD + setRPM *kF : 0;
+    motorPower = flywheelRunning ? error * kP + derivative * kD + setRPM *kF : 0; //
+
+    if(motorPower <= 0 || (trueRPM/6.0)>1.03*targetRPM) motorPower = 0; // || trueRPM>1.03*targetRPMM
+    
+    if((trueRPM/6.0)<0.97*targetRPM && flywheelRunning && motorPower<12) //.88
+      motorPower = 12.5;  
 
     Brain.Screen.setCursor(8, 1);
     Brain.Screen.print("Tget: %.0f Actual: %.1f F1: %.1f F2: %.1f", setRPM, trueRPM, filteredRPM, filteredRPM2);
@@ -306,12 +360,7 @@ int flywheelControl() {
     Brain.Screen.print("kP: %.2f kD: %.2f kF: %.2f pwr: %.2f", error * kP, derivative * kD, setRPM * kF,  motorPower);
 
     Controller1.Screen.setCursor(3, 1);
-    Controller1.Screen.print("Set: %.0f Actual: %.0lf", (float)targetRPM, Flywheel.velocity(rpm)); 
-
-    if(motorPower <= 0) motorPower = 0;
-    if(filteredRPM<0.88*targetRPM && flywheelRunning && motorPower<12)
-      motorPower = 12.5;
-      
+    Controller1.Screen.print("Set: %.0f Actual: %.0lf", (float)targetRPM, Flywheel.velocity(rpm));    
       
     // SLEW RATE IMPLEMENTATION
     //double increment = motorPower - prevMotorPower;

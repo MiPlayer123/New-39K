@@ -67,12 +67,11 @@ void auton() {
   bool auto4 = buttons[3].state;
 
   if(is_skills()){
-    // first roller
-    spinIntake();
+// first roller
     OpticalLeft.setLightPower(40, percent); 
     OpticalRight.setLightPower(40, percent);
-    setFlywheelVel(478);//450
-    timeCtrl("driveb", .12);
+    spinIntake();
+    timeCtrl("driveb", .10);
     AutoRoller("red", 1);
     //driveTo(12,137,0);
     //driveTo(10,0,0);
@@ -80,46 +79,46 @@ void auton() {
     turn_absolute_inertial(-45);
     // intake first disc
     spinIntake();
-    inertial_drive(25,85);
+    inertial_drive(24.5,85);
     turn_absolute_inertial(90.5);
 
     // second roller
-    timeCtrl("driveb", .35);
+    timeCtrl("driveb", .3);
     AutoRoller("red", 2);
+    setFlywheelVel(470);
 
     // first volley
     spinIntake();
-    moveRot(.7,45); //.65
-    turn_absolute_inertial(1.1);
-    //inertial_drive(44,87);
-    inertial_drive(25, 87);
+    moveRot(.7,50); //.45
+    turn_absolute_inertial(0.0);
+    inertial_drive(45.5,95);
     stopIntake();
-    turnRot(.108,20);
-    //volley(462); // shoot
-    //turn_absolute_inertial(135);//-214.5
-    longVolley(.17);
-    turn_absolute_inertial(90);
+    //turn_absolute_inertial(4.0);
+    volley(470); // shoot
+   // turn_absolute_inertial(1.0);
+    turn_absolute_inertial(137.5);//-214.5
     
     // intake diagonal discs
     spinIntake();
-    setFlywheelVel(469);
-    //inertial_drive(27.5, 80);
-    inertial_drive(20, 80);
+    setFlywheelVel(470);
+    inertial_drive(27.5, 80);
     turn_absolute_inertial(45);
-    inertial_drive(34, 60);
+    inertial_drive(36.5, 70);
     wait(150,msec);
 
     //second volley
+    setFlywheelVel(472);
     turn_absolute_inertial(-47);//-46
-    setFlywheelVel(466);
-    longVolley(.17); //shoot
+    longVolley(472); //shoot
+    spinIndex();
     
-    inertial_drive(-16.4,50);
+    inertial_drive(-18.5,50);
+    stopIntake();
     turn_absolute_inertial(45);
     spinIntake();
-    inertial_drive(32.5, 60);
+    inertial_drive(32, 70);
     turn_absolute_inertial(0.0);
-    inertial_drive(30, 60);
+    inertial_drive(30, 70);
     turn_absolute_inertial(90);
     inertial_drive(11, 60);
     turn_absolute_inertial(180.0);
@@ -127,226 +126,143 @@ void auton() {
     timeCtrl("driveb", .6);
     AutoRoller("red", 1);
     moveRot(.65, 40);
-    turn_absolute_inertial(135.5);
+    turn_absolute_inertial(135);
     spinIntake();
-    inertial_drive(28,85);
+    inertial_drive(29,85);
     turn_absolute_inertial(270.0);
 
     // fourth roller
     timeCtrl("driveb", .4);
     AutoRoller("red", 2);
-    setFlywheelVel(477);
-
+    setFlywheelVel(460);
+    
     spinIntake();
     moveRot(.7,50); //.45
-    turn_absolute_inertial(181.0);
-    //inertial_drive(43,90);
-    inertial_drive(25, 90);
+    turn_absolute_inertial(180.0);
+    inertial_drive(45.5,92);
     stopIntake();
-    turnRot(.08,20);
-    longVolley(.16);
-    turn_absolute_inertial(270);
-    //turnRot(.09,20);
-    //stopIntake();
-    //volley(462); // shoot
-    //turn_absolute_inertial(319);//-214.5
+    //third volley
+    volley(460); // shoot
+  
+    turn_absolute_inertial(319);//-214.5
     
     // intake diagonal discs
     spinIntake();
-    setFlywheelVel(464);
-    //inertial_drive(29, 80);
-    inertial_drive(22, 80);
+    setFlywheelVel(470);
+    inertial_drive(28.5, 80);
     turn_absolute_inertial(225);
-    inertial_drive(34, 60);
-    wait(50,msec);
+    inertial_drive(35, 70);
+    wait(150,msec);
 
-    //second volley
-    turn_absolute_inertial(133);//-46
+    //fourth volley
+    turn_absolute_inertial(132.2);//-46
     stopIntake();
-    setFlywheelVel(477);
-    longVolley(.14); //shoot Diagnonal
+    longVolley(471); //shoot
     spinIndex();
 
     inertial_drive(-16.5, 50);
+    stopIntake();
     turn_absolute_inertial(225);
-    spinIntake(); //inake mid
-    inertial_drive(34, 70);
-    inertial_drive(12, 80);
-
-    turn_absolute_inertial(349);
-    inertial_drive(42,95);
-    volley(463);//shoot 
-
-    turn_absolute_inertial(147);
-    setFlywheelVel(465);
-    spinIntake(); //intake 3 close
-    inertial_drive(49, 90); 
-    inertial_drive(32, 80); //30
-    turn_absolute_inertial(78);
-    volley(462); //shoot 3
-
-    turn_absolute_inertial(5.3);
-    setFlywheelVel(467);
-    spinIntake();//inake far 3
-    inertial_drive(92, 95);
-    inertial_drive(22, 85);
-    turn_absolute_inertial(-93.0);
-    longVolley(.11); //shoot last 3 diag
-    turn_absolute_inertial(-90);
-    inertial_drive(-43, 95);
-    turn_absolute_inertial(-135);
-    Expansion.set(true); //W
-    SideExpansion.set(true);
-
-    //*/
-
-    /* OLD RUN
-    turn_absolute_inertial(45.75);
-    inertial_drive(29,90);
-    
-    // intake 3 stack
-    FwVelocitySet(460, .95);
     spinIntake();
-    inertial_drive(35.9,55); 
-    turn_absolute_inertial(177.5);
-    timeCtrl("driveb", .35);
-    AutoRoller("red", 1);
+    setFlywheelVel(475);
+    inertial_drive(34, 90);
+    inertial_drive(12, 70);
 
-    moveRot(.75, 60);
-    turn_absolute_inertial(263);
-    inertial_drive(37, 95);
-    volley(450);
-    turn_absolute_inertial(145);
+    turn_absolute_inertial(-13+360);
+    inertial_drive(40,95);
+    volley(475);
+    spinIndex();
 
-    inertial_drive(19,85);
-    turn_rel_inertial(1);
-    turn_absolute_inertial(90.0);
-    spinIntake();
-    inertial_drive(22, 85);
-    inertial_drive(30, 50);
-    turn_absolute_inertial(270.5);
+    turn_absolute_inertial(138.8);
     stopIntake();
-    timeCtrl("driveb", 1);
-    AutoRoller("red", 2);
-
-    // other side
-
-    // intake first disc
     spinIntake();
-    FwVelocitySet(440, .95);
-    moveRot(.65,50); //.45
-    turn_absolute_inertial(180.0);
-    //timeCtrl("", .1);
-    inertial_drive(40,90);
-    //moveToPoint(132, 86 , 70);
-    stopIntake();
-    //turn_rel_inertial(4.5);
-    volley(445); // shoot
-
-    turn_absolute_inertial(-46.0);
-    spinIntake();
-    inertial_drive(24.5, 80);
-    FwVelocitySet(445, .95);
-    turn_absolute_inertial(-134.5);
-    inertial_drive(37, 65);
-    turn_absolute_inertial(120);
-    volley(467); // shoot
-    turn_absolute_inertial(220);
-
-    spinIntake();
-    inertial_drive(34, 80);
-    inertial_drive(14, 65);
-    FwVelocitySet(465, .95);
-    turn_absolute_inertial(-270.0);
-    inertial_drive(12, 50);
-    stopIntake();
-    volley(465); //shoot
-    inertial_drive(-41, 95);
-    turn_absolute_inertial(45);
-    Expansion.set(true);
-*/
-
-    // volley
+    setFlywheelVel(470);
+    inertial_drive(49, 90);
+    inertial_drive(30, 80);
+    turn_absolute_inertial(80);
+    volley(470);//*/
     /*
-    FwVelocitySet(465, .95);
-    turn_absolute_inertial(136);
-    inertial_drive(12, 50);
-    stopIntake();
-    volley(465); //shoot
-
-    turn_absolute_inertial(38);
-    inertial_drive(-51, 95);
-    turn_absolute_inertial(45);
+    turn_absolute_inertial(0.0);
+    spinIntake();
+    inertial_drive(94, 95);
+    inertial_drive(10, 85);
+    turn_absolute_inertial(-90.0);
+    volley(470);
+    inertial_drive(-45, 95);
+    turn_absolute_inertial(-135);*/
+    turn_absolute_inertial(91.5);
+    inertial_drive(-61, 98);
+    turn_absolute_inertial(44.5);
     Expansion.set(true);
-    timeCtrl("driveb", .3);
-    */
-    
+  
   } else if(auto1 || HyperCarry.pressing()){
     // roller
     
-    setFlywheelVel(574); 
+    setFlywheelVel(585); 
     timeCtrl("driveb", .1);
     timeCtrl("intake", .4);
-    moveRot(.53,50);
+    moveRot(.53,60);
 
     turn_absolute_inertial(52.2);
     spinIntake();
     inertial_drive(27, 75);
     timeCtrl("", .1);
-    turn_absolute_inertial(-23.6);
+    turn_absolute_inertial(-23.85);
     //wait(500, msec);
     wait(200, msec);
-    longVolley();
+    longVolley(576);
 
     // second volley
-    setFlywheelVel(537);
+    setFlywheelVel(557);
     turn_absolute_inertial(49.2);
     spinIntake();
-    inertial_drive(41, 70);
+    inertial_drive(41, 75);
     turn_absolute_inertial(-47.2);
     wait(100, msec);
-    longVolley();
-    turn_absolute_inertial(43.5);
+    longVolley(540);
+    turn_absolute_inertial(43.0);
     setFlywheelVel(0);
     spinIntake();
-    inertial_drive(64, 85);
+    inertial_drive(65, 85);
     
     //2nd roller
-    turn_absolute_inertial(-90);
+    turnRot(-1.83,97);
+    //turn_absolute_inertial(-90);
+
     timeCtrl("driveb",.4);
-    timeCtrl("intake", .4);
+    timeCtrl("intake", .42);
     
   } else if(auto2 || RollerSide.pressing()){
     // roller
-    setFlywheelVel(587);
+    setFlywheelVel(588); // 85
     timeCtrl("driveb", .1);
-    timeCtrl("intake", .27);
-    inertial_drive(10.5, 45);
+    timeCtrl("intake", .32);
+    inertial_drive(10.05, 45);
     wait(150, msec);
-    turn_absolute_inertial(-14.1);
-    longVolley();
+    turn_absolute_inertial(-13.95);
 
-    setFlywheelVel(574); // 85
+
     ThreeStack.set(true);
-    moveRot(.53,28);
+    moveRot(.49,5);
+    timeCtrl("index", .30, 100); 
+    timeCtrl("intake",.48);
+    timeCtrl("index", .30, 100); 
     ThreeStack.set(false);
     spinIntake();
-    timeCtrl("", 2);
+    timeCtrl("", 2.5);
     
-    longVolley();
+    longVolley(574);
 
-    moveRot(-1.05,40);
-    setFlywheelVel(545); //570 35
+    moveRot(-1.4,30);
+    setFlywheelVel(570); //570 35
     turn_absolute_inertial(49.0); 
     spinIntake();
-    inertial_drive(15, 65);
-    inertial_drive(24.5, 40);
+    inertial_drive(17, 95);
+    inertial_drive(22.5, 40);
     //Shoot 3
-    turn_absolute_inertial(-36.1);
-    longVolley();
-    spinIntake();
-    setFlywheelVel(530);
-    wait(100, msec);
+    turn_absolute_inertial(-36.2);
+    wait(200, msec);
+    longVolley(545);
     stopIntake();
     setFlywheelVel(0);
     //Get Midline
@@ -360,34 +276,40 @@ void auton() {
 
   } else if(auto3 || FarSide.pressing()){
     // intake 1
-    setFlywheelVel(576);
+    setFlywheelVel(608);
     inertial_drive(-20, 60);
+
     turn_absolute_inertial(90);
-    timeCtrl("driveb", .27);
+    timeCtrl("driveb", .29); //.27
     timeCtrl("intake", .41);
-    moveRot(.5,60);
+    moveRot(.5,65);
     turn_absolute_inertial(43);
     spinIntake();
-    inertial_drive(27,70);
+    inertial_drive(27,85);
 
     // 1st volley
-    turn_absolute_inertial(109.2);
-    longVolley();
+    turn_absolute_inertial(110.0);
+    moveRot(.6,35);
+    longVolley(581);
+    setFlywheelVel(586);
     turn_absolute_inertial(115);
 
     // intake 
     spinIntake();
-    moveRot(1.4, 30);
-    moveRot(-1.5, 30);
-    turn_absolute_inertial(46.5);
-    inertial_drive(38,55);
-    inertial_drive(-19, 55);
+    moveRot(.9, 35);
+    moveRot(-1.5, 35);
+    turn_absolute_inertial(46.7);
+    inertial_drive(20,85);
+
+    //inertial_drive(-19, 70);
 
     // 2nd volley
-    setFlywheelVel(552);
-    turn_absolute_inertial(119.3);
-    longVolley();
-    setFlywheelVel(0);
+    turn_absolute_inertial(136); //120.3
+    moveRot(.8,45); 
+    turn_absolute_inertial(121.3);
+    longVolley(577);
+
+    //setFlywheelVel(0);
         /*
     timeCtrl("",.1);
     spinIntake();
@@ -401,7 +323,10 @@ void auton() {
   }
   else{    
     //inertial_drive(60,80);
-    turn_absolute_inertial(90);
+    //turn_absolute_inertial(90);
+    setFlywheelVel(580);
+    wait(2000,msec);
+    longVolley(580);
     //turnToPoint(12,5);
     //waitTilCompletion();
     //driveTo(12,0);
@@ -425,8 +350,8 @@ void usercontrol() {
 
   int deadzone = 8;
 
-  int defaultRPM =460; //470
-  int angleRpm = 435;
+  int defaultRPM = 475; //470
+  int angleRpm = 465;
   int flywheelRPM = defaultRPM;
   
   //bool expanded = false;
@@ -522,10 +447,10 @@ void usercontrol() {
 
 
     if (toggle && latch){
-      FwVelocitySet( flywheelRPM, .95 );
+      //FwVelocitySet( flywheelRPM, .95 );
       setFlywheelVel(flywheelRPM);
     } else if(!toggle) {
-      FwVelocitySet( 0, 0 );
+      //FwVelocitySet( 0, 0 );
       setFlywheelVel(0);
     }
     if (l1_pressing) {
@@ -539,50 +464,43 @@ void usercontrol() {
     }
 
     if (l2_pressing ){
-      if (flywheelRPM == angleRpm){
-        AngleAdjust.set(false);
-        flywheelRPM = defaultRPM;
-        FwVelocitySet(flywheelRPM, .95 );
-        setFlywheelVel(flywheelRPM);
-      }
-      else{
         AngleAdjust.set(true);
         flywheelRPM = angleRpm;
-        FwVelocitySet(flywheelRPM, .95 ); 
-        setFlywheelVel(flywheelRPM);  
-      }
+        setFlywheelVel(flywheelRPM);
+        toggle = !toggle;
+        latch = true;
     }
 
     if (r1_pressing) {
       spinIndex();
-      Flywheel.spin(reverse,100,pct);
     }
     else if (r2_pressing) { 
       spinIntake();
-      Flywheel.spin(fwd,100,pct);
     }
     else {
       stopIntake();
-      stopFlywheel();
     }
 
     if (Controller1.ButtonUp.pressing()) {
       AngleAdjust.set(true);
       flywheelRPM=angleRpm;
       FwVelocitySet( flywheelRPM, .95 );
-      setFlywheelVel(flywheelRPM);    
+      setFlywheelVel(flywheelRPM);
+      //inertial_drive(48, 97);    
     }
     else if (Controller1.ButtonDown.pressing()) {
       AngleAdjust.set(false);
       flywheelRPM = defaultRPM;
       FwVelocitySet( flywheelRPM, .95 );
       setFlywheelVel(flywheelRPM);
+      //inertial_drive(-24, 97);
       } 
     
     if(Controller1.ButtonLeft.pressing()){
       flywheelRPM-=50;
       FwVelocitySet( flywheelRPM, .95 );
       setFlywheelVel(flywheelRPM);
+      //turn_rel_inertial(-90);
     } 
     else if (Controller1.ButtonRight.pressing()){
       flywheelRPM+=50;
@@ -590,11 +508,11 @@ void usercontrol() {
         flywheelRPM=600;
       FwVelocitySet( flywheelRPM, .95 );
       setFlywheelVel(flywheelRPM);
+      //turn_rel_inertial(90);
     }
     else {}
 
-    if(Controller1.ButtonA.pressing()){
-    } 
+    if(Controller1.ButtonA.pressing()){} 
     if(Controller1.ButtonY.pressing()){
       SideExpansion.set(true);
     }
